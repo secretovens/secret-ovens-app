@@ -1,0 +1,204 @@
+<!doctype html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body><title>Secret Ovens Saman List</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@500;700;800&family=Poppins:wght@600;700&display=swap">
+<style>
+/* Layout: sticky brand header + category chips, big tap-tiles grid, sticky bottom bar opening a list sheet */
+:root{
+  --bg:#f3f5f1; --surface:#ffffff; --fg:#17251e; --muted:#5d6b63; --line:#dfe5df;
+  --brand:#1f4d3a; --brand-fg:#ffffff; --gold:#b8901f; --gold-soft:#fbf3dc;
+  --picked:#e5f1e9; --wa:#1a9e55;
+  --f-head:"Poppins",system-ui,sans-serif; --f-body:"Mukta","Noto Sans Devanagari",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1713; --surface:#18231d; --fg:#e8efe9; --muted:#9db0a4; --line:#2a3a31;
+  --brand:#173b2c; --brand-fg:#f2f6f3; --gold:#d8b14a; --gold-soft:#2b2615; --picked:#1f3a2b; --wa:#25b865; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1713; --surface:#18231d; --fg:#e8efe9; --muted:#9db0a4; --line:#2a3a31;
+  --brand:#173b2c; --brand-fg:#f2f6f3; --gold:#d8b14a; --gold-soft:#2b2615; --picked:#1f3a2b; --wa:#25b865; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:17px;padding-bottom:96px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--brand)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--brand);color:var(--brand-fg);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px 8px}
+.top{display:flex;align-items:center;gap:10px}
+.top h1{margin:0;font-family:var(--f-body);font-weight:800;font-size:24px;line-height:1.1}
+.top small{display:block;font-family:var(--f-head);font-size:12px;color:var(--gold);letter-spacing:.04em}
+#search{margin-top:8px;width:100%;border:0;border-radius:10px;padding:10px 12px;font:inherit;font-size:17px;background:var(--surface);color:var(--fg)}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-top:8px;padding-bottom:2px;scrollbar-width:none}
+.chips button{flex:none;border:1px solid rgba(255,255,255,.35);background:transparent;color:var(--brand-fg);border-radius:999px;padding:4px 12px;font:inherit;font-weight:700;font-size:15px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#1b1405}
+main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:8px;max-width:960px;margin:0 auto}
+.howto{background:var(--gold-soft);border:1px solid var(--gold);border-radius:10px;padding:8px 12px;margin:6px 0 4px;font-size:15px;line-height:1.4}
+h2{display:flex;align-items:center;gap:8px;margin:18px 0 8px;font-size:20px;font-weight:800}
+h2 .dot{width:12px;height:12px;border-radius:50%;background:var(--c)}
+h2 span.n{font-family:var(--f-head);font-size:12px;color:var(--muted);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.item{display:flex;align-items:center;gap:8px;min-height:52px;text-align:left;border:1.5px solid var(--line);border-left:5px solid var(--c);background:var(--surface);color:var(--fg);border-radius:10px;padding:6px 10px;font:inherit;font-weight:700;font-size:17px;line-height:1.2;cursor:pointer}
+.item .num{flex:none;font-family:var(--f-head);font-size:12px;color:var(--muted);min-width:24px}
+.item .t{flex:1;min-width:0}
+.item .tick{flex:none;width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:15px;color:transparent}
+.item[aria-pressed="true"]{background:var(--picked);border-color:var(--c)}
+.item[aria-pressed="true"] .tick{background:var(--c);border-color:var(--c);color:#fff}
+.item:focus-visible,button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.empty{color:var(--muted);padding:24px 0;text-align:center}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--surface);border-top:1px solid var(--line);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));display:flex;gap:10px;align-items:center}
+.bar .count{flex:1;font-weight:700;font-size:17px}
+.btn{border:0;border-radius:12px;padding:12px 18px;font:inherit;font-weight:800;font-size:17px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn.primary{background:var(--brand);color:var(--brand-fg)}
+.btn.wa{background:var(--wa);color:#fff}
+.btn.ghost{background:transparent;color:var(--fg);border:1.5px solid var(--line)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.sheet{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center}
+.panel{background:var(--bg);width:100%;max-width:640px;max-height:88%;border-radius:18px 18px 0 0;display:flex;flex-direction:column;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-top:14px;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+.panel h3{margin:0 0 8px;font-size:22px;font-weight:800;display:flex;justify-content:space-between;align-items:center}
+.list{overflow-y:auto;flex:1;min-height:0}
+.row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.row .t{flex:1;min-width:0;font-weight:700}
+.row .t small{display:block;font-weight:500;color:var(--muted);font-size:13px}
+.row input{width:96px;border:1.5px solid var(--line);border-radius:8px;padding:6px 8px;font:inherit;font-size:16px;background:var(--surface);color:var(--fg)}
+.row .x{border:0;background:transparent;color:var(--muted);font-size:22px;cursor:pointer;padding:4px 6px}
+.field{display:flex;flex-direction:column;gap:4px;margin:10px 0;font-weight:700;font-size:15px}
+.field input{border:1.5px solid var(--line);border-radius:8px;padding:8px 10px;font:inherit;font-size:16px;background:var(--surface);color:var(--fg)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.actions .wa{grid-column:1/-1}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:8px 16px;border-radius:999px;font-weight:700;z-index:50}
+.confirm{background:var(--gold-soft);border:1px solid var(--gold);border-radius:10px;padding:10px;margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+@media (prefers-reduced-motion:no-preference){.item{transition:background .12s,border-color .12s}}
+</style>
+
+<header>
+  <div class="top">
+    <div><h1>कल का सामान</h1><small>SECRET OVENS · DAILY PURCHASE</small></div>
+  </div>
+  <input id="search" type="search" placeholder="सामान ढूंढें… (जैसे टमाटर)" autocomplete="off">
+  <div class="chips" id="chips"></div>
+</header>
+
+<main>
+  <div class="howto">जो सामान कम है या खत्म है, उस पर <b>टैप</b> करें। फिर नीचे <b>“लिस्ट देखें”</b> दबाएं, मात्रा लिखें और <b>WhatsApp पर भेजें</b>।</div>
+  <div id="cats"></div>
+  <p class="empty" id="noresult" hidden>कोई सामान नहीं मिला।</p>
+</main>
+
+<div class="bar">
+  <span class="count" id="count">0 सामान चुने</span>
+  <button class="btn primary" id="open" disabled>लिस्ट देखें</button>
+</div>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="panel" role="dialog" aria-label="कल की लिस्ट">
+    <h3>कल की लिस्ट <button class="btn ghost" id="close" style="padding:6px 12px">बंद करें</button></h3>
+    <div class="list" id="list"></div>
+    <label class="field" for="who">भेजने वाले का नाम
+      <input id="who" placeholder="जैसे राजू">
+    </label>
+    <div class="actions">
+      <a class="btn wa" id="wa" target="_blank" rel="noopener">WhatsApp पर भेजें</a>
+      <button class="btn ghost" id="copy">कॉपी करें</button>
+      <button class="btn ghost" id="clear">सब हटाएं</button>
+    </div>
+    <div class="confirm" id="confirm" hidden>
+      <span style="flex:1">पूरी लिस्ट हटानी है?</span>
+      <button class="btn primary" id="yes" style="padding:8px 14px">हाँ, हटाएं</button>
+      <button class="btn ghost" id="no" style="padding:8px 14px">नहीं</button>
+    </div>
+    <textarea id="fallback" hidden readonly style="width:100%;height:120px;margin-top:8px"></textarea>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const OWNER_WA="917678490341";
+const CATS=[
+ ["सब्ज़ी","#2e7d32",["आलू","प्याज़","टमाटर","पत्ता गोभी","शिमला मिर्च","लहसुन","अदरक","ब्रोकली","मशरूम","हरी मिर्च","हरा धनिया","पुदीना","नींबू","बीन्स","गाजर","फूल गोभी","पालक","सिरका प्याज़","चुकंदर"]],
+ ["मसाला","#c62828",["सबूत लाल मिर्च","काली मिर्च","कसूरी मेथी","किचन किंग","चिकन मसाला","देगी मिर्च","मीट मसाला","अमचूर पाउडर","अजवाइन","धनिया पाउडर","जीरा पाउडर","गरम मसाला","कुटी लाल मिर्च","काला नमक","सफ़ेद मिर्च","चाट मसाला","दालचीनी","जावित्री","छोटी इलायची","बड़ी इलायची","लौंग","तेज पत्ता","हींग"]],
+ ["राशन","#b7791f",["आटा","मैदा","नमक","चाइनीज़ चावल","इंडियन चावल","तिल","मूंगफली","नारियल पाउडर","बेसन","काजू","मगज़","सोयाबीन चूरा","अरारोट","अजीनोमोटो","लाल रंग","हरा रंग","रिफाइंड तेल","सरसों तेल","डालडा"]],
+ ["दाल","#d9631e",["अरहर दाल","काली उड़द","चना दाल","राजमा","छोले","मिक्स दाल","सोयाबीन बड़ी","काला चना"]],
+ ["सॉस","#ad1457",["टोमैटो सॉस","ग्रीन सॉस","सोया सॉस","सिरका (Vinegar)","पेरी पेरी मसाला","ब्रेड क्रम्ब","कॉर्न","मेयोनीज़","ओरिगेनो"]],
+ ["डेयरी","#1565c0",["पनीर","अमूल बटर","डिलीशियस चाप","डिलीशियस चाइनीज़","दही","नूडल्स","खोया","घी (चाइनीज़)","घी (इंडियन)","सफल मटर"]],
+ ["पैकिंग","#455a64",["500 ML ब्लैक बॉक्स","650 ML ब्लैक बॉक्स","300 ML गोल ब्लैक","500 ML गोल ब्लैक","750 ML गोल ब्लैक","7 CP ब्लैक थाली","5 CP ब्लैक थाली","4 CP ब्लैक थाली","2 CP ब्लैक बॉक्स","कांटा","चम्मच","टिश्यू पेपर","टूथपिक","फॉयल पेपर","छोटी प्लेट","डिस्पोज़ल गिलास","डिप बॉक्स","चटनी कप","सिल्वर फॉयल","बोट कंटेनर हाफ","बोट कंटेनर फुल","ज़ोमैटो बॉटम हाफ","ज़ोमैटो बॉटम फुल","कुरकुरे मोमोज़ हाफ","1 kg पन्नी","2 kg पन्नी","5 kg पन्नी","चटनी पन्नी"]],
+ ["अन्य","#6a1b9a",["रुमाली रोटी","गैस सिलेंडर","कोयला","काउंटर सॉफ्ट","मखनी सॉस","क्रीम"]]
+];
+const ITEMS=[];let n=0;
+CATS.forEach(([cat,c,list],ci)=>list.forEach(name=>ITEMS.push({id:++n,name,cat,ci,c})));
+const KEY="so-list-v1";
+let state={picked:{},who:""}; // picked: {id: qty}
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.picked)state=s;}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+let filterCat=-1,q="";
+const $=id=>document.getElementById(id);
+
+function renderChips(){
+  const all=[["सब",-1]].concat(CATS.map((c,i)=>[c[0],i]));
+  $("chips").innerHTML=all.map(([t,i])=>`<button type="button" data-ci="${i}" aria-pressed="${i===filterCat}">${t}</button>`).join("");
+}
+function renderItems(){
+  const qq=q.trim();let shown=0;
+  $("cats").innerHTML=CATS.map(([cat,c],ci)=>{
+    if(filterCat!==-1&&filterCat!==ci)return"";
+    const its=ITEMS.filter(it=>it.ci===ci&&(!qq||it.name.includes(qq)||String(it.id)===qq));
+    if(!its.length)return"";shown+=its.length;
+    return `<section style="--c:${c}"><h2><span class="dot"></span>${cat} <span class="n">${its.length}</span></h2><div class="grid">${
+      its.map(it=>`<button type="button" class="item" data-id="${it.id}" aria-pressed="${it.id in state.picked}"><span class="num">${it.id}</span><span class="t">${it.name}</span><span class="tick">✓</span></button>`).join("")
+    }</div></section>`;
+  }).join("");
+  $("noresult").hidden=shown>0;
+}
+function picked(){return ITEMS.filter(it=>it.id in state.picked)}
+function renderBar(){
+  const k=picked().length;
+  $("count").textContent=k+" सामान चुने";
+  $("open").disabled=k===0;
+}
+function message(){
+  const d=new Date().toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
+  let m=`*Secret Ovens – कल का सामान*\nतारीख: ${d}\n`;
+  if(state.who.trim())m+=`भेजा: ${state.who.trim()}\n`;
+  CATS.forEach(([cat],ci)=>{
+    const its=picked().filter(it=>it.ci===ci);
+    if(!its.length)return;
+    m+=`\n*${cat}*\n`+its.map(it=>`${it.id}. ${it.name}${state.picked[it.id]?" – "+state.picked[it.id]:""}`).join("\n")+"\n";
+  });
+  m+=`\nकुल: ${picked().length} सामान`;
+  return m;
+}
+function renderList(){
+  const its=picked();
+  $("list").innerHTML=its.length?its.map(it=>`<div class="row"><span class="t">${it.id}. ${it.name}<small>${it.cat}</small></span><input id="q${it.id}" data-q="${it.id}" placeholder="मात्रा" value="${(state.picked[it.id]||"").replace(/"/g,"&quot;")}"><button class="x" data-x="${it.id}" aria-label="हटाएं">×</button></div>`).join(""):`<p class="empty">कोई सामान नहीं चुना।</p>`;
+  updateWa();
+}
+function updateWa(){
+  const has=picked().length>0;
+  $("wa").href="https://wa.me/"+OWNER_WA+"?text="+encodeURIComponent(message());
+  $("wa").style.pointerEvents=has?"":"none";$("wa").style.opacity=has?"":".45";
+}
+function toast(t){const el=$("toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,1800)}
+function refresh(){renderItems();renderBar();save()}
+
+$("chips").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;filterCat=+b.dataset.ci;renderChips();renderItems()});
+$("search").addEventListener("input",e=>{q=e.target.value;renderItems()});
+$("cats").addEventListener("click",e=>{
+  const b=e.target.closest(".item");if(!b)return;const id=+b.dataset.id;
+  if(id in state.picked)delete state.picked[id];else state.picked[id]="";
+  refresh();
+});
+$("open").addEventListener("click",()=>{renderList();$("who").value=state.who;$("sheet").hidden=false;$("confirm").hidden=true;$("fallback").hidden=true});
+$("close").addEventListener("click",()=>{$("sheet").hidden=true;refresh()});
+$("sheet").addEventListener("click",e=>{if(e.target.id==="sheet"){$("sheet").hidden=true;refresh()}});
+$("list").addEventListener("input",e=>{const id=e.target.dataset.q;if(id){state.picked[id]=e.target.value;save();updateWa()}});
+$("list").addEventListener("click",e=>{const id=e.target.dataset.x;if(id){delete state.picked[id];save();renderList();renderBar();if(!picked().length){$("sheet").hidden=true;renderItems()}}});
+$("who").addEventListener("input",e=>{state.who=e.target.value;save();updateWa()});
+$("copy").addEventListener("click",()=>{
+  const m=message();
+  navigator.clipboard.writeText(m).then(()=>toast("लिस्ट कॉपी हो गई")).catch(()=>{const f=$("fallback");f.value=m;f.hidden=false;f.select()});
+});
+$("clear").addEventListener("click",()=>{$("confirm").hidden=false});
+$("no").addEventListener("click",()=>{$("confirm").hidden=true});
+$("yes").addEventListener("click",()=>{state.picked={};save();$("sheet").hidden=true;refresh();toast("लिस्ट खाली हो गई")});
+
+renderChips();refresh();
+</script>
+</body></html>
