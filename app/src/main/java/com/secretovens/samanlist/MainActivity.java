@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
     @Override
     public void onBackPressed() {
         web.evaluateJavascript(
-            "(function(){var s=document.getElementById('sheet');if(s&&!s.hidden){s.hidden=true;return 'closed';}return 'none';})()",
+            "(window.appBack && window.appBack()) ? 'closed' : 'none'",
             r -> { if (!r.contains("closed")) MainActivity.super.onBackPressed(); });
     }
 }
