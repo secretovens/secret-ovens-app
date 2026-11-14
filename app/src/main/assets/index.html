@@ -105,6 +105,8 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .warn{color:var(--muted);font-style:italic;font-size:13px;font-weight:700;display:block}
 .sendbox{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .sendbox .wa{grid-column:1/-1;padding:18px;font-size:20px}
+.sendbox .tip{grid-column:1/-1;margin:-4px 0 2px;font-size:14px;color:var(--muted);text-align:center}
+.btn.wa2{grid-column:1/-1;background:transparent;color:var(--wa);box-shadow:inset 0 0 0 2px var(--wa)}
 .confirm{grid-column:1/-1;background:var(--gold-soft);border:1px solid var(--gold);border-radius:12px;padding:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .empty{text-align:center;color:var(--muted);padding:40px 0}
 textarea#fallback{width:100%;height:140px;margin-top:10px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:inherit;font-size:14px;padding:10px}
@@ -251,7 +253,9 @@ textarea#fallback{width:100%;height:140px;margin-top:10px;border-radius:12px;bor
   <div class="wrap">
     <div id="reviewList"></div>
     <div class="sendbox" id="sendbox">
-      <a class="btn wa" id="wa" target="_blank" rel="noopener">WhatsApp पर भेजें</a>
+      <a class="btn wa" id="waGroup" target="_blank" rel="noopener">WhatsApp ग्रुप में भेजें</a>
+      <p class="tip">WhatsApp खुलेगा → अपना <b>Secret Ovens ग्रुप</b> चुनें → भेजें।</p>
+      <a class="btn wa2" id="wa" target="_blank" rel="noopener">सिर्फ़ मालिक को भेजें (7678490341)</a>
       <button class="btn ghost" id="copy">कॉपी करें</button>
       <button class="btn ghost" id="clear">सब हटाएं</button>
       <div class="confirm" id="confirm" hidden>
@@ -396,7 +400,7 @@ function renderReview(){
     return `<div class="group" style="--c:${c}"><h3><i></i>${cat}</h3>${its.map(it=>`<div class="rrow"><span class="t">${it.name}${fmt(state.picked[it.id])?"":`<span class="warn">मात्रा नहीं भरी</span>`}</span>${stepper(it)}<button type="button" class="x" data-x="${it.id}" aria-label="हटाएं">×</button></div>`).join("")}</div>`}).join("");
   updateWa();
 }
-function updateWa(){$("wa").href="https://wa.me/"+OWNER_WA+"?text="+encodeURIComponent(message())}
+function updateWa(){const t=encodeURIComponent(message());$("wa").href="https://wa.me/"+OWNER_WA+"?text="+t;$("waGroup").href="https://wa.me/?text="+t}
 function toast(t){const el=$("toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,1800)}
 function setQty(id,v){
   state.picked[id]=fmt(v);save();renderBar();
@@ -515,6 +519,7 @@ $("paneLists").addEventListener("click",e=>{
 $("dchips").addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b){forDate=b.dataset.d;renderDates()}});
 $("fordate").addEventListener("change",e=>{if(e.target.value){forDate=e.target.value;renderDates()}});
 $("wa").addEventListener("click",afterSend);
+$("waGroup").addEventListener("click",afterSend);
 
 let qId=null;
 function openQty(id){
