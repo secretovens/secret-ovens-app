@@ -56,9 +56,14 @@ h2 span.n{font-family:var(--f-head);font-size:12px;color:var(--muted);font-weigh
 .panel h3{margin:0 0 8px;font-size:22px;font-weight:800;display:flex;justify-content:space-between;align-items:center}
 .list{overflow-y:auto;flex:1;min-height:0}
 .row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
-.row .t{flex:1;min-width:0;font-weight:700}
+.row{flex-wrap:wrap}
+.row .t{flex:1 1 90px;min-width:0;font-weight:700}
 .row .t small{display:block;font-weight:500;color:var(--muted);font-size:13px}
-.row input{width:96px;border:1.5px solid var(--line);border-radius:8px;padding:6px 8px;font:inherit;font-size:16px;background:var(--surface);color:var(--fg)}
+.qty{display:flex;align-items:center;gap:4px;flex:none}
+.qty input{width:58px;text-align:center;border:1.5px solid var(--line);border-radius:8px;padding:6px 4px;font:inherit;font-size:17px;font-weight:700;background:var(--surface);color:var(--fg);-moz-appearance:textfield}
+.qty input::-webkit-outer-spin-button,.qty input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.qty .u{min-width:34px;font-size:14px;font-weight:700;color:var(--muted)}
+.st{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);font-size:22px;font-weight:700;line-height:1;cursor:pointer}
 .row .x{border:0;background:transparent;color:var(--muted);font-size:22px;cursor:pointer;padding:4px 6px}
 .field{display:flex;flex-direction:column;gap:4px;margin:10px 0;font-weight:700;font-size:15px}
 .field input{border:1.5px solid var(--line);border-radius:8px;padding:8px 10px;font:inherit;font-size:16px;background:var(--surface);color:var(--fg)}
@@ -123,8 +128,17 @@ const CATS=[
  ["अन्य","#6a1b9a",["रुमाली रोटी","गैस सिलेंडर","कोयला","काउंटर सॉफ्ट","मखनी सॉस","क्रीम"]]
 ];
 const ITEMS=[];let n=0;
-CATS.forEach(([cat,c,list],ci)=>list.forEach(name=>ITEMS.push({id:++n,name,cat,ci,c})));
-const KEY="so-list-v1";
+const CAT_UNIT={"सब्ज़ी":"kg","मसाला":"kg","राशन":"kg","दाल":"kg","सॉस":"बोतल","डेयरी":"kg","पैकिंग":"पीस","अन्य":"पीस"};
+const UNIT_OF={"लाल रंग":"पैकेट","हरा रंग":"पैकेट","रिफाइंड तेल":"लीटर","सरसों तेल":"लीटर",
+ "पेरी पेरी मसाला":"पैकेट","ओरिगेनो":"पैकेट","ब्रेड क्रम्ब":"kg","कॉर्न":"kg","मेयोनीज़":"kg",
+ "अमूल बटर":"पीस","डिलीशियस चाप":"पीस","डिलीशियस चाइनीज़":"पीस",
+ "टिश्यू पेपर":"पैकेट","टूथपिक":"पैकेट","फॉयल पेपर":"रोल","सिल्वर फॉयल":"रोल",
+ "1 kg पन्नी":"kg","2 kg पन्नी":"kg","5 kg पन्नी":"kg","चटनी पन्नी":"kg",
+ "कोयला":"kg","मखनी सॉस":"kg","क्रीम":"kg"};
+CATS.forEach(([cat,c,list],ci)=>list.forEach(name=>{const u=UNIT_OF[name]||CAT_UNIT[cat];ITEMS.push({id:++n,name,cat,ci,c,u,step:(u==="kg"||u==="लीटर")?0.5:1})}));
+const byId=id=>ITEMS.find(it=>it.id==id);
+function fmt(v){const x=parseFloat(v);return isNaN(x)||x<=0?"":String(Math.round(x*100)/100)}
+const KEY="so-list-v2";
 let state={picked:{},who:""}; // picked: {id: qty}
 try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.picked)state=s;}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
@@ -160,14 +174,14 @@ function message(){
   CATS.forEach(([cat],ci)=>{
     const its=picked().filter(it=>it.ci===ci);
     if(!its.length)return;
-    m+=`\n*${cat}*\n`+its.map(it=>`${it.id}. ${it.name}${state.picked[it.id]?" – "+state.picked[it.id]:""}`).join("\n")+"\n";
+    m+=`\n*${cat}*\n`+its.map(it=>`${it.id}. ${it.name}${fmt(state.picked[it.id])?" – "+fmt(state.picked[it.id])+" "+it.u:""}`).join("\n")+"\n";
   });
   m+=`\nकुल: ${picked().length} सामान`;
   return m;
 }
 function renderList(){
   const its=picked();
-  $("list").innerHTML=its.length?its.map(it=>`<div class="row"><span class="t">${it.id}. ${it.name}<small>${it.cat}</small></span><input id="q${it.id}" data-q="${it.id}" placeholder="मात्रा" value="${(state.picked[it.id]||"").replace(/"/g,"&quot;")}"><button class="x" data-x="${it.id}" aria-label="हटाएं">×</button></div>`).join(""):`<p class="empty">कोई सामान नहीं चुना।</p>`;
+  $("list").innerHTML=its.length?its.map(it=>`<div class="row"><span class="t">${it.id}. ${it.name}<small>${it.cat}</small></span><span class="qty"><button class="st" data-step="-1" data-id="${it.id}" aria-label="कम करें">−</button><input id="q${it.id}" data-q="${it.id}" type="number" inputmode="decimal" min="0" step="${it.step}" placeholder="0" value="${fmt(state.picked[it.id])}"><span class="u">${it.u}</span><button class="st" data-step="1" data-id="${it.id}" aria-label="बढ़ाएं">+</button></span><button class="x" data-x="${it.id}" aria-label="हटाएं">×</button></div>`).join(""):`<p class="empty">कोई सामान नहीं चुना।</p>`;
   updateWa();
 }
 function updateWa(){
@@ -189,7 +203,7 @@ $("open").addEventListener("click",()=>{renderList();$("who").value=state.who;$(
 $("close").addEventListener("click",()=>{$("sheet").hidden=true;refresh()});
 $("sheet").addEventListener("click",e=>{if(e.target.id==="sheet"){$("sheet").hidden=true;refresh()}});
 $("list").addEventListener("input",e=>{const id=e.target.dataset.q;if(id){state.picked[id]=e.target.value;save();updateWa()}});
-$("list").addEventListener("click",e=>{const id=e.target.dataset.x;if(id){delete state.picked[id];save();renderList();renderBar();if(!picked().length){$("sheet").hidden=true;renderItems()}}});
+$("list").addEventListener("click",e=>{const sb=e.target.closest(".st");if(sb){const it=byId(sb.dataset.id);const cur=parseFloat(state.picked[it.id])||0;const nv=Math.max(0,Math.round((cur+(+sb.dataset.step)*it.step)*100)/100);state.picked[it.id]=nv?String(nv):"";const inp=$("q"+it.id);inp.value=fmt(nv);save();updateWa();return}const id=e.target.dataset.x;if(id){delete state.picked[id];save();renderList();renderBar();if(!picked().length){$("sheet").hidden=true;renderItems()}}});
 $("who").addEventListener("input",e=>{state.who=e.target.value;save();updateWa()});
 $("copy").addEventListener("click",()=>{
   const m=message();
