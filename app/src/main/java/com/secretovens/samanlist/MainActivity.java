@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -11,6 +12,9 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+    // The app screens live online, so every update reaches all phones automatically.
+    static final String APP_URL = "https://secretovens.github.io/secret-ovens-app/";
+    static final String APP_HOST = "secretovens.github.io";
     private WebView web;
 
     @Override
@@ -19,29 +23,45 @@ public class MainActivity extends Activity {
         web = new WebView(this);
         WebSettings s = web.getSettings();
         s.setJavaScriptEnabled(true);
-        s.setDomStorageEnabled(true); // keeps ticked items on the phone
+        s.setDomStorageEnabled(true);
+        s.setCacheMode(WebSettings.LOAD_DEFAULT);
+        web.clearCache(true); // always fetch the newest version on start
         web.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest req) {
                 return openOutside(req.getUrl());
             }
+
             @SuppressWarnings("deprecation")
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 return openOutside(Uri.parse(url));
             }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest req, WebResourceError err) {
+                if (req.isForMainFrame()) view.loadUrl("file:///android_asset/offline.html");
+            }
+
+            @SuppressWarnings("deprecation")
+            @Override
+            public void onReceivedError(WebView view, int code, String desc, String url) {
+                if (url != null && url.startsWith(APP_URL)) view.loadUrl("file:///android_asset/offline.html");
+            }
         });
         setContentView(web);
-        web.loadUrl("file:///android_asset/index.html");
+        web.loadUrl(APP_URL);
     }
 
-    // WhatsApp and other links open in their own app, not inside the list
+    // WhatsApp and other links open in their own app
     private boolean openOutside(Uri uri) {
-        if ("file".equals(uri.getScheme())) return false;
+        String scheme = uri.getScheme();
+        if ("file".equals(scheme)) return false;
+        if (APP_HOST.equals(uri.getHost())) return false;
         try {
             startActivity(new Intent(Intent.ACTION_VIEW, uri));
         } catch (Exception e) {
-            Toast.makeText(this, "WhatsApp नहीं खुला। 'कॉपी करें' दबाकर लिस्ट भेजें।", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "यह लिंक नहीं खुल पाया", Toast.LENGTH_LONG).show();
         }
         return true;
     }
@@ -50,6 +70,6 @@ public class MainActivity extends Activity {
     public void onBackPressed() {
         web.evaluateJavascript(
             "(window.appBack && window.appBack()) ? 'closed' : 'none'",
-            r -> { if (!r.contains("closed")) MainActivity.super.onBackPressed(); });
+            r -> { if (r == null || !r.contains("closed")) MainActivity.super.onBackPressed(); });
     }
 }
