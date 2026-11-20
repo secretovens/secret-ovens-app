@@ -225,6 +225,12 @@ details.dt summary{list-style:none;display:flex;align-items:baseline;gap:8px;pad
 details.dt summary::-webkit-details-marker{display:none}
 details.dt[open] summary{background:color-mix(in srgb,var(--c) 8%,transparent)}
 details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-height:1.6}
+.adminlink{border:0;background:transparent;color:inherit;font:inherit;text-decoration:underline;padding:4px}
+.adminbox{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:var(--brand-2);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:12px}
+.adminbox label{flex-basis:100%;font-weight:700;font-size:15px}
+.adminbox input{flex:1;min-width:0;border:0;border-radius:10px;padding:12px;font:inherit;font-size:18px;background:#fff;color:#14231b}
+.adminbox .btn{padding:12px 18px}
+.aerr{flex-basis:100%;color:#ffd3cf;font-weight:700}
 .tip{font-size:13px;color:var(--muted);text-align:center;margin:14px 0}
 </style>
 <script src="config.js"></script>
@@ -266,11 +272,17 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
       <label class="dpick" for="fordate">दूसरी तारीख चुनें <input id="fordate" type="date"></label>
     </div>
     <button class="go" id="go">🛒 लिस्ट बनाओ <span aria-hidden="true">→</span></button>
-    <div class="row2">
+    <div class="row2" id="adminRow" hidden>
       <button class="ledger" id="toCombined">📋 सबकी कुल लिस्ट</button>
       <button class="ledger" id="toReport">📒 हफ़्ते / महीने का हिसाब</button>
     </div>
-    <p class="ver">ऐप वर्ज़न 6 · 16 नवंबर</p>
+    <div class="adminbox" id="adminBox" hidden>
+      <label for="apin">एडमिन PIN</label>
+      <input id="apin" type="password" inputmode="numeric" maxlength="8" placeholder="PIN">
+      <button type="button" class="btn gold" id="apinGo">खोलो</button>
+      <span class="aerr" id="apinErr" hidden>PIN गलत है</span>
+    </div>
+    <p class="ver">ऐप वर्ज़न 7 · 20 नवंबर · <button type="button" class="adminlink" id="adminLink">🔑 एडमिन</button></p>
   </div>
 </section>
 
@@ -326,7 +338,7 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
     <h2>लिस्ट भेज दी गई!</h2>
     <p id="doneTxt"></p>
     <button class="btn primary wide" id="doneHome">🏠 शुरू पर वापस जाओ</button>
-    <button class="btn ghost wide" id="doneCombined">📋 सबकी कुल लिस्ट देखें</button>
+    <button class="btn ghost wide" id="doneCombined" hidden>📋 सबकी कुल लिस्ट देखें</button>
   </div>
 </section>
 
@@ -382,17 +394,18 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
 
 <script>
 const API=String(window.SO_API||"").trim();
+const ADMIN_PIN=String(window.SO_ADMIN_PIN||"5050");
 const READY=/^https:\/\/script\.google(usercontent)?\.com\//.test(API);
 const P="पैकेट";
 const CATS=[
  ["सब्ज़ी","#2e7d32","🥬","kg",["आलू","प्याज़","टमाटर","पत्ता गोभी","शिमला मिर्च","लहसुन","अदरक","ब्रोकली","मशरूम","हरी मिर्च","धनिया","पुदीना","नींबू","बीन्स","गाजर","फूल गोभी","पालक","सिरका प्याज़","चुकंदर"]],
- ["मसाला","#c62828","🌶️","kg",["सबूत लाल मिर्च","काली मिर्च",["कसूरी मेथी",P],["किचन किंग",P],["चिकन मसाला",P],["देगी मिर्च",P],["मीट मसाला",P],["अमचूर पाउडर",P],"अजवाइन","धनिया पाउडर","जीरा पाउडर",["गरम मसाला",P],"कुटी लाल मिर्च","काला नमक",["सफ़ेद मिर्च (White Pepper)",P],["चाट मसाला",P],"दालचीनी","जावित्री","छोटी इलायची","बड़ी इलायची","लौंग","तेज पत्ता",["हींग",P]]],
+ ["मसाला","#c62828","🌶️","kg",["सबूत लाल मिर्च","काली मिर्च",["कसूरी मेथी",P],["किचन किंग",P],["चिकन मसाला",P],["देगी मिर्च",P],["मीट मसाला",P],["अमचूर पाउडर",P],"अजवाइन","धनिया पाउडर","जीरा पाउडर",["गरम मसाला",P],"कुटी लाल मिर्च","काला नमक",["सफ़ेद मिर्च (White Pepper)",P],["चाट मसाला",P],"दालचीनी","जावित्री","छोटी इलायची","बड़ी इलायची",["इलायची पाउडर",P],"लौंग","तेज पत्ता","साबुत जीरा","स्टार फूल (चक्र फूल)",["हींग",P]]],
  ["राशन","#b7791f","🌾","kg",["आटा","मैदा","नमक","चाइनीज़ चावल","इंडियन चावल","तिल","मूंगफली","नारियल पाउडर","बेसन","काजू","मगज़","सोयाबीन चूरा","अरारोट",["अजीनोमोटो",P],["लाल रंग",P],["हरा रंग",P],["पीला रंग",P],["काउंटर सॉफ्ट","पीस"],["रिफाइंड तेल","लीटर"],["सरसों तेल","लीटर"],"डालडा"]],
  ["दाल","#d9631e","🫘","kg",["अरहर दाल","काली उड़द","चना दाल","राजमा","छोले","मिक्स दाल","सोयाबीन बड़ी","काला चना"]],
  ["सॉस","#ad1457","🥫",P,["टोमैटो सॉस","ग्रीन सॉस","सोया सॉस","सिरका (Vinegar)","मखनी सॉस","मेयो","पेरी पेरी मसाला","ओरिगेनो","ब्रेड क्रम्ब","कॉर्न"]],
  ["डेयरी","#1565c0","🧀",P,[["पनीर","kg"],["दही","kg"],["खोया","kg"],"अमूल बटर","डिलीशियस बटर चाप","डिलीशियस बटर चाइनीज़","अमूल क्रीम",["घी चाइनीज़","kg"],["घी इंडियन","kg"],"नूडल्स","सफल मटर"]],
  ["पैकिंग","#455a64","📦","पीस",["500 ML चाइनीज़ चाप बॉक्स","650 ML चाइनीज़ चाप बॉक्स","300 ML इंडियन गोल ब्लैक बॉक्स","500 ML इंडियन गोल ब्लैक बॉक्स","750 ML इंडियन गोल ब्लैक बॉक्स","2 CP ब्लैक बॉक्स इंडियन","5 CP ब्लैक थाली इंडियन","7 CP ब्लैक थाली इंडियन","4 CP ब्लैक थाली चाइनीज़","कार कंटेनर हाफ","कार कंटेनर फुल","ज़ोमैटो पेपर बैग हाफ","ज़ोमैटो पेपर बैग फुल","कुरकुरे मोमोज़ पैकिंग",["डिप बॉक्स चाइनीज़",P],["चटनी कप टेबल",P],["छोटी डिस्पोज़ेबल प्लेट",P],["डिस्पोज़ल गिलास",P],["कांटा (Fork)",P],["चम्मच",P],["टिश्यू पेपर",P],["टूथपिक",P],["फॉयल पेपर","रोल"],["सिल्वर फॉयल","रोल"],["1 kg पन्नी","kg"],["2 kg पन्नी","kg"],["5 kg पन्नी","kg"],["चटनी पन्नी","kg"]]],
- ["अन्य","#6a1b9a","🔥","पीस",["रुमाली रोटी","कोल्ड ड्रिंक","पानी की बोतल","गैस सिलेंडर",["कोयला","kg"]]]
+ ["अन्य","#6a1b9a","🔥","पीस",["रुमाली रोटी","कोल्ड ड्रिंक","पानी की बोतल","गैस सिलेंडर",["कोयला","kg"],["सर्फ़",P],["डस्टबिन पॉलीथीन",P]]]
 ];
 const ITEMS=[];let n=0;const byName={};
 CATS.forEach(([cat,c,ic,du,list],ci)=>list.forEach(x=>{const [name,u]=Array.isArray(x)?x:[x,du];const it={id:++n,name,ci,c,u,step:u==="kg"?(ci===1?0.1:0.5):u==="लीटर"?0.5:1};ITEMS.push(it);byName[name]=it}));
@@ -407,7 +420,7 @@ const catColor=name=>(CATS.find(c=>c[0]===name)||[0,"#777"])[1];
 
 /* ---------- saved on this phone ---------- */
 const KEY="so-v5";
-let state={picked:{},pickedFor:"",who:"",names:[],dev:""};
+let state={picked:{},pickedFor:"",who:"",names:[],dev:"",admin:false};
 try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.picked)state=Object.assign(state,s)}catch(e){}
 if(!state.dev)state.dev=Math.random().toString(36).slice(2,8);
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}};
@@ -459,6 +472,7 @@ const qText=e=>e.hasQ?`${e.q} ${e.u}`:"—";
 /* ---------- navigation ---------- */
 const SCREENS=["login","start","cats","items","review","done","combined","report"];
 function show(s){
+  if((s==="combined"||s==="report")&&!state.admin)s="start";
   screen=s;
   SCREENS.forEach(id=>$(id).hidden=id!==s);
   $("bar").hidden=!(s==="cats"||s==="items");
@@ -482,6 +496,8 @@ function dateChips(el,sel){
 }
 function renderStart(){
   $("helloName").textContent=state.who;
+  $("adminRow").hidden=!state.admin;$("adminBox").hidden=true;
+  $("adminLink").textContent=state.admin?"🔑 एडमिन बंद करो":"🔑 एडमिन";
   $("setup").hidden=READY;
   dateChips($("dchips"),forDate);$("fordate").value=forDate;
 }
@@ -505,7 +521,7 @@ async function loadDay(date){
   renderBar();
 }
 function othersMap(){
-  const m={};if(!day.subs||day.date!==forDate)return m;
+  const m={};if(!state.admin)return m;if(!day.subs||day.date!==forDate)return m;
   aggregate(day.subs.filter(s=>!isMine(s))).forEach(e=>m[e.n]=e);return m;
 }
 const othersText=e=>e.hasQ?`${e.q} ${e.u}`:"जुड़ा है";
@@ -517,7 +533,7 @@ function renderCats(){
   let st="";
   if(day.loading)st="लोड हो रहा है…";
   else if(day.error)st=`⚠️ ${day.error}`;
-  else if(day.subs){const o=day.subs.filter(s=>!isMine(s)).length;st=o?`इस दिन के लिए <b>${o} लिस्ट</b> पहले आ चुकी हैं। आपका सामान उसमें जुड़ जाएगा।`:"इस दिन के लिए अभी कोई और लिस्ट नहीं आई।"}
+  else if(day.subs&&state.admin){const o=day.subs.filter(s=>!isMine(s)).length;st=o?`इस दिन के लिए <b>${o} लिस्ट</b> पहले आ चुकी हैं। आपका सामान उसमें जुड़ जाएगा।`:"इस दिन के लिए अभी कोई और लिस्ट नहीं आई।"}
   $("dayStatus").innerHTML=st;
   $("catGrid").innerHTML=CATS.map(([cat,c,ic,,list],ci)=>{const k=picked().filter(it=>it.ci===ci).length;
     return `<button type="button" class="cat" style="--c:${c}" data-ci="${ci}">${k?`<span class="badge">${k}</span>`:""}<span class="ic" aria-hidden="true">${ic}</span><span><span class="nm">${cat}</span><span class="ct">${list.length} items</span></span></button>`}).join("");
@@ -593,7 +609,7 @@ async function submit(items,btn){
     await api(null,{action:"submit",date:forDate,dev:state.dev,who:state.who||"",items});
     state.picked={};state.pickedFor="";save();
     $("doneTxt").textContent=items.length?`${hiDate(forDate)} के लिए ${items.length} सामान भेजे गए। धन्यवाद!`:`${hiDate(forDate)} की आपकी लिस्ट हटा दी गई।`;
-    day.date="";show("done");
+    day.date="";$("doneCombined").hidden=!state.admin;show("done");
   }catch(e){$("subErr").textContent="लिस्ट नहीं गई। "+errText(e)+" फिर से “लिस्ट भेजो” दबाओ।";$("subErr").hidden=false;if(btn.id==="withdraw"){$("sendbox").hidden=false}}
   finally{btn.disabled=false;btn.textContent=txt}
 }
@@ -731,6 +747,16 @@ $("loginGo").addEventListener("click",()=>{
 $("lname").addEventListener("keydown",e=>{if(e.key==="Enter")$("loginGo").click()});
 $("lname").addEventListener("input",()=>$("lerr").hidden=true);
 $("changeName").addEventListener("click",()=>{$("lname").value=state.who;show("login")});
+
+$("adminLink").addEventListener("click",()=>{
+  if(state.admin){state.admin=false;save();renderStart();toast("एडमिन बंद हो गया");return}
+  $("adminBox").hidden=!$("adminBox").hidden;$("apinErr").hidden=true;$("apin").value="";if(!$("adminBox").hidden)$("apin").focus();
+});
+$("apinGo").addEventListener("click",()=>{
+  if($("apin").value.trim()===ADMIN_PIN){state.admin=true;save();renderStart();toast("एडमिन चालू हो गया ✓")}
+  else{$("apinErr").hidden=false}
+});
+$("apin").addEventListener("keydown",e=>{if(e.key==="Enter")$("apinGo").click()});
 
 show(state.who?"start":"login");
 </script>
