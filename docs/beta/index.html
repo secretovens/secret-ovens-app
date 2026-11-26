@@ -237,24 +237,47 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
 .rolechip{display:inline-block;background:var(--gold);color:var(--gold-ink);font-size:13px;font-weight:800;border-radius:999px;padding:2px 10px;margin-left:auto}
 .demo{font-size:13px;text-align:center;color:#cfe0d6;background:rgba(0,0,0,.18);border-radius:12px;padding:8px}
 .demo button{border:0;background:transparent;color:var(--gold);text-decoration:underline;font:inherit;font-weight:700}
-.hrow{padding:10px 14px;border-top:1px solid var(--line)}
-.group h3+.hrow{border-top:0}
-.hrow .hh{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
-.hrow .hh b{font-size:17px}
-.hrow .ask{font-size:13px;color:var(--muted);white-space:nowrap}
-.hrow .miss{font-size:12px;font-weight:800;color:#b33a12;background:#fff1ea;border-radius:999px;padding:1px 8px;white-space:nowrap}
-.hrow.isdone{box-shadow:inset 4px 0 0 #1a9e55}.hrow.ismiss{box-shadow:inset 4px 0 0 #e8572a}
-.hg{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr) minmax(0,1fr);gap:6px;margin-top:6px;align-items:end}
-.hg label{font-size:12px;color:var(--muted);display:block;line-height:1.2;margin-bottom:2px}
-.hg input,.hg select{width:100%;min-height:44px;border:1.5px solid var(--line);border-radius:10px;padding:4px 8px;font:inherit;font-size:17px;font-weight:700;background:var(--surface);color:var(--fg)}
-.hg input.need{border-color:#e8572a}
-.hg input[readonly],.hg select[disabled]{border-style:dashed;opacity:.85}
-.hl{display:flex;justify-content:space-between;align-items:baseline;margin-top:6px;font-size:13px;color:var(--muted)}
-.hl b{font-family:var(--f-head);font-size:17px;color:var(--fg);white-space:nowrap}
-.hbar{position:sticky;bottom:0;z-index:15;background:var(--surface);border-top:1px solid var(--line);margin-top:16px}
-.hbar .wrap{display:flex;gap:10px;align-items:center;padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))}
-.hbar .count b{font-family:var(--f-head);font-size:22px}
-.ro{background:var(--gold-soft);border-radius:12px;padding:10px 12px;font-size:14px;margin-top:12px}
+.hello .logout{border:1px solid rgba(255,255,255,.3);background:transparent;color:var(--brand-fg);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.hello .rolechip{margin-left:auto}
+.menu{display:flex;flex-direction:column;gap:12px}
+.go .gi,.mtile .gi{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:24px;flex:none}
+.go .gt{flex:1;text-align:left;line-height:1.15}.go .gt small{display:block;font-size:14px;font-weight:600;opacity:.75;margin-top:2px}
+.go.alt{background:var(--surface);color:var(--fg);justify-content:flex-start}
+.go.alt .gi{background:var(--gold-soft)}
+.go:not(.alt) .gi{background:rgba(0,0,0,.08)}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mtile{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);color:var(--brand-fg);border-radius:16px;padding:12px;text-align:left;display:flex;flex-direction:column;gap:6px;text-decoration:none;font:inherit;min-height:118px}
+.mtile .gi{background:rgba(255,255,255,.1)}
+.mtile b{font-size:17px;line-height:1.2}.mtile small{font-size:13px;opacity:.75}
+.mtile.wide{grid-column:1/-1;flex-direction:row;align-items:center;min-height:0;gap:12px;flex-wrap:wrap}
+.mtile.wide b{flex:1}.mtile.wide small{flex-basis:100%;margin:-6px 0 0 56px}
+.logins{display:flex;flex-direction:column;gap:8px}
+.logins .lt{font-size:13px;opacity:.7;text-align:center}
+.logins .ledger{font-size:16px;padding:12px 8px}
+.howto{counter-reset:h;list-style:none;margin:14px 0 0;padding:12px 14px;background:var(--surface);border-radius:14px;box-shadow:inset 0 0 0 1.5px var(--line);display:grid;gap:6px;font-size:15px}
+.howto li{counter-increment:h;display:flex;gap:10px;align-items:center}
+.howto li::before{content:counter(h);width:24px;height:24px;border-radius:50%;background:var(--brand);color:var(--brand-fg);font-family:var(--f-head);font-size:13px;font-weight:700;display:grid;place-items:center;flex:none}
+.brow{padding:12px 14px;border-top:1px solid var(--line);position:relative}
+.group h3+.brow{border-top:0}
+.brow::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:transparent}
+.brow.ismiss::before{background:#e8572a}.brow.isdone::before{background:var(--wa)}
+.bh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.bn{font-weight:800;font-size:18px;line-height:1.2}
+.bask{font-size:13px;color:var(--muted);white-space:nowrap}
+.bmiss{font-size:12px;font-weight:800;color:#b33a12;background:#fff1ea;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.bg{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:10px;margin-top:8px;align-items:end}
+.bl{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.hstep{padding:0}
+.hstep .st{width:44px;height:44px}
+.price{display:flex;align-items:center;gap:4px;background:var(--surface);border-radius:12px;box-shadow:inset 0 0 0 1.5px var(--line);padding:0 10px;height:44px}
+.price span{font-family:var(--f-head);font-weight:700;color:var(--muted)}
+.price input{width:100%;min-width:0;border:0;background:transparent;color:var(--fg);font:inherit;font-family:var(--f-head);font-weight:700;font-size:18px;-moz-appearance:textfield}
+.price input::-webkit-outer-spin-button,.price input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.price:focus-within,.val:focus-within{box-shadow:inset 0 0 0 2px var(--brand)}
+.bt{display:flex;justify-content:flex-end;align-items:baseline;gap:8px;margin-top:8px;font-size:14px;color:var(--muted)}
+.bt b{font-family:var(--f-head);font-size:19px;color:var(--fg);white-space:nowrap}
+.brow.isdone .bt b{color:var(--wa)}
+#hisab .sendbox{margin-bottom:8px}
 .trow .rs{font-family:var(--f-head);font-weight:700;white-space:nowrap;min-width:64px;text-align:right}
 </style>
 <script src="../config.js"></script>
@@ -284,7 +307,7 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
       <div class="logo"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCACyAMgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD7LooooAKKKKACiiigAooooAKKM0mR60ALRRXm/wAX/jP4E+F8ax+I9SL6hIu6Kwtl8ydh2JH8I9zQB6RkUV8iv+25oH23angXUzbf3zdoH/75xj9a9m+Dvx4+H/xNkFno+oPZarjJ0+9ASU+u3nD/AIGgD1SiijIoAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAp6xqNnpOmXWp6jcx21naxNLPLI2FRAMkk18H/HD9rLxXr+q3Gm+ALh9C0WNiiXSr/pVz/tZI+QHsBz6mvZP+Chfia90j4U6dodpI0aa1f7LhlON0cYDbPoSV/Kvz/PWgDsofil8Rob0XkfjrxCJw24P9uk6/nXPeINa1TX9WudX1q/uL+/uX3zTzuWdz7ms6igBRwas6bfXWnX8F/YXMtrdW7iSGaJirRsOQQR0NVaKAOzvfil8Rby7N3ceOfEEk7HJb7bIOfwNes/Bf9qzxv4X1OCz8Y3cviTRGYLKZz/pMK55ZH6tj+62fwr5zpVOKAP2D8La5pfiTw/Za7o15Hd2F7EJoJU6Mp/kexHY5rUr5H/4JyeKbu98OeI/CdxK8kNhNHd2oY52LJkOo9sgH8TX1wOlABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAfNH/AAUK8MXms/CfT9cs0aRdEvvMuFA6RSLtLfQMF/OvgAr71+xmradZ6rptzpuo28dzZ3UTRTQyDKujDBB/Cvzi/av+CsPwl8RWlxpd81zourNI1qki/vICuCYyf4sZGDQB4dRRRQAUUUUAFKBmkr1r9mD4RN8XPGk9hcagbHTNOjS4vXRcu6FsBF9CfXtQB9Ef8E5PCd1ZeGPEPi+6iKRajMlraE8b1jyXI9txA/A19bDpWb4Z0TTPDugWWh6NapaWFlCsMESDhVA/U+p7mtIUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAV8n/APBQuGXVbfwF4dto4/tN/qciRSu2NrNsQA+2WGT7V9IfEDxZpXgjwhqXijXJWjsNPi8yTYuWbJCqoHckkAfWvhH9pX4s+IfiXY+G9ej8E6j4as7C8aTTdSklZhMWxtwdoAYFc8E0Ab+n/sT+NZBm+8WaFbeyJK5/kK2If2INRMaGbx7aBz94JYsR+GWr2P4HfC34i+G/FEXifxh8VNQ8RxS2hU6excx7nAOSWbHHbAFS/GT4BD4j+MD4hfx/r+jjyEhW0tTuiTb3XkYz3oA8lH7D0Pf4hP8A+C4f/F1Tk/Yfvvm8vx9bH+7usGH5/NXZ/wDDIcf/AEVjxV/3yP8A4uj/AIZJuYPmsPjB4oglPBYpkEenEgoA811D9iXxlGpNl4u0Oc/3ZI5UP8jXUfsE6Nd+FfiR8Q/Ct/5L3WnCOGaSM5UskjKcH0roH/Zv+J+nHOhfHnW0CjCLMsq4H4SHv7V4l8AfiV4t+HXinxn4ik8J6j4xkmm8rVb6OVgIijsWdjtbJOCecdKAP0RFFcv8LPHGi/ETwTZeKtCaT7LdZVo5Bh4ZFOGRvcH+hrqKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA8j/a/wBMk1T9nfxZDCrNJFBHcBVGSRHKjH9Aa+f/AI0alaeI/wBh7wRqlpcwSy6ddW1vMFbmN1V0II9eB1r7VvraC8tZrS6iSa3mRo5Y3GVdWGCCPQg18n/Ff9kO2m0/UJ/h3rl3avNMssej3c2LXdnkhsZ4BOMg+maAPqHwlc/bfCukXpOTcWMEuSP70an+ta2BXO/Diw1TSvAWgaXrQiXUbPToLe5ET703ogU4bjI4roqACiiigCO5cR28kjHaFUsT6YFfF/7OGsWmhfs7/F3xJeTwr9qubiNCzAeY7RMqgD3L19ieJbe6u/D2pWtlt+1TWkscO44XeyELk9hnFfJvwp/ZAkGnQP8AETX7oBboyS6TYT5t5FGNpL8cnnOBnHegD0/9hfTJ9O/Z30mSdWU311cXSg/3S+0H8dma9zrn9U0+90jwPcaZ4LtbO2u7WxMOmQyfLCjhcIDgdBXyJe/Bn9q29u5bubxyPMlYs2zW5FGT6ALgfhQB9t0V8Pf8KQ/ao/6Hk/8Ag+l/+Jru/gZ8PP2jfCXxBsb7xN4nt9R0B2KahBNqbzkpjgoGXhgcY5oA+pqKKKACiiigAooooAKKKKACiiigApsnanUjA9RQB8ifGL41fE7wx8Vda0TUL9PB+iQts0i6m0ZrmG6AIwzSZ6EZPGcdMVJ8VPjD8RdF8S+B7fTPGejnTvEelxzyXVhpLXSK4O1njT77Bj/D1HSvTPHH7OugeKtb1K8uPFniu1sdVl82902O9D27tu3fKGB2888etGv/ALN/hLUtR0S7s9f8TaN/YVolrpiWF4qfZgucsrFS25iSSc8k0AcX4w+J3xU0PX/AXwz/ALU0j/hJPETiW51k2ZMawvKRGFiOMNtHOe/FS+K/iB8YfDPwm8YXmsal4d/tnw/cxtbX9o8cxuoTL5ZWSAMTG3KnJ+ldhffs5eE7rRNItV1zxHFq2j3ElzZa2LsG8VnfeQWxggNyOMj1ptt+zZ4Jh8F6z4d/tLXWn1ydJtU1NrhTc3W1iwQkrgKWOSMcnvQB5p+z18bviR41+JFl4Un1TTtYtLvSWuri5Ww+zvYylTgYJ/eBW29Bzn2qD4D/ABQ+MnxE8XXWmr4r0zdpt7ia3fR2VLiBWO8iZflRuOFPJ/CvU9J/Zy8MaV4m0TxDp/iPxNb32i2aWVsyXMa5jUMAGwnP3j+Qqn4b/Zk8MaBfLcWHi7xgkRvY72a2+3KIbiVG3KXUKN1AHBa34u/aDsPjHpHw2m8XeHotS1iykvI3XTg0cOPMKxk9ScRgZ969q+JXjTXPhx8CrrxXrNvbX2vWNlEsyocQvcuypn/d3Nn6CmeIPg3pGs/F2y+Jk/iDX4dWsti28UU6CFEUEGMDbna2WyM/xGu28YeHNK8WeGb7w7rtr9q06/iMU8e4qSOoII6EHBB9RQB8qaT8cfihod78PtR8TarpOp6X42jP7iGx8t7EtL5asCD82CQcd+RWff8Axn+MGjeKvEvgHVNfs28VW9/bWejRppY23W+XBfrwChVvavZvB/7N3g/QPEOk6tdavr2uR6GSdHstQuA0Fl8xb5VAGcNz9ea67WvhN4W1f4s6Z8S7yKf+2tOg8qNVYeU5GdrMMZLDccc0AeB+PviR8YPDXxptfhzL45sA09hDMt0mgmb96y427EJOCwPzdAD7Vb+L/wAWvix8KfHHhe21i7sdasH0uG81q3tbPG0B/LlZX6gE4IOOMivTPGnwA0XxR4/uvG0/i7xbp+rXEfkq9heJF5UW3b5akJkLjPGe9T6X8BPDVpqthe3Wta7qcNnpLaR9kvJ0eGW2cHcrDbk5J3detAHlmn/F74pap8NfHni/wpdW/iZbDV0s9LSHTsNDbEb2mKqcuQGVcdsE1rfsx/F3xP438a/2VrXjPSb8fZC8+mT6Y1peRygDdsIJV1BznnOO1dron7PHhDRfh/qPgzTNV8Q2tne34v1uIbzy54ZQmwBWUDK47HNW/hp8C/D3gzxnL4zn1fWfEGvvD5CXmozBiiYA4AAycDGTmgD1qiiigAooooAKKKKACiiigAooooAKKKQnFACkgUm4VgePvF/h/wAEeGbnxF4k1BLKwgH3jyzt2RF6sx7AV86D45fGn4jzyH4R/Dj7PpJbbHqWpLnd75YhB9BuoA+qsilr5btPhL+0f4quFuvGHxeGiRlsm30wsxX8ECL+pr0rwp8E10srJrPxF8ca7KMErNqrxRn/AICmD+ZNAHrWaMisyTRLNtDk0cPcpbPEY9yTsJQD3D53A++a+avF2g/Hb4OeIZfE3hDW9R8f+GHObjTb92mnhQc9Opx/eX8RQB9UZFIWFfNUf7Ynw9Twq99e6VrNtrkfyNpJi+Yv7SfdC+5wfasTwlb/ABy+O+sW/iPUtbufAPgtTvtoLCUrPcIfTHJJ/vNgegNAH1jmisvT9FtbTw/Fogmu5reOLyvMmnZ5X92fOSfevPfFfwXg1fdJpPj/AMb6DKen2bVnkj/75fP6EUAerZFGRXy9qHwe/aG8NXL3ngz4yPq6hsi31Qsu4e+7epP5VyHxV+KP7R/hTwHqmmeNPCcNtHcR+SmvacSpgYkfNujJUZ6cgdaAPtDNFfmL8Kvit8RJvid4YgvfGWu3VrJq1sk0El45WRTKoIIz0IJr9OqACiiigAooooAKKKKACiiigAooooAKRqWkb0oA+TPihav8Zv2t7L4d30sjeGPC9uLm9t1JAlk2hmz9dyJn0z619WWNna2VnDZ2UEVtbQqEiijUKqKOgAHSvmH9mV11f9qj4u66vzokzW6N7edgfpHX1MOnFACbaWiigAPQ1gxeL/Csnip/CsfiHTX1xE3vp63KmdRjPK5z05rePSvBrX9nTT4v2hX+KreIblkN418lgIRxMRyN+fu5ycYzQB1/xR+DXwy8cQz3vibQbSK4CF5NQgbyJVAHLM44OPevEfDX7Ptnf28uofB746alHZxuYmEU/nRow/hJjYY/EV9O+O/D0Hivwbq/hq5uJLeHU7SS2eWP7yBhjI+led/s2fBSD4O6dq0C67Lqs+pyozsYvLRFTIUAZPPzHJoA4v4AePPH+ifFvUfgz8TL5NXvoLb7Tp+pLy0iAA4J7gg5GeQQRX0kvTpivl2b/lIdH/2Av/aRr6iWgBSM14l+25O1v+zl4h2sv72S2jOfQzJ0r22vn/8Ab6mWP9n25Rgcy6lbKMf7xP8ASgD4B8ETLb+M9FuWYoseoQOWHYBwc1+vw5Ga/HPSZGh1W0lUgMk6MCfUMK/Yayk86ygmJBMkatkdORmgCaiiigAooooAKKKKACiiigAooooAKRjjmlpr9RnFAHy7+wYou7z4k65IP311rQVvYAyN1/4FX1IOlfId5p3xA/Zx+JOua54a8NXHijwLrsxuZYLYEyWrZJwcAkEbiASMEe4rcH7XCY/5JT4s/wC/f/1qAPqCivmD/hrlP+iU+LP++P8A61H/AA1yn/RKfFn/AHx/9agD6fPSvnmy/aH1Gf8AaXl+FTeFQLFbxrIXSyMZgwGfNK4xs/pg1jf8Ncp/0SjxZ/3x/wDWqin7UWkJqraqvwX8QjUGTYboWy+aV9N23OKAPpDx/wCIP+EV8E6z4k+ySXn9m2clz5Ef3pNik4FeY/ss/Gm++MGk6zNqGhQ6ZcabMihoHLRyK4JAyR94Y5+oriX/AGtonRkf4TeK2VhgqY8gj8qqaT+1FpGk25ttK+C/iGxhZixjt7ZY1JPU4C9aALtxb3K/8FB4Zzby+U2g5Emw7SPLIzn68V9PLXy7/wANZW3nCb/hUfinzQu0P5Q3Y9M7elP/AOGuE/6JR4s/74/+tQB9QV81f8FEbnyvgrp8Ak2mfWYht/vARyH/AAqof2uV/wCiUeLMf7n/ANat/wDap8Iaz8XfgNpuoeHtOuU1CB4tUTT5htmZTGwaPH98BuntQB+dsRxLG2M4YHH41+v/AIPlE/hLR51BAksIHAPbMamvy18FfCnx74p8UwaDp/hjU47hpgkrz27RxwDPLOzAAAV+qOgWJ0zQtP00yeYbS1jg34xu2KFz+lAF2iiigAooooAKKKKACiiigAooooAKMUUUAJgelJ5af3F/KnUUAN2J/cX8qNif3F/KnUUAN2J/cX8qNif3F/KnUUAN2J/cX8qNif3F/KnUUAN2J/cX8qNif3F/KnUUAN8uP+4v5U7A9KKKADA54HPWiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/9k=" alt="Secret Ovens"></div>
       <div><b>SECRET OVENS</b><small>GOOD FOOD, GOOD MOOD</small></div>
     </div>
-    <div class="hello">नमस्ते, <b id="helloName"></b> 👋 <span class="rolechip" id="roleChip" hidden></span></div>
+    <div class="hello">नमस्ते, <b id="helloName"></b> 👋 <span class="rolechip" id="roleChip" hidden></span><button type="button" class="logout" id="adminLink" hidden>लॉग-आउट</button></div>
     <div class="hero">
       <h1>कल का सामान</h1>
       <p>जो सामान खत्म हो रहा है, उसकी लिस्ट बनाकर भेजें।</p>
@@ -296,15 +319,20 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
       <label class="dpick" for="fordate">दूसरी तारीख चुनें <input id="fordate" type="date"></label>
     </div>
     <button class="go" id="go">🛒 लिस्ट बनाओ <span aria-hidden="true">→</span></button>
-    <div class="row2" id="roleRow">
-      <button class="ledger lk" id="toBuy"><span class="nw">नया</span>🔒 खरीदार<br><span>बाज़ार हिसाब</span></button>
-      <button class="ledger lk" id="toOwn"><span class="nw">नया</span>🔒 मालिक<br><span>सब कुछ</span></button>
+    <div class="menu" id="roleMenu" hidden>
+      <button class="go alt" id="toHisab"><span class="gi">🧾</span><span class="gt">बाज़ार का हिसाब<small id="hisabSub">लाया हुआ सामान और दाम लिखें</small></span><span aria-hidden="true">→</span></button>
+      <div class="mgrid" id="ownGrid">
+        <button class="mtile" id="toCombined"><span class="gi">📋</span><b>सबकी कुल लिस्ट</b><small>देखें और WhatsApp करें</small></button>
+        <button class="mtile" id="toReport"><span class="gi">📒</span><b>हफ़्ते / महीने का हिसाब</b><small>कितना आया, कितने का</small></button>
+        <a class="mtile wide" id="toSheet" target="_blank" rel="noopener" href="#"><span class="gi">📊</span><b>Google Sheet खोलें</b><small>पूरा रिकॉर्ड · डाउनलोड करें</small></a>
+      </div>
     </div>
-    <div class="row2" id="adminRow" hidden>
-      <button class="ledger full" id="toHisab">🧾 बाज़ार हिसाब</button>
-      <button class="ledger" id="toCombined">📋 सबकी कुल लिस्ट</button>
-      <button class="ledger" id="toReport">📒 हफ़्ते / महीने का हिसाब</button>
-      <a class="ledger full" id="toSheet" target="_blank" rel="noopener" href="#" style="text-align:center;text-decoration:none" hidden>📊 Google Sheet खोलें <span>(डाउनलोड / बैलेंस शीट)</span></a>
+    <div class="logins" id="roleRow">
+      <span class="lt">दूसरे लॉगिन</span>
+      <div class="row2">
+        <button class="ledger" id="toBuy">🔒 खरीदार</button>
+        <button class="ledger" id="toOwn">🔒 मालिक</button>
+      </div>
     </div>
     <div class="adminbox" id="adminBox" hidden>
       <label for="apin" id="apinLbl">कोड डालें</label>
@@ -312,7 +340,7 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
       <button type="button" class="btn gold" id="apinGo">खोलो</button>
       <span class="aerr" id="apinErr" hidden>कोड गलत है</span>
     </div>
-    <p class="ver">ऐप वर्ज़न 9 (बीटा) · <button type="button" class="adminlink" id="adminLink" hidden>लॉग-आउट</button></p>
+    <p class="ver">ऐप वर्ज़न 9 (बीटा)</p>
     
   </div>
 </section>
@@ -402,15 +430,15 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
 <section id="hisab" class="screen" hidden>
   <header class="appbar"><div class="wrap">
     <button class="back" data-back aria-label="पीछे">‹</button>
-    <h2 id="hTitle"><small>मात्रा + रेट</small>बाज़ार हिसाब</h2>
+    <h2 id="hTitle"><small>खरीदार</small>बाज़ार का हिसाब</h2>
     <button class="home" data-home aria-label="होम"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5M5.5 9.5V20h5v-6h3v6h5V9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div></header>
   <div class="wrap">
     <div class="dchips light" id="hdchips"></div>
     <div id="hOut"></div>
   </div>
-  <div class="hbar" id="hBar"><div class="wrap">
-    <div class="count" style="flex:1"><b id="hTotal">₹0</b><span id="hSub"></span></div>
+  <div class="bar" id="hBar" hidden><div class="wrap">
+    <div class="count"><b id="hTotal">₹0</b><span id="hSub"></span></div>
     <button class="btn gold" id="hSave">सेव करो ✓</button>
   </div></div>
 </section>
@@ -552,7 +580,7 @@ function show(s){
   if(s==="hisab"&&!state.role)s="start";
   screen=s;
   SCREENS.forEach(id=>$(id).hidden=id!==s);
-  $("bar").hidden=!(s==="cats"||s==="items");
+  $("bar").hidden=!(s==="cats"||s==="items");$("hBar").hidden=true;
   window.scrollTo(0,0);
   ({hisab:()=>loadH(),start:renderStart,cats:renderCats,items:renderItems,review:renderReview,combined:()=>loadC(),report:()=>{if(!rFrom)setPeriod("week");loadRep()}}[s]||(()=>{}))();
   renderBar();
@@ -574,12 +602,11 @@ function dateChips(el,sel){
 function renderStart(){
   $("helloName").textContent=state.who;
   state.admin=state.role==="own";
-  $("roleRow").hidden=!!state.role;$("adminRow").hidden=!state.role;$("adminBox").hidden=true;
-  $("toCombined").hidden=$("toReport").hidden=state.role!=="own";
-  $("toSheet").hidden=!(state.role==="own"&&state.sheet);if(state.sheet)$("toSheet").href=state.sheet;
-  $("toHisab").innerHTML=state.role==="own"?"🧾 खरीदार का हिसाब <span>(लाइव)</span>":"🧾 बाज़ार हिसाब <span>मात्रा + रेट डालो</span>";
+  $("roleRow").hidden=!!state.role;$("roleMenu").hidden=!state.role;$("adminBox").hidden=true;$("ownGrid").hidden=state.role!=="own";
+  $("toSheet").hidden=!state.sheet;if(state.sheet)$("toSheet").href=state.sheet;
+  $("hisabSub").textContent=state.role==="own"?"खरीदार ने क्या लिखा — देखें या बदलें":"लाया हुआ सामान और दाम लिखें";
   $("roleChip").hidden=!state.role;$("roleChip").textContent=ROLE_NAME[state.role]||"";
-  $("adminLink").hidden=!state.role;$("adminLink").textContent=`🔓 ${ROLE_NAME[state.role]||""} से लॉग-आउट`;
+  $("adminLink").hidden=!state.role;
   $("setup").hidden=READY;
   dateChips($("dchips"),forDate);$("fordate").value=forDate;
 }
@@ -808,23 +835,23 @@ async function loadH(){
 }
 function renderH(){
   const own=state.role==="own";
-  $("hTitle").innerHTML=own?"<small>लाइव — सिर्फ़ देखने के लिए</small>खरीदार का हिसाब":"<small>मात्रा + रेट</small>बाज़ार हिसाब";
-  const opts=[[ymd(addDays(now,-1)),"कल गया"],[TODAY,"आज"],[ymd(addDays(now,1)),"कल"]];
+  $("hTitle").innerHTML=own?"<small>मालिक</small>बाज़ार का हिसाब":"<small>खरीदार</small>बाज़ार का हिसाब";
+  const opts=[[ymd(addDays(now,-1)),"बीता कल"],[TODAY,"आज"],[ymd(addDays(now,1)),"कल"]];
   $("hdchips").innerHTML=opts.map(([v,l])=>`<button type="button" data-d="${v}" aria-pressed="${v===hDate}"><b>${parse(v).getDate()}</b><span>${l} · ${DAY[parse(v).getDay()]}</span></button>`).join("");
-  $("hSave").hidden=own;
-  const o=$("hOut");
-  if(H.loading){o.innerHTML=`<p class="empty">लोड हो रहा है…</p>`;$("hBar").hidden=true;return}
-  if(H.error){o.innerHTML=`<p class="empty">⚠️ ${esc(H.error)}</p>`;$("hBar").hidden=true;return}
-  if(!H.rows.length){o.innerHTML=`<p class="empty">${esc(hiDate(hDate))} के लिए अभी कोई लिस्ट नहीं आई।</p>`;$("hBar").hidden=true;return}
+  const o=$("hOut");$("hBar").hidden=true;
+  if(H.loading){o.innerHTML=`<p class="empty">लोड हो रहा है…</p>`;return}
+  if(H.error){o.innerHTML=`<p class="empty">⚠️ ${esc(H.error)}</p>`;return}
+  if(!H.rows.length){o.innerHTML=`<p class="empty">${esc(hiDate(hDate))} की लिस्ट अभी नहीं आई।</p>`;return}
   $("hBar").hidden=false;
-  const ro=own?" readonly":"",dis=own?" disabled":"";
-  let h=own?`<p class="ro">👁 खरीदार जो भी डालता है, वो यहाँ दिखता है। बदलाव सिर्फ़ खरीदार कर सकता है।</p>`:`<p class="tip" style="text-align:left;margin:12px 2px 0">जहाँ <b style="color:#b33a12">मात्रा नहीं लिखी</b> है, वहाँ जितना लाए उतना भरो। फिर 1 इकाई का रेट डालो।</p>`;
-  h+=groupsHTML(H.rows,e=>{const x=H.rows.indexOf(e);return `<div class="hrow" id="hr${x}"><div class="hh"><b>${esc(e.n)}</b>${e.cq===null?'<span class="miss">मात्रा नहीं लिखी</span>':`<span class="ask">लिस्ट: ${e.cq} ${esc(e.u)}</span>`}</div>
-   <div class="hg"><div><label for="hq${x}">कितना लाया</label><input id="hq${x}" data-hx="${x}" data-hf="q" inputmode="decimal" value="${esc(e.q)}" placeholder="मात्रा"${ro}></div>
-   <div><label for="hu${x}">इकाई</label><select id="hu${x}" data-hx="${x}" data-hf="u"${dis}>${UNITS.concat(UNITS.includes(e.u)?[]:[e.u]).map(u=>`<option${u===e.u?" selected":""}>${esc(u)}</option>`).join("")}</select></div>
-   <div><label for="hr_${x}" id="hrl${x}">1 ${esc(e.u)} का ₹</label><input id="hr_${x}" data-hx="${x}" data-hf="r" inputmode="decimal" value="${esc(e.r)}" placeholder="रेट"${ro}></div></div>
-   <div class="hl"><span id="hf${x}"></span><b id="ht${x}">—</b></div></div>`});
-  h+=`<div class="sendbox"><a class="btn wa" id="hWa" target="_blank" rel="noopener" href="#">बिल WhatsApp पर भेजें</a>${own?"":`<button class="btn ghost wide" id="hAdd">+ लिस्ट में छूटा सामान जोड़ो</button>`}</div>`;
+  let h=`<ol class="howto"><li><b>+</b> दबाकर बताओ कितना लाए</li><li>1 ${"kg / पैकेट"} का <b>दाम</b> लिखो</li><li>नीचे <b>सेव करो</b> दबाओ</li></ol>`;
+  h+=groupsHTML(H.rows,e=>{const x=H.rows.indexOf(e);return `<div class="brow" id="hr${x}">
+   <div class="bh"><span class="bn">${esc(e.n)}</span>${e.cq===null?'<span class="bmiss">शेफ़ ने मात्रा नहीं लिखी</span>':`<span class="bask">लिस्ट में: ${e.cq} ${esc(e.u)}</span>`}</div>
+   <div class="bg">
+    <div class="bcol"><span class="bl">कितना लाए</span><div class="stepper hstep"><button type="button" class="st hst" data-hx="${x}" data-hstep="-1" aria-label="कम">−</button><label class="val"><input id="hq${x}" data-hx="${x}" data-hf="q" type="number" inputmode="decimal" min="0" placeholder="0" value="${esc(e.q)}" aria-label="${esc(e.n)} कितना लाए"><span>${esc(e.u)}</span></label><button type="button" class="st hst" data-hx="${x}" data-hstep="1" aria-label="ज़्यादा">+</button></div></div>
+    <div class="bcol"><label class="bl" for="hr_${x}">1 ${esc(e.u)} का दाम</label><div class="price"><span>₹</span><input id="hr_${x}" data-hx="${x}" data-hf="r" type="number" inputmode="decimal" min="0" placeholder="0" value="${esc(e.r)}"></div></div>
+   </div>
+   <div class="bt"><span id="hf${x}"></span><b id="ht${x}">—</b></div></div>`});
+  h+=`<div class="sendbox"><a class="btn wa" id="hWa" target="_blank" rel="noopener" href="#">बिल WhatsApp पर भेजें</a><button class="btn ghost wide" id="hAdd">+ लिस्ट में और सामान जोड़ें</button></div>`;
   o.innerHTML=h;updH();
 }
 function hMsg(){let m=`*Secret Ovens – बाज़ार बिल*\n📅 ${hiDate(hDate)}\n`;let t=0;
@@ -832,15 +859,17 @@ function hMsg(){let m=`*Secret Ovens – बाज़ार बिल*\n📅 ${h
   return m+`\n*कुल: ${money(t)}*`}
 function updH(){let t=0,d=0;
   H.rows.forEach((e,x)=>{const q=parseFloat(e.q),r=parseFloat(e.r),ok=q>0&&r>0;if(ok){t+=q*r;d++}
-    $("ht"+x).textContent=ok?money(q*r):"—";$("hf"+x).textContent=ok?`${e.q} ${e.u} × ₹${e.r}`:(q>0?"रेट डालो":"मात्रा भरो");
-    $("hr"+x).className="hrow "+(ok?"isdone":e.cq===null?"ismiss":"");$("hrl"+x).textContent=`1 ${e.u} का ₹`;
-    const qi=$("hq"+x);qi.classList.toggle("need",e.cq===null&&!(q>0)&&!qi.readOnly)});
-  $("hTotal").textContent=money(t);$("hSub").textContent=`${d} / ${H.rows.length} सामान पूरे`;
+    $("ht"+x).textContent=ok?money(q*r):"";
+    $("hf"+x).textContent=ok?`${e.q} ${e.u} × ₹${e.r} =`:(q>0?"👉 दाम लिखो":"👉 + दबाकर मात्रा बताओ");
+    $("hr"+x).className="brow "+(ok?"isdone":e.cq===null&&!(q>0)?"ismiss":"")});
+  $("hTotal").textContent="कुल "+money(t);$("hSub").textContent=`${H.rows.length} में से ${d} सामान पूरे`;
   const w=$("hWa");if(w)w.href="https://wa.me/?text="+encodeURIComponent(hMsg());
 }
-$("hOut").addEventListener("input",e=>{const t=e.target,f=t.dataset.hf;if(!f||state.role!=="buy")return;const r=H.rows[+t.dataset.hx];
-  if(f==="u")r.u=t.value;else{const v=t.value.replace(/[^0-9.]/g,"");if(v!==t.value)t.value=v;r[f]=v}updH()});
-$("hOut").addEventListener("click",e=>{if(e.target.id==="hAdd"){forDate=hDate;state.picked={};state.pickedFor=forDate;save();prefill=true;loadDay(forDate);show("cats")}});
+$("hOut").addEventListener("input",e=>{const t=e.target,f=t.dataset.hf;if(!f||!state.role)return;const r=H.rows[+t.dataset.hx];
+  const v=t.value.replace(/[^0-9.]/g,"");if(v!==t.value)t.value=v;r[f]=fmt(v)?v:"";updH()});
+$("hOut").addEventListener("click",e=>{const sb=e.target.closest(".hst");
+  if(sb){const x=+sb.dataset.hx,r=H.rows[x];const nv=Math.max(0,Math.round(((parseFloat(r.q)||0)+(+sb.dataset.hstep))*100)/100);r.q=fmt(nv);$("hq"+x).value=r.q;updH();return}
+  if(e.target.id==="hAdd"){forDate=hDate;state.picked={};state.pickedFor=forDate;save();prefill=true;loadDay(forDate);show("cats")}});
 $("hdchips").addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b){hDate=b.dataset.d;loadH()}});
 $("hSave").addEventListener("click",async e=>{const b=e.currentTarget;
   const left=H.rows.filter(x=>!(parseFloat(x.q)>0&&parseFloat(x.r)>0)).length;b.disabled=true;
@@ -869,7 +898,7 @@ $("toReview").addEventListener("click",()=>show("review"));
 document.addEventListener("click",e=>{
   if(e.target.closest("[data-back]")){goBack();return}
   if(e.target.closest("[data-home]")){if(!$("qsheet").hidden)closeQty();show("start");return}
-  const sb=e.target.closest(".st");
+  const sb=e.target.closest(".st:not(.hst)");
   if(sb){const it=byId(sb.dataset.id);const cur=parseFloat(state.picked[it.id])||0;const nv=Math.max(0,Math.round((cur+(+sb.dataset.step)*it.step)*100)/100);$("q"+it.id).value=fmt(nv);setQty(it.id,nv);return}
   const pk=e.target.closest(".pick");if(pk){openQty(+pk.dataset.id);return}
   const x=e.target.closest(".x[data-x]");if(x){delete state.picked[x.dataset.x];save();renderReview();renderBar()}
