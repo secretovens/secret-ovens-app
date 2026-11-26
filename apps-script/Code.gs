@@ -383,7 +383,7 @@ function exportXls_(from, to) {
   const pTo = S(new Date(D(from).getTime() - 864e5)), pFrom = S(new Date(D(from).getTime() - nDays * 864e5));
   const amt = function (x) { return String(x.u) === "ग्राम" ? x.q * x.r / 1000 : x.q * x.r; };
   const ok = function (x) { return !x.na && x.q > 0 && x.r > 0; };
-  const special = function (c) { return c === "एकमुश्त" || c === "अन्य खर्च"; };
+  const special = function (c) { return c === "एकमुश्त" || c === "अन्य खर्च" || c === "स्टाफ़ सब्ज़ी"; };
   const cur = readBuys_(function (d) { return d >= from && d <= to; }).filter(ok);
   const prev = readBuys_(function (d) { return d >= pFrom && d <= pTo; }).filter(ok);
   const shopOf = {}; readItems_().forEach(function (i) { shopOf[i.n] = i.shop; });
@@ -431,7 +431,7 @@ function exportXls_(from, to) {
     ["हाल", "=IF(B9>0,IF(B10<0,\"🔴 घाटा\",IF(B10>0.8,\"सारी खरीद भरी है? जाँचें\",IF(B10>=0.68,\"✅ अच्छी (68% या ज़्यादा)\",IF(B10>=0.65,\"⚠ ध्यान दें (65–68%)\",\"❌ कम है – सामान महँगा या दाम कम\")))),\"\")"],
     ["बचत (₹) = बिक्री − खरीद", "=IF(B9>0,B9-B4,\"\")"],
     ["", ""],
-    ["एकमुश्त / अन्य खर्च (₹)", r2(specials.reduce(function (s, e) { return s + e.t; }, 0))]
+    ["एकमुश्त / अन्य खर्च / स्टाफ़ सब्ज़ी (₹)", r2(specials.reduce(function (s, e) { return s + e.t; }, 0))]
   ];
   s1.getRange(4, 1, rows.length, 2).setValues(rows);
   s1.getRange("A4:A14").setFontWeight("bold");

@@ -331,6 +331,16 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
 .drow .v{text-align:right;font-family:var(--f-head);font-weight:700;min-width:76px;white-space:nowrap}.drow .v small{display:block;font-family:var(--f-body);font-size:11px;color:var(--muted);font-weight:500}
 .cbar .t small.sl{display:block;font-size:11px;color:var(--muted);font-weight:500}
 #sales .dpick{margin-top:10px}
+.staffbox{margin-top:14px;background:var(--surface);border-radius:18px;box-shadow:inset 0 0 0 1.5px var(--line);padding:14px}
+.staffbox label{display:flex;gap:12px;align-items:center;margin-bottom:10px}
+.staffbox .sic{width:48px;height:48px;border-radius:14px;background:color-mix(in srgb,#4f7a3f 16%,transparent);display:grid;place-items:center;font-size:26px;flex:none}
+.staffbox b{display:block;font-size:19px}.staffbox small{display:block;font-size:14px;color:var(--muted);line-height:1.3}
+.staffbox textarea,.staffrev textarea{width:100%;box-sizing:border-box;border:0;border-radius:12px;box-shadow:inset 0 0 0 1.5px var(--line);padding:12px;font:inherit;font-size:18px;line-height:1.4;resize:vertical;background:var(--bg);color:var(--fg)}
+.staffbox textarea:focus,.staffrev textarea:focus{outline:none;box-shadow:inset 0 0 0 2px #4f7a3f}
+.staffrev{padding:10px 14px 14px}
+.sask{margin:0;padding:8px 14px;border-top:1px solid var(--line);font-size:16px;line-height:1.4}
+.sfrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px 14px;border-top:1px solid var(--line);font-weight:700}
+.sfrow .price{width:150px}
 /* ----- landing ----- */
 .landing{display:flex;flex-direction:column;gap:12px}
 .lhead{margin-bottom:4px}
@@ -453,10 +463,11 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
     </div>
     <button class="go" id="go"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/><path d="M3 4h2l2.4 11h11l2-8H6.2"/></svg> लिस्ट बनाओ <span aria-hidden="true">→</span></button>
     <div class="menu" id="roleMenu" hidden>
+<button class="mcard" id="toCombined" hidden><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/></svg></span><span class="mt"><b>सबकी कुल लिस्ट</b><small>सबकी लिस्ट मिलाकर · WhatsApp पर भेजें</small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
       <button class="mcard" id="toHisab"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span><span class="mt"><b><span id="hisabT">बाज़ार का हिसाब</span></b><small><span id="hisabSub">लाया हुआ सामान और दाम लिखें</span></small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
       <div class="menu" id="ownGrid">
         <button class="mcard hot" id="toSales"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 5h10M7 9h10M12 9c0 4-3 5-5 5l7 6"/><path d="M12 5c2.5 0 4 1.5 4 4"/></svg></span><span class="mt"><b>आज की बिक्री</b><small id="salesSub">काउंटर, UPI, Zomato, Swiggy</small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
-        <button class="mcard" id="toCombined"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/></svg></span><span class="mt"><b>सबकी कुल लिस्ट</b><small>सबकी लिस्ट मिलाकर · WhatsApp पर भेजें</small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
+        
         <button class="mcard" id="toReport"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><rect x="6" y="11" width="3" height="7"/><rect x="11" y="7" width="3" height="11"/><rect x="16" y="13" width="3" height="5"/></svg></span><span class="mt"><b>हफ़्ते / महीने का हिसाब</b><small>कितना सामान आया, कितने का</small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
       </div>
       <div class="minis"><a class="linkbtn" id="toSheet" target="_blank" rel="noopener" href="#">Google Sheet खोलें ↗</a><button type="button" class="linkbtn" id="adminLink">इस फ़ोन से लॉग-आउट करें</button></div>
@@ -473,7 +484,7 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
       <button type="button" class="btn gold" id="apinGo">खोलो</button>
       <span class="aerr" id="apinErr" hidden>कोड गलत है</span>
     </div>
-    <p class="ver">ऐप वर्ज़न 12.3 (बीटा)</p>
+    <p class="ver">ऐप वर्ज़न 12.4 (बीटा)</p>
     
   </div>
 </section>
@@ -487,6 +498,10 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
   <div class="wrap">
     <p class="status" id="dayStatus"></p>
     <div class="cats" id="catGrid"></div>
+    <div class="staffbox">
+      <label for="staffTxt"><span class="sic">🍲</span><span><b>स्टाफ़ की सब्ज़ी</b><small>स्टाफ़ के खाने के लिए जो चाहिए, यहाँ खुद लिखें</small></span></label>
+      <textarea id="staffTxt" data-staff rows="3" placeholder="जैसे: लौकी 1 kg, भिंडी आधा kg, आलू 2 kg"></textarea>
+    </div>
   </div>
 </section>
 
@@ -675,11 +690,13 @@ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;"
 const $=id=>document.getElementById(id);
 const catIdx=name=>{const i=CATS.findIndex(c=>c[0]===name);return i<0?99:i};
 const itemIdx=name=>byName[name]?byName[name].id:9999;
-const catColor=name=>(CATS.find(c=>c[0]===name)||[0,"#777"])[1];
+const STAFF_C="स्टाफ़ सब्ज़ी",STAFF_N="स्टाफ़ की सब्ज़ी",STAFF_P=STAFF_N+": ";
+const staffTxt=()=>String(state.staff||"").trim();
+const catColor=name=>name===STAFF_C?"#4f7a3f":(CATS.find(c=>c[0]===name)||[0,"#777"])[1];
 
 /* ---------- saved on this phone ---------- */
 const KEY="so-v5";
-let state={picked:{},pickedFor:"",who:"",names:[],dev:"",admin:false,role:"",code:"",codes:{},sheet:""};
+let state={picked:{},staff:"",pickedFor:"",who:"",names:[],dev:"",admin:false,role:"",code:"",codes:{},sheet:""};
 try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.picked)state=Object.assign(state,s)}catch(e){}
 if(!state.dev)state.dev=Math.random().toString(36).slice(2,8);
 if(!state.codes||typeof state.codes!=="object")state.codes={};
@@ -786,13 +803,13 @@ function dateChips(el,sel){
 function renderStart(){
   $("helloName").textContent=state.who;
   state.admin=state.role==="own";
-  $("roleRow").hidden=!!state.role;$("roleMenu").hidden=!state.role;$("adminBox").hidden=true;$("ownGrid").hidden=state.role!=="own";
+  $("roleRow").hidden=!!state.role;$("roleMenu").hidden=!state.role;$("adminBox").hidden=true;$("ownGrid").hidden=state.role!=="own";$("toCombined").hidden=state.role!=="own";
   $("toSheet").hidden=!(state.sheet&&state.role==="own");if(state.sheet)$("toSheet").href=state.sheet;
   const r=state.role;
   const isBO=r==="buy"||r==="own";
   $("listHero").hidden=$("dateBox").hidden=$("go").hidden=r!=="chef";$("roleHero").hidden=!isBO;
   $("roleMenu").hidden=!isBO;$("roleRow").hidden=!!r;
-  {const d=new Date();$("lDate").textContent=`${DAY[d.getDay()]}, ${d.getDate()} ${MON[d.getMonth()]}`}$("ownGrid").hidden=r!=="own";$("toHome").hidden=!r;$("adminBox").hidden=true;
+  {const d=new Date();$("lDate").textContent=`${DAY[d.getDay()]}, ${d.getDate()} ${MON[d.getMonth()]}`}$("ownGrid").hidden=r!=="own";$("toCombined").hidden=r!=="own";$("toHome").hidden=!r;$("adminBox").hidden=true;
   $("roleChip").hidden=!r;$("roleChip").textContent=ROLE_NAME[r]||"";
   $("ownSnap").hidden=r!=="own";if(r==="own")ownSnap();
   if(r){$("roleH1").textContent=r==="own"?"मालिक":"खरीदार";$("roleP").textContent=r==="own"?"हिसाब, कुल लिस्ट और पूरा रिकॉर्ड":"बाज़ार से लाया सामान और उसका दाम लिखें"}
@@ -818,8 +835,8 @@ async function loadDay(date){
   if(prefill&&day.subs){
     prefill=false;
     const mine=day.subs.find(isMine);
-    if(mine&&!Object.keys(state.picked).length){
-      mine.items.forEach(x=>{const it=byName[x.n];if(it)state.picked[it.id]=x.q===null?"":String(x.q)});
+    if(mine&&!Object.keys(state.picked).length&&!staffTxt()){
+      mine.items.forEach(x=>{if(x.c===STAFF_C){state.staff=String(x.n).replace(STAFF_P,"");return}const it=byName[x.n];if(it)state.picked[it.id]=x.q===null?"":String(x.q)});
       save();toast("आपकी पहले भेजी लिस्ट खुल गई है");
     }
   }
@@ -842,6 +859,7 @@ function renderCats(){
   else if(day.error)st=`⚠️ ${day.error}`;
   else if(day.subs&&state.admin){const o=day.subs.filter(s=>!isMine(s)).length;st=o?`इस दिन के लिए <b>${o} लिस्ट</b> पहले आ चुकी हैं। आपका सामान उसमें जुड़ जाएगा।`:"इस दिन के लिए अभी कोई और लिस्ट नहीं आई।"}
   $("dayStatus").innerHTML=st;
+  if(document.activeElement!==$("staffTxt"))$("staffTxt").value=state.staff||"";
   $("catGrid").innerHTML=CATS.map(([cat,c,ic,,list],ci)=>{const k=picked().filter(it=>it.ci===ci).length;
     return `<button type="button" class="cat" style="--c:${c}" data-ci="${ci}">${k?`<span class="badge">${k}</span>`:""}<span class="ic" aria-hidden="true">${CAT_ICON[cat]||ic}</span><span><span class="nm">${cat}</span><span class="ct">${list.length} सामान</span></span></button>`}).join("");
 }
@@ -853,9 +871,9 @@ function renderItems(){
     return `<div class="tile${on?" on":""}" style="--c:${c}"><button type="button" class="pick" data-id="${it.id}" aria-pressed="${on}">${thumb(it.name,it.ci)}<span class="t">${esc(it.name)}<small>${on&&q?`<b class="qchip">${q} ${it.u}</b>`:on?`<b class="qchip">चुना</b>`:it.u}</small>${o?`<small class="othr">पहले से: ${esc(othersText(o))}</small>`:""}</span><span class="tick">✓</span></button></div>`}).join("");
 }
 function renderBar(){
-  const p=picked(),k=p.length,noQty=p.filter(it=>!fmt(state.picked[it.id])).length;
+  const p=picked(),st=staffTxt()?1:0,k=p.length+st,noQty=p.filter(it=>!fmt(state.picked[it.id])).length;
   $("cnt").textContent=k+" सामान चुने";
-  $("cntSub").textContent=!k?"सामान पर टैप करें":noQty?`${noQty} बिना मात्रा के`:"सबकी मात्रा भरी है";
+  $("cntSub").textContent=!k?"सामान पर टैप करें":noQty?`${noQty} बिना मात्रा के`:(st&&!p.length?"स्टाफ़ की सब्ज़ी लिखी है":"सबकी मात्रा भरी है");
   $("toReview").disabled=!k;
 }
 
@@ -897,11 +915,12 @@ function renderReview(){
   const p=picked();
   $("subErr").hidden=true;$("confirm").hidden=true;
   const mine=day.subs&&day.date===forDate&&day.subs.find(isMine);
-  if(!p.length){
+  const stx=staffTxt();
+  if(!p.length&&!stx){
     $("reviewList").innerHTML=`<p class="empty">कोई सामान नहीं चुना।</p>`;$("sendbox").hidden=true;$("withdrawBox").hidden=!mine;return;
   }
   $("sendbox").hidden=false;$("withdrawBox").hidden=true;
-  $("reviewList").innerHTML=(mine?`<p class="status">आप इस दिन की लिस्ट पहले भी भेज चुके हो। अब भेजने पर पुरानी की जगह यह नई लिस्ट रहेगी।</p>`:"")+CATS.map(([cat,c],ci)=>{const its=p.filter(it=>it.ci===ci);if(!its.length)return"";
+  $("reviewList").innerHTML=(stx?`<div class="group" style="--c:${catColor(STAFF_C)}"><h3><i></i>🍲 ${STAFF_N}</h3><div class="staffrev"><textarea data-staff rows="3" aria-label="${STAFF_N}">${esc(state.staff)}</textarea></div></div>`:"")+(mine?`<p class="status">आप इस दिन की लिस्ट पहले भी भेज चुके हो। अब भेजने पर पुरानी की जगह यह नई लिस्ट रहेगी।</p>`:"")+CATS.map(([cat,c],ci)=>{const its=p.filter(it=>it.ci===ci);if(!its.length)return"";
     return `<div class="group" style="--c:${c}"><h3><i></i>${cat}</h3>${its.map(it=>`<div class="rrow"><span class="t">${esc(it.name)}${fmt(state.picked[it.id])?"":`<span class="warn">मात्रा नहीं भरी</span>`}</span>${stepper(it)}<button type="button" class="x" data-x="${it.id}" aria-label="हटाएं">×</button></div>`).join("")}</div>`}).join("");
 }
 function setQty(id,v){
@@ -914,18 +933,19 @@ async function submit(items,btn){
   const txt=btn.textContent;btn.disabled=true;btn.textContent="भेज रहे हैं…";$("subErr").hidden=true;
   try{
     const r=await send({action:"submit",date:forDate,dev:state.dev,who:state.who||"",items});
-    state.picked={};state.pickedFor="";save();
+    state.picked={};state.staff="";state.pickedFor="";save();
     $("doneTxt").textContent=(items.length?`${hiDate(forDate)} के लिए ${items.length} सामान भेजे गए। धन्यवाद!`:`${hiDate(forDate)} की आपकी लिस्ट हटा दी गई।`)+(r&&r.queued?" (इंटरनेट नहीं है — लिस्ट फ़ोन में रुकी है, इंटरनेट आते ही अपने-आप चली जाएगी।)":"");
     day.date="";$("doneCombined").hidden=!state.admin;show("done");
   }catch(e){$("subErr").textContent="लिस्ट नहीं गई। "+errText(e)+" फिर से “लिस्ट भेजो” दबाओ।";$("subErr").hidden=false;if(btn.id==="withdraw"){$("sendbox").hidden=false}}
   finally{btn.disabled=false;btn.textContent=txt}
 }
-$("submit").addEventListener("click",e=>submit(picked().map(it=>({c:CATS[it.ci][0],n:it.name,u:it.u,q:fmt(state.picked[it.id])?+fmt(state.picked[it.id]):null})),e.currentTarget));
+$("submit").addEventListener("click",e=>submit(picked().map(it=>({c:CATS[it.ci][0],n:it.name,u:it.u,q:fmt(state.picked[it.id])?+fmt(state.picked[it.id]):null})).concat(staffTxt()?[{c:STAFF_C,n:STAFF_P+staffTxt().replace(/\s+/g," "),u:"",q:null}]:[]),e.currentTarget));
 $("withdraw").addEventListener("click",e=>submit([],e.currentTarget));
 $("addMore").addEventListener("click",()=>show("cats"));
+document.addEventListener("input",e=>{if(e.target.matches&&e.target.matches("[data-staff]")){state.staff=e.target.value;state.pickedFor=forDate;save();renderBar()}});
 $("clear").addEventListener("click",()=>$("confirm").hidden=false);
 $("no").addEventListener("click",()=>$("confirm").hidden=true);
-$("yes").addEventListener("click",()=>{state.picked={};save();renderReview();renderBar()});
+$("yes").addEventListener("click",()=>{state.picked={};state.staff="";save();renderReview();renderBar()});
 $("doneHome").addEventListener("click",()=>show("start"));
 $("doneCombined").addEventListener("click",()=>{cDate=forDate;show("combined")});
 
@@ -999,7 +1019,7 @@ function repItems(){
   return Object.values(map).map(e=>({...e,avg:e.q>0?(e.u==="ग्राम"?e.t*1000/e.q:e.t/e.q):0}))
     .sort((a,b)=>catIdx(a.c)-catIdx(b.c)||itemIdx(a.n)-itemIdx(b.n)||a.n.localeCompare(b.n));
 }
-const special=c=>c==="एकमुश्त"||c==="अन्य खर्च";
+const special=c=>c==="एकमुश्त"||c==="अन्य खर्च"||c===STAFF_C;
 const qtyTxt=e=>special(e.c)?`${e.n2} बार`:`${fmt(e.q)} ${e.u} आया`;
 const avgTxt=e=>special(e.c)||!e.avg?"":`औसत ${rateUnit(e.u)} = ₹${r2(e.avg)}`;
 function repMessage(items,all){
@@ -1052,13 +1072,16 @@ $("repOut").addEventListener("click",async e=>{const b=e.target.closest("button"
 let hDate=TODAY,H={date:"",rows:null,loading:false,error:""};
 const money=v=>"₹"+Math.round(v).toLocaleString("en-IN");
 async function loadH(){
-  const date=hDate;H={date,rows:null,loading:true,error:"",given:"",photos:[],last:{},extra:[],lump:""};renderH();
+  const date=hDate;H={date,rows:null,loading:true,error:"",given:"",photos:[],last:{},extra:[],lump:"",staff:"",staffAsk:[]};renderH();
   try{const j=await api(null,{action:"hisab",date,code:state.codes[state.role]||""});if(H.date!==date)return;
     const saved={};(j.buys||[]).forEach(x=>saved[x.n]=x);
     const qd=QUEUE.find(x=>x.body.action==="buy"&&x.body.date===date);
     if(qd)qd.body.rows.forEach(x=>saved[x.n]=x);
     const mk=(n,c,u,cq,s)=>({n,c,u,cq,step:buyStep(n,u),shop:(byName[n]&&byName[n].shop)||"",na:!!(s&&s.na),q:s?(s.na?buyMin(n,u):String(s.q)):(cq!==null?String(cq):buyMin(n,u)),r:s&&!s.na?String(s.r):"",t:s&&!s.na&&s.q>0&&s.r>0?String(Math.round(amt(u,+s.q,+s.r)*100)/100):""});
     {const lp=Object.values(saved).find(x=>x.c==="एकमुश्त");H.lump=lp?String(lp.r):"";Object.keys(saved).forEach(k=>{if(saved[k].c==="एकमुश्त")delete saved[k]})}
+    {const sv=saved[STAFF_N];H.staff=sv?String(sv.r):"";delete saved[STAFF_N]}
+    H.staffAsk=[];(j.subs||[]).forEach(s=>s.items.forEach(x=>{if(x.c===STAFF_C)H.staffAsk.push({w:label(s),t:String(x.n).replace(STAFF_P,"")})}));
+    j.subs=(j.subs||[]).map(s=>Object.assign({},s,{items:s.items.filter(x=>x.c!==STAFF_C)}));
     H.extra=Object.values(saved).filter(x=>x.c==="अन्य खर्च").map(x=>({t:x.n.replace(/^अन्य खर्च:\s*/,""),a:String(x.r)}));
     Object.keys(saved).forEach(k=>{if(saved[k].c==="अन्य खर्च")delete saved[k]});
     H.rows=aggregate(j.subs||[]).map(e=>{const s=saved[e.n];return mk(e.n,e.c,s?s.u:e.u,e.hasQ?e.q:null,s)});
@@ -1101,6 +1124,9 @@ function renderH(){
     <div class="bcol"><label class="bl" for="hr_${x}">कुल कितने का आया</label><div class="price"><span>₹</span><input id="hr_${x}" data-hx="${x}" data-hf="t" type="number" inputmode="decimal" min="0" placeholder="0" value="${esc(e.t)}"></div></div>
    </div>
    <div class="bt"><button type="button" class="na" data-na="${x}" aria-pressed="${e.na}">नहीं मिला</button><span class="bf"><span id="hl${x}" class="last">${l?`पिछली बार ₹${l.r}/${esc(l.u||e.u)}`:""}</span><span id="hf${x}"></span></span><b id="ht${x}">—</b></div></div>`});
+  if(H.staffAsk.length||H.staff)h+=`<div class="group xg" style="--c:${catColor(STAFF_C)}"><h3>🍲 ${STAFF_N}<span class="gc">एक साथ कुल रकम</span></h3>
+    ${H.staffAsk.map(a=>`<p class="sask"><b>${esc(a.w)}:</b> ${esc(a.t)}</p>`).join("")}
+    <div class="sfrow"><span>कुल कितने की आई</span><div class="price"><span>₹</span><input id="hStaff" type="number" inputmode="decimal" min="0" placeholder="0" value="${esc(H.staff)}" aria-label="${STAFF_N} की कुल रकम"></div></div></div>`;
   h+=`<div class="group xg"><h3>अन्य खर्च<span class="gc">ऑटो, मज़दूरी, कुछ और</span></h3><div id="xList">${xRows()}</div>
     <button type="button" class="btn ghost xadd" id="xAdd">+ अन्य खर्च जोड़ें</button></div>`;
   h+=`<div class="sendbox"><a class="btn wa" id="hWa" target="_blank" rel="noopener" href="#">बिल WhatsApp पर भेजें</a><button class="btn ghost wide" id="hAdd">+ लिस्ट में और सामान जोड़ें</button></div>`;
@@ -1112,6 +1138,7 @@ function xRows(){return (H.extra||[]).map((x,i)=>`<div class="xrow"><input class
 const xSum=()=>(H.extra||[]).reduce((a,x)=>a+(parseFloat(x.a)||0),0);
 function hMsg(){let m=`*${brandName()} – बाज़ार बिल*\n📅 ${hiDate(hDate)}\n`;let t=0;
   H.rows.forEach(e=>{const q=parseFloat(e.q),r=parseFloat(e.r);if(e.na){m+=`• ${e.n}: ❌ नहीं मिला\n`;return}const tt=parseFloat(e.t);if(q>0&&tt>0){t+=tt;m+=`• ${e.n}: ${e.q} ${e.u} = ${money(tt)} (${rateUnit(e.u)} ₹${r2(r)})\n`}else m+=`• ${e.n}: ❗ ${q>0?"रेट":"मात्रा"} बाकी\n`});
+  {const sv=parseFloat(H.staff)||0;if(sv){t+=sv;m+=`• ${STAFF_N} = ${money(sv)}\n`}}
   {const lp=parseFloat(H.lump)||0;if(lp){t+=lp;m+=`• पूरे दिन की रकम (बिना लिस्ट) = ${money(lp)}\n`}}
   (H.extra||[]).forEach(x=>{const a=parseFloat(x.a)||0;if(a){t+=a;m+=`• अन्य: ${x.t||"खर्च"} = ${money(a)}\n`}});
   return m+`\n*कुल: ${money(t)}*`}
@@ -1125,12 +1152,13 @@ function updH(){let t=0,d=0;
     const f=$("hf"+x);f.textContent=hint;f.className=cls;
     $("ht"+x).textContent=e.na?"नहीं मिला":ok?money(tt):""});
   const na=H.rows.filter(e=>e.na).length;
-  t+=xSum();const lump=parseFloat(H.lump)||0;t+=lump;
+  t+=xSum();const lump=parseFloat(H.lump)||0;t+=lump;t+=parseFloat(H.staff)||0;
   $("hSpent").textContent=money(t);$("hCount").textContent=(H.rows.length?`${d-na} सामान आया`+(na?` · ${na} नहीं मिला`:"")+(H.rows.length-d?` · ${H.rows.length-d} बाकी`:""):"बिना लिस्ट")+(lump?` · पूरे दिन की रकम ${money(lump)}`:"");
   $("hTotal").textContent="कुल "+money(t);$("hSub").textContent=H.rows.length?`${H.rows.length} में से ${d} सामान पूरे`:"पूरे दिन की रकम";
   const w=$("hWa");if(w)w.href="https://wa.me/?text="+encodeURIComponent(hMsg());
 }
 $("hOut").addEventListener("input",e=>{const t=e.target;
+  if(t.id==="hStaff"){const v=t.value.replace(/[^0-9.]/g,"");if(v!==t.value)t.value=v;H.staff=v;updH();return}
   if(t.id==="hLump"){const v=t.value.replace(/[^0-9.]/g,"");if(v!==t.value)t.value=v;H.lump=v;updH();return}
   if(t.dataset.xf){const x=H.extra[+t.dataset.xi];if(t.dataset.xf==="a"){const v=t.value.replace(/[^0-9.]/g,"");if(v!==t.value)t.value=v;x.a=v}else x.t=t.value.slice(0,60);updH();return}
   const f=t.dataset.hf;if(!f||!state.role)return;const r=H.rows[+t.dataset.hx];
@@ -1141,7 +1169,7 @@ $("hOut").addEventListener("click",e=>{const sb=e.target.closest(".hst");
   if(e.target.id==="hRetry"){loadH();return}
   if(e.target.id==="xAdd"){H.extra=H.extra||[];H.extra.push({t:"",a:""});$("xList").innerHTML=xRows();const ins=$("xList").querySelectorAll(".xt");ins[ins.length-1].focus();return}
   const xd=e.target.closest("[data-xdel]");if(xd){H.extra.splice(+xd.dataset.xdel,1);$("xList").innerHTML=xRows();updH();return}
-  if(e.target.id==="hAdd"){forDate=hDate;state.picked={};state.pickedFor=forDate;save();prefill=true;loadDay(forDate);show("cats")}});
+  if(e.target.id==="hAdd"){forDate=hDate;state.picked={};state.staff="";state.pickedFor=forDate;save();prefill=true;loadDay(forDate);show("cats")}});
 $("hdchips").addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b){hDate=b.dataset.d;loadH()}});
 $("hdate").addEventListener("change",e=>{if(e.target.value){hDate=e.target.value;loadH()}});
 function shrink(file,mx){return new Promise((ok,bad)=>{const img=new Image(),u=URL.createObjectURL(file);
@@ -1155,8 +1183,8 @@ $("hOut").addEventListener("change",async e=>{if(e.target.id!=="hPhoto"||!e.targ
   catch(err){st.textContent="फ़ोटो नहीं गई — "+errText(err)}e.target.value=""});
 $("hSave").addEventListener("click",async e=>{const b=e.currentTarget;
   const left=H.rows.filter(x=>!x.na&&!(parseFloat(x.q)>0&&parseFloat(x.r)>0)).length;
-  if(!H.rows.length&&!(parseFloat(H.lump)>0)&&!xSum()){toast("पहले रकम लिखें");return}b.disabled=true;b.textContent="सेव हो रहा है…";
-  try{const r=await send({action:"buy",date:hDate,who:state.who,code:state.codes[state.role]||"",given:0,rows:H.rows.map(x=>({n:x.n,c:x.c,u:x.u,cq:x.cq,na:!!x.na,q:+x.q||0,r:+x.r||0})).concat(parseFloat(H.lump)>0?[{n:"पूरे दिन का सामान (एकमुश्त)",c:"एकमुश्त",u:"₹",cq:null,na:false,q:1,r:+H.lump}]:[]).concat((H.extra||[]).filter(x=>parseFloat(x.a)>0).map(x=>({n:"अन्य खर्च: "+(x.t||"खर्च"),c:"अन्य खर्च",u:"₹",cq:null,na:false,q:1,r:+x.a})))});
+  if(!H.rows.length&&!(parseFloat(H.lump)>0)&&!xSum()&&!(parseFloat(H.staff)>0)){toast("पहले रकम लिखें");return}b.disabled=true;b.textContent="सेव हो रहा है…";
+  try{const r=await send({action:"buy",date:hDate,who:state.who,code:state.codes[state.role]||"",given:0,rows:H.rows.map(x=>({n:x.n,c:x.c,u:x.u,cq:x.cq,na:!!x.na,q:+x.q||0,r:+x.r||0})).concat(parseFloat(H.staff)>0?[{n:STAFF_N,c:STAFF_C,u:"₹",cq:null,na:false,q:1,r:+H.staff}]:[]).concat(parseFloat(H.lump)>0?[{n:"पूरे दिन का सामान (एकमुश्त)",c:"एकमुश्त",u:"₹",cq:null,na:false,q:1,r:+H.lump}]:[]).concat((H.extra||[]).filter(x=>parseFloat(x.a)>0).map(x=>({n:"अन्य खर्च: "+(x.t||"खर्च"),c:"अन्य खर्च",u:"₹",cq:null,na:false,q:1,r:+x.a})))});
     toast(r.queued?"इंटरनेट नहीं — हिसाब फ़ोन में रुका है, इंटरनेट आते ही Sheet में चला जाएगा":left?`Sheet में सेव ✓ (${left} सामान बाकी)`:"पूरा हिसाब Sheet में सेव ✓")}
   catch(err){toast("सेव नहीं हुआ — "+errText(err));if(err.message==="code"){delete state.codes[state.role];state.role="";save();show("start")}}
   finally{b.disabled=false;b.textContent="सेव करें"}});
@@ -1286,7 +1314,7 @@ function copy(m){
 $("dchips").addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b){forDate=b.dataset.d;renderStart()}});
 $("fordate").addEventListener("change",e=>{if(e.target.value){forDate=e.target.value;renderStart()}});
 $("go").addEventListener("click",()=>{
-  if(state.pickedFor!==forDate){state.picked={};state.pickedFor=forDate}
+  if(state.pickedFor!==forDate){state.picked={};state.staff="";state.pickedFor=forDate}
   save();prefill=true;loadDay(forDate);show("cats");
 });
 $("toCombined").addEventListener("click",()=>{cDate=forDate;pinAsk=null;show("combined")});
@@ -1306,7 +1334,7 @@ document.addEventListener("input",e=>{const id=e.target.dataset&&e.target.datase
 $("loginGo").addEventListener("click",()=>{
   const w=$("lname").value.trim();
   if(!w){$("lerr").hidden=false;$("lname").focus();return}
-  if(w!==state.who){state.picked={};state.pickedFor=""}
+  if(w!==state.who){state.picked={};state.staff="";state.pickedFor=""}
   state.who=w;save();show("start");
 });
 $("lname").addEventListener("keydown",e=>{if(e.key==="Enter")$("loginGo").click()});
