@@ -262,7 +262,7 @@ function doPost(e) {
       deleteDateRows_(cs, b.date);
       const given = Number(b.given) || 0;
       spent = Math.round(spent * 100) / 100;
-      cs.appendRow(["'" + b.date, String(b.who || ""), given, spent, Math.round((given - spent) * 100) / 100, now, old ? old.photo : ""]);
+      cs.appendRow(["'" + b.date, String(b.who || ""), given > 0 ? given : "", spent, given > 0 ? Math.round((given - spent) * 100) / 100 : "", now, old ? old.photo : ""]);
       return json_({ ok: true, saved: data.length, spent: spent });
     }
 
