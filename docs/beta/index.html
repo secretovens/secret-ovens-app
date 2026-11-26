@@ -304,6 +304,7 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
       <button class="ledger full" id="toHisab">🧾 बाज़ार हिसाब</button>
       <button class="ledger" id="toCombined">📋 सबकी कुल लिस्ट</button>
       <button class="ledger" id="toReport">📒 हफ़्ते / महीने का हिसाब</button>
+      <a class="ledger full" id="toSheet" target="_blank" rel="noopener" href="#" style="text-align:center;text-decoration:none" hidden>📊 Google Sheet खोलें <span>(डाउनलोड / बैलेंस शीट)</span></a>
     </div>
     <div class="adminbox" id="adminBox" hidden>
       <label for="apin" id="apinLbl">कोड डालें</label>
@@ -440,7 +441,7 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
 
 <script>
 const API=String(window.SO_API||"").trim();
-const CODES={buy:"2580",own:"9999"};/* असली ऐप में ये Google Sheet में रहेंगे और मालिक बदल सकेगा */
+/* लॉगिन कोड Google Sheet के "Codes" टैब में हैं */
 const ROLE_NAME={buy:"खरीदार",own:"मालिक"};
 const UNITS=["kg","पैकेट","पीस","लीटर","गड्डी","बोतल","दर्जन"];
 const DEMO=false;
@@ -469,7 +470,7 @@ const catColor=name=>(CATS.find(c=>c[0]===name)||[0,"#777"])[1];
 
 /* ---------- saved on this phone ---------- */
 const KEY="so-v5";
-let state={picked:{},pickedFor:"",who:"",names:[],dev:"",admin:false,role:""};
+let state={picked:{},pickedFor:"",who:"",names:[],dev:"",admin:false,role:"",code:"",sheet:""};
 try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.picked)state=Object.assign(state,s)}catch(e){}
 if(!state.dev)state.dev=Math.random().toString(36).slice(2,8);
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}};
@@ -505,10 +506,6 @@ const DB={subs:{},buys:{}};
     DB.subs[d]=[mk("राजू","d1",names.map(n=>[n,n==="पनीर"?null:Q[n]])).valueOf()].map(s=>Object.assign({d},s));
     DB.buys[d]=names.map(n=>{const it=byName[n];return {n,c:CATS[it.ci][0],u:it.u,q:Q[n],r:R[n][6-k]}})}
 }:function(){})();
-/* खरीदार के रेट — अभी इसी फ़ोन में (Google Sheet से जोड़ना अगला कदम) */
-const BKEY="so-buys-v1";
-const LB=(()=>{try{return JSON.parse(localStorage.getItem(BKEY)||"{}")||{}}catch(e){return {}}})();
-const saveLB=()=>{try{localStorage.setItem(BKEY,JSON.stringify(LB))}catch(e){}};
 async function demoApi(p,b){
   await new Promise(r=>setTimeout(r,250));
   if(b&&b.action==="submit"){const l=(DB.subs[b.date]||[]).filter(s=>!(s.dev===b.dev&&s.who===b.who));if(b.items.length)l.push({d:b.date,dev:b.dev,who:b.who,at:Date.now(),items:b.items});DB.subs[b.date]=l;return{ok:true}}
@@ -520,7 +517,6 @@ async function demoApi(p,b){
 }
 async function api(params,body){
   if(DEMO)return demoApi(params||{},body);
-  if(body&&body.action==="buy"){LB[body.date]=body.rows;saveLB();return{ok:true}}
   if(!READY)throw new Error("setup");
   const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),25000);
   try{
@@ -531,7 +527,7 @@ async function api(params,body){
     return j;
   }finally{clearTimeout(t)}
 }
-const errText=e=>e&&e.message==="setup"?"ऐप अभी Google Sheet से नहीं जुड़ा है।":"इंटरनेट या सर्वर से जुड़ नहीं पाए।";
+const errText=e=>e&&e.message==="setup"?"ऐप अभी Google Sheet से नहीं जुड़ा है।":e&&e.message==="action"?"Google Sheet का कोड (Code.gs) अभी अपडेट नहीं हुआ।":e&&e.message==="code"?"कोड बदल गया है — फिर से लॉगिन करें।":"इंटरनेट या सर्वर से जुड़ नहीं पाए।";
 const isMine=s=>s.dev===state.dev&&s.who===(state.who||"");
 const label=s=>s.who||"बिना नाम";
 
@@ -580,6 +576,7 @@ function renderStart(){
   state.admin=state.role==="own";
   $("roleRow").hidden=!!state.role;$("adminRow").hidden=!state.role;$("adminBox").hidden=true;
   $("toCombined").hidden=$("toReport").hidden=state.role!=="own";
+  $("toSheet").hidden=!(state.role==="own"&&state.sheet);if(state.sheet)$("toSheet").href=state.sheet;
   $("toHisab").innerHTML=state.role==="own"?"🧾 खरीदार का हिसाब <span>(लाइव)</span>":"🧾 बाज़ार हिसाब <span>मात्रा + रेट डालो</span>";
   $("roleChip").hidden=!state.role;$("roleChip").textContent=ROLE_NAME[state.role]||"";
   $("adminLink").hidden=!state.role;$("adminLink").textContent=`🔓 ${ROLE_NAME[state.role]||""} से लॉग-आउट`;
@@ -766,7 +763,7 @@ function setPeriod(p){
 }
 async function loadRep(){
   const key=rFrom+"_"+rTo;rep={key,subs:null,loading:true,error:""};renderRep();
-  try{const j=await api({action:"range",from:rFrom,to:rTo});if(rep.key!==key)return;rep.subs=j.subs;rep.buys=DEMO?(j.buys||[]):Object.keys(LB).filter(d=>d>=rFrom&&d<=rTo).flatMap(d=>LB[d])}
+  try{const j=await api({action:"range",from:rFrom,to:rTo});if(rep.key!==key)return;rep.subs=j.subs;rep.buys=j.buys||[]}
   catch(e){if(rep.key!==key)return;rep.error=errText(e)}
   rep.loading=false;renderRep();
 }
@@ -802,7 +799,7 @@ let hDate=TODAY,H={date:"",rows:null,loading:false,error:""};
 const money=v=>"₹"+Math.round(v).toLocaleString("en-IN");
 async function loadH(){
   const date=hDate;H={date,rows:null,loading:true,error:""};renderH();
-  try{const j=await api({action:"day",date});if(H.date!==date)return;if(!DEMO)j.buys=LB[date]||[];
+  try{const j=await api({action:"day",date});if(H.date!==date)return;
     const saved={};(j.buys||[]).forEach(x=>saved[x.n]=x);
     H.rows=aggregate(j.subs||[]).map(e=>{const s=saved[e.n];return {n:e.n,c:e.c,u:s?s.u:e.u,cq:e.hasQ?e.q:null,q:s?String(s.q):(e.hasQ?String(e.q):""),r:s?String(s.r):""}});
     (j.buys||[]).forEach(x=>{if(!H.rows.find(r=>r.n===x.n))H.rows.push({n:x.n,c:x.c,u:x.u,cq:null,q:String(x.q),r:String(x.r)})});
@@ -821,7 +818,7 @@ function renderH(){
   if(!H.rows.length){o.innerHTML=`<p class="empty">${esc(hiDate(hDate))} के लिए अभी कोई लिस्ट नहीं आई।</p>`;$("hBar").hidden=true;return}
   $("hBar").hidden=false;
   const ro=own?" readonly":"",dis=own?" disabled":"";
-  let h=own?`<p class="ro">👁 खरीदार जो भी डालता है, वो यहाँ दिखता है। बदलाव सिर्फ़ खरीदार कर सकता है।</p>`:`${DEMO?"":'<p class="ro">ℹ️ बीटा: रेट अभी इसी फ़ोन में सेव हो रहे हैं।</p>'}<p class="tip" style="text-align:left;margin:12px 2px 0">जहाँ <b style="color:#b33a12">मात्रा नहीं लिखी</b> है, वहाँ जितना लाए उतना भरो। फिर 1 इकाई का रेट डालो।</p>`;
+  let h=own?`<p class="ro">👁 खरीदार जो भी डालता है, वो यहाँ दिखता है। बदलाव सिर्फ़ खरीदार कर सकता है।</p>`:`<p class="tip" style="text-align:left;margin:12px 2px 0">जहाँ <b style="color:#b33a12">मात्रा नहीं लिखी</b> है, वहाँ जितना लाए उतना भरो। फिर 1 इकाई का रेट डालो।</p>`;
   h+=groupsHTML(H.rows,e=>{const x=H.rows.indexOf(e);return `<div class="hrow" id="hr${x}"><div class="hh"><b>${esc(e.n)}</b>${e.cq===null?'<span class="miss">मात्रा नहीं लिखी</span>':`<span class="ask">लिस्ट: ${e.cq} ${esc(e.u)}</span>`}</div>
    <div class="hg"><div><label for="hq${x}">कितना लाया</label><input id="hq${x}" data-hx="${x}" data-hf="q" inputmode="decimal" value="${esc(e.q)}" placeholder="मात्रा"${ro}></div>
    <div><label for="hu${x}">इकाई</label><select id="hu${x}" data-hx="${x}" data-hf="u"${dis}>${UNITS.concat(UNITS.includes(e.u)?[]:[e.u]).map(u=>`<option${u===e.u?" selected":""}>${esc(u)}</option>`).join("")}</select></div>
@@ -846,10 +843,10 @@ $("hOut").addEventListener("input",e=>{const t=e.target,f=t.dataset.hf;if(!f||st
 $("hOut").addEventListener("click",e=>{if(e.target.id==="hAdd"){forDate=hDate;state.picked={};state.pickedFor=forDate;save();prefill=true;loadDay(forDate);show("cats")}});
 $("hdchips").addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b){hDate=b.dataset.d;loadH()}});
 $("hSave").addEventListener("click",async e=>{const b=e.currentTarget;
-  const rows=H.rows.filter(x=>parseFloat(x.q)>0&&parseFloat(x.r)>0).map(x=>({n:x.n,c:x.c,u:x.u,q:+x.q,r:+x.r}));
-  const left=H.rows.length-rows.length;b.disabled=true;
-  try{await api(null,{action:"buy",date:hDate,who:state.who,rows});toast(left?`सेव हो गया ✓ (${left} सामान बाकी)`:"पूरा हिसाब सेव हो गया ✓")}
-  catch(err){toast("सेव नहीं हुआ — "+errText(err))}finally{b.disabled=false}});
+  const left=H.rows.filter(x=>!(parseFloat(x.q)>0&&parseFloat(x.r)>0)).length;b.disabled=true;
+  b.textContent="सेव हो रहा है…";
+  try{await api(null,{action:"buy",date:hDate,who:state.who,code:state.code,rows:H.rows.map(x=>({n:x.n,c:x.c,u:x.u,cq:x.cq,q:+x.q||0,r:+x.r||0}))});toast(left?`Sheet में सेव ✓ (${left} सामान बाकी)`:"पूरा हिसाब Sheet में सेव ✓")}
+  catch(err){toast("सेव नहीं हुआ — "+errText(err));if(err.message==="code"){state.role="";state.code="";save();show("start")}}finally{b.disabled=false;b.textContent="सेव करो ✓"}});
 
 /* ---------- shared bits ---------- */
 function toast(t){const el=$("toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}
@@ -889,14 +886,18 @@ $("lname").addEventListener("keydown",e=>{if(e.key==="Enter")$("loginGo").click(
 $("lname").addEventListener("input",()=>$("lerr").hidden=true);
 
 let askRole="",tries=0;
-$("adminLink").addEventListener("click",()=>{const r=ROLE_NAME[state.role];state.role="";save();renderStart();toast(r+" से लॉग-आउट हो गया")});
+$("adminLink").addEventListener("click",()=>{const r=ROLE_NAME[state.role];state.role="";state.code="";state.sheet="";save();renderStart();toast(r+" से लॉग-आउट हो गया")});
 const askCode=r=>{askRole=r;tries=0;$("apinLbl").textContent=`${ROLE_NAME[r]} का कोड डालें`;$("adminBox").hidden=false;$("apinErr").hidden=true;$("apin").value="";$("apin").focus()};
 $("toBuy").addEventListener("click",()=>askCode("buy"));
 $("toOwn").addEventListener("click",()=>askCode("own"));
-$("apinGo").addEventListener("click",()=>{
-  if(tries>=3){$("apinErr").textContent="3 बार गलत — थोड़ी देर बाद";$("apinErr").hidden=false;return}
-  if($("apin").value.trim()===CODES[askRole]){state.role=askRole;save();renderStart();toast(ROLE_NAME[askRole]+" लॉगिन हो गया ✓")}
-  else{tries++;$("apinErr").textContent=tries>=3?"3 बार गलत कोड — मालिक को खबर जाएगी":`कोड गलत है (${3-tries} मौके बचे)`;$("apinErr").hidden=false}
+$("apinGo").addEventListener("click",async e=>{
+  if(tries>=3){$("apinErr").textContent="3 बार गलत — थोड़ी देर बाद ऐप फिर से खोलें";$("apinErr").hidden=false;return}
+  const b=e.currentTarget,code=$("apin").value.trim();if(!code)return;
+  b.disabled=true;b.textContent="जाँच…";$("apinErr").hidden=true;
+  try{const j=await api(null,{action:"login",role:askRole,code});
+    state.role=askRole;state.code=code;state.sheet=j.sheet||"";save();renderStart();toast(ROLE_NAME[askRole]+" लॉगिन हो गया ✓")}
+  catch(err){if(err.message==="code"){tries++;$("apinErr").textContent=tries>=3?"3 बार गलत कोड":`कोड गलत है (${3-tries} मौके बचे)`}else $("apinErr").textContent=errText(err);$("apinErr").hidden=false}
+  finally{b.disabled=false;b.textContent="खोलो"}
 });
 $("toHisab").addEventListener("click",()=>{hDate=TODAY;show("hisab")});
 
