@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -16,6 +18,8 @@ public class MainActivity extends Activity {
     static final String APP_URL = "https://secretovens.github.io/secret-ovens-app/";
     static final String APP_HOST = "secretovens.github.io";
     private WebView web;
+    private ValueCallback<Uri[]> filePick;
+    static final int PICK = 41;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,25 @@ public class MainActivity extends Activity {
                 if (url != null && url.startsWith(APP_URL)) view.loadUrl("file:///android_asset/offline.html");
             }
         });
+        // बिल और सामान की फ़ोटो के लिए: कैमरा/गैलरी से फ़ोटो चुनना
+        web.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> cb, FileChooserParams params) {
+                if (filePick != null) filePick.onReceiveValue(null);
+                filePick = cb;
+                try {
+                    Intent pick = new Intent(Intent.ACTION_GET_CONTENT);
+                    pick.addCategory(Intent.CATEGORY_OPENABLE);
+                    pick.setType("image/*");
+                    startActivityForResult(Intent.createChooser(pick, "फ़ोटो चुनें"), PICK);
+                } catch (Exception e) {
+                    filePick = null;
+                    Toast.makeText(MainActivity.this, "फ़ोटो नहीं खुल पाई", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+                return true;
+            }
+        });
         setContentView(web);
         web.loadUrl(APP_URL);
     }
@@ -64,6 +87,16 @@ public class MainActivity extends Activity {
             Toast.makeText(this, "यह लिंक नहीं खुल पाया", Toast.LENGTH_LONG).show();
         }
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int req, int res, Intent data) {
+        super.onActivityResult(req, res, data);
+        if (req != PICK || filePick == null) return;
+        Uri[] out = null;
+        if (res == RESULT_OK && data != null && data.getData() != null) out = new Uri[]{ data.getData() };
+        filePick.onReceiveValue(out);
+        filePick = null;
     }
 
     @Override

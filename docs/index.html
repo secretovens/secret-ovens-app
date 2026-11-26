@@ -232,6 +232,156 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
 .adminbox .btn{padding:12px 18px}
 .aerr{flex-basis:100%;color:#ffd3cf;font-weight:700}
 .tip{font-size:13px;color:var(--muted);text-align:center;margin:14px 0}
+.ledger.lk{position:relative}.ledger .nw{position:absolute;top:-9px;right:10px;background:#e8572a;color:#fff;font-size:11px;font-weight:800;border-radius:20px;padding:0 7px;font-family:var(--f-body)}
+.ledger.full{grid-column:1/-1}
+.rolechip{display:inline-block;background:var(--gold);color:var(--gold-ink);font-size:13px;font-weight:800;border-radius:999px;padding:2px 10px;margin-left:auto}
+.demo{font-size:13px;text-align:center;color:#cfe0d6;background:rgba(0,0,0,.18);border-radius:12px;padding:8px}
+.demo button{border:0;background:transparent;color:var(--gold);text-decoration:underline;font:inherit;font-weight:700}
+.hello .logout{border:1px solid rgba(255,255,255,.3);background:transparent;color:var(--brand-fg);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.hello .rolechip{margin-left:auto}
+.menu{display:flex;flex-direction:column;gap:12px}
+.go .gi,.mtile .gi{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:24px;flex:none}
+.go .gt{flex:1;text-align:left;line-height:1.15}.go .gt small{display:block;font-size:14px;font-weight:600;opacity:.75;margin-top:2px}
+.go.alt{background:var(--surface);color:var(--fg);justify-content:flex-start}
+.go.alt .gi{background:var(--gold-soft)}
+.go:not(.alt) .gi{background:rgba(0,0,0,.08)}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mtile{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);color:var(--brand-fg);border-radius:16px;padding:12px;text-align:left;display:flex;flex-direction:column;gap:6px;text-decoration:none;font:inherit;min-height:118px}
+.mtile .gi{background:rgba(255,255,255,.1)}
+.mtile b{font-size:17px;line-height:1.2}.mtile small{font-size:13px;opacity:.75}
+.mtile.wide{grid-column:1/-1;flex-direction:row;align-items:center;min-height:0;gap:12px;flex-wrap:wrap}
+.mtile.wide b{flex:1}.mtile.wide small{flex-basis:100%;margin:-6px 0 0 56px}
+.logins{display:flex;flex-direction:column;gap:8px}
+.logins .lt{font-size:13px;opacity:.7;text-align:center}
+.logins .ledger{font-size:16px;padding:12px 8px}
+.howto{counter-reset:h;list-style:none;margin:14px 0 0;padding:12px 14px;background:var(--surface);border-radius:14px;box-shadow:inset 0 0 0 1.5px var(--line);display:grid;gap:6px;font-size:15px}
+.howto li{counter-increment:h;display:flex;gap:10px;align-items:center}
+.howto li::before{content:counter(h);width:24px;height:24px;border-radius:50%;background:var(--brand);color:var(--brand-fg);font-family:var(--f-head);font-size:13px;font-weight:700;display:grid;place-items:center;flex:none}
+.brow{padding:12px 14px;border-top:1px solid var(--line);position:relative}
+.group h3+.brow{border-top:0}
+.brow::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:transparent}
+.brow.ismiss::before{background:#e8572a}.brow.isdone::before{background:var(--wa)}
+.bh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.bn{font-weight:800;font-size:18px;line-height:1.2}
+.bask{font-size:13px;color:var(--muted);white-space:nowrap}
+.bmiss{font-size:12px;font-weight:800;color:#b33a12;background:#fff1ea;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.bg{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:10px;margin-top:8px;align-items:end}
+.bl{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.hstep{padding:0}
+.hstep .st{width:44px;height:44px}
+.price{display:flex;align-items:center;gap:4px;background:var(--surface);border-radius:12px;box-shadow:inset 0 0 0 1.5px var(--line);padding:0 10px;height:44px}
+.price span{font-family:var(--f-head);font-weight:700;color:var(--muted)}
+.price input{width:100%;min-width:0;border:0;background:transparent;color:var(--fg);font:inherit;font-family:var(--f-head);font-weight:700;font-size:18px;-moz-appearance:textfield}
+.price input::-webkit-outer-spin-button,.price input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.price:focus-within,.val:focus-within{box-shadow:inset 0 0 0 2px var(--brand)}
+.bt{display:flex;justify-content:flex-end;align-items:baseline;gap:8px;margin-top:8px;font-size:14px;color:var(--muted)}
+.bt b{font-family:var(--f-head);font-size:19px;color:var(--fg);white-space:nowrap}
+.brow.isdone .bt b{color:var(--wa)}
+#hisab .sendbox{margin-bottom:8px}
+.daytotal{margin-top:14px;background:var(--brand);color:var(--brand-fg);border-radius:16px;padding:14px 16px;display:grid;gap:2px}
+.daytotal span{font-size:14px;opacity:.85}.daytotal b{font-family:var(--f-head);font-size:32px;line-height:1.1;color:var(--gold)}
+.daytotal small{font-size:14px;opacity:.85}
+.xg h3 .gc{font-family:var(--f-body);font-weight:500}
+.xrow{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) 40px;gap:8px;padding:10px 14px;border-top:1px solid var(--line);align-items:center}
+.group h3+div .xrow:first-child{border-top:0}
+.xrow .xt{min-height:44px;border:0;border-radius:12px;box-shadow:inset 0 0 0 1.5px var(--line);padding:0 10px;font:inherit;font-size:16px;background:var(--surface);color:var(--fg)}
+.xdel{border:0;background:transparent;color:var(--muted);font-size:26px;height:44px}
+.xadd{margin:10px 14px 14px;width:calc(100% - 28px);font-size:16px;padding:10px}
+.th{width:46px;height:46px;border-radius:12px;flex:none;overflow:hidden;display:grid;place-items:center;background:color-mix(in srgb,var(--c,#3f7a4f) 10%,var(--surface));box-shadow:inset 0 0 0 1px var(--line)}
+.th img{width:100%;height:100%;object-fit:cover;display:block}
+.th.em{font-size:26px;line-height:1}
+.th.sm{width:34px;height:34px;border-radius:10px}.th.sm.em{font-size:19px}
+.bnw{display:flex;align-items:center;gap:10px;min-width:0}
+.lump{margin-top:12px;background:var(--surface);border-radius:16px;box-shadow:inset 0 0 0 1.5px var(--line);overflow:hidden}
+.lump summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;font-size:16px;cursor:pointer;min-height:52px}
+.lump summary::-webkit-details-marker{display:none}
+.lump summary b{color:var(--brand)}
+.lump summary i{display:grid;color:var(--muted);transition:transform .2s}
+.lump[open] summary i{transform:rotate(90deg)}
+.lumpin{padding:0 16px 16px;display:grid;gap:8px}
+.lumpin small{font-size:13px;color:var(--muted)}
+.empty.sm{padding:16px 0 4px;font-size:15px}
+#hisab .dpick{margin-top:10px}
+.phrow{display:flex;align-items:center;gap:12px;padding:10px 14px;border-top:1px solid var(--line)}
+.group h3+.phrow{border-top:0}
+.phrow .t{flex:1;min-width:0;font-weight:700;font-size:17px;line-height:1.2}.phrow .t small{display:block;font-size:12px;color:var(--muted);font-weight:500}
+.phbtn{padding:8px 12px;font-size:14px;gap:6px;flex:none;background:var(--surface)}
+/* ----- landing ----- */
+.landing{display:flex;flex-direction:column;gap:12px}
+.lhead{margin-bottom:4px}
+.lhead .ldate{display:inline-block;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.02em}
+.lhead h1{margin:4px 0 0;font-size:38px;line-height:1.1;font-weight:800}
+.lhead p{margin:4px 0 0;opacity:.75;font-size:16px}
+.rcard{display:flex;align-items:center;gap:14px;width:100%;text-align:left;border:0;border-radius:18px;background:var(--surface);color:var(--fg);padding:16px;min-height:88px;font:inherit;position:relative;overflow:hidden;box-shadow:0 2px 0 rgba(0,0,0,.06)}
+.rcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--rc)}
+.rcard .ri{width:54px;height:54px;border-radius:14px;display:grid;place-items:center;flex:none;color:var(--rc);background:color-mix(in srgb,var(--rc) 13%,transparent)}
+.rcard .rt{flex:1;min-width:0;line-height:1.2}
+.rcard .rt b{display:block;font-size:20px;font-weight:800}
+.rcard .rt small{display:block;font-size:15px;font-weight:600;color:light-dark(#2f3d35,#c9d6ce);margin-top:4px}
+.rcard .rt em{display:block;font-style:normal;font-size:13px;font-weight:700;color:var(--rc);margin-top:5px}
+.rcard .rt em:empty{display:none}
+.rcard .rb{flex:none;font-size:12px;font-weight:800;border-radius:999px;padding:3px 10px;background:var(--gold-soft);color:#7a5a10}
+.rcard .rb.free{background:var(--picked);color:var(--wa)}
+.rcard .rc{color:var(--muted);display:grid;flex:none}
+.rcard:active{transform:scale(.99)}
+.ver b{color:var(--gold);font-weight:800}
+@media(max-width:360px){.rcard .rb{display:none}}
+/* ----- v10 ----- */
+.cashcard{margin-top:14px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:10px;background:var(--surface);border-radius:16px;box-shadow:inset 0 0 0 1.5px var(--line);padding:12px}
+.cashcard .cc b{display:block;font-family:var(--f-head);font-size:20px;line-height:44px;white-space:nowrap}
+.cashcard .cc b.neg,.sum b.neg{color:var(--danger)}
+.photorow{display:flex;align-items:center;gap:12px;margin-top:10px}
+.photorow .btn{padding:10px 14px;font-size:16px;background:var(--surface)}
+.photorow .pst{font-size:13px;color:var(--muted)}
+.plinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.plinks a{font-size:14px;color:var(--brand);font-weight:700}
+.bt{justify-content:space-between}
+.bt .bf{flex:1;text-align:right;display:flex;flex-direction:column;align-items:flex-end;line-height:1.25}
+.bt .last{font-size:12px;color:var(--muted)}
+.bt .up{color:var(--danger);font-weight:700}.bt .down{color:var(--wa);font-weight:700}
+.na{border:0;border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;font-weight:700;background:var(--bg);color:var(--muted);box-shadow:inset 0 0 0 1.5px var(--line);flex:none}
+.na[aria-pressed="true"]{background:var(--danger);color:#fff;box-shadow:none}
+.brow.isna .bg,.brow.isna .bn{opacity:.4}.brow.isna::before{background:var(--muted)}
+.brow.isna .bt b{color:var(--danger);font-size:15px}
+.shopg h3{color:var(--brand)}.shopg h3 svg{flex:none}
+.qbar{position:fixed;left:12px;right:12px;top:calc(10px + env(safe-area-inset-top,0px));z-index:40;display:flex;align-items:center;gap:10px;background:#3a2f0b;color:#fbe7b0;border-radius:14px;padding:10px 12px;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.qbar span{flex:1}.qbar button{border:0;background:var(--gold);color:var(--gold-ink);border-radius:10px;padding:8px 12px;font:inherit;font-weight:800;font-size:14px}
+.sum{grid-template-columns:repeat(2,1fr)}
+.cbar{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 14px;border-top:1px solid var(--line)}
+.group h3+.cbar{border-top:0}
+.cbar .t{font-weight:700;font-size:15px}.cbar .bw{height:10px;background:var(--bg);border-radius:6px;overflow:hidden}.cbar .bw i{display:block;height:100%;border-radius:6px}
+.cbar .rs,.trow .rs{font-family:var(--f-head);font-weight:700;white-space:nowrap}
+.trow .rs.up{color:var(--danger)}
+@media(max-width:380px){.cashcard{grid-template-columns:1fr 1fr}.cashcard .cc:first-child{grid-column:1/-1}}
+/* ----- v9 professional layer ----- */
+.hello{display:flex;align-items:center;gap:10px;margin-bottom:-6px}
+.hello .rolechip{margin-left:auto;background:rgba(255,255,255,.12);color:var(--gold);border:1px solid rgba(196,154,42,.5);font-weight:700;font-size:13px;padding:3px 12px}
+.homebtn{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.3);background:transparent;color:var(--brand-fg);border-radius:999px;padding:5px 14px;font:inherit;font-size:14px;font-weight:700}
+.hello .rolechip[hidden]+.homebtn{margin-left:auto}
+.go svg{flex:none}
+#start .menu{display:flex;flex-direction:column;gap:10px}
+#ownGrid{margin:0}
+.mcard{display:flex;align-items:center;gap:14px;width:100%;text-align:left;border:0;border-radius:16px;background:var(--surface);color:var(--fg);padding:14px 14px 14px 14px;min-height:76px;text-decoration:none;font:inherit;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+.mcard .mi{width:46px;height:46px;border-radius:12px;background:var(--picked);color:var(--brand);display:grid;place-items:center;flex:none}
+.mcard .mt{flex:1;min-width:0;line-height:1.2}
+.mcard .mt b{display:block;font-size:18px;font-weight:800}
+.mcard .mt small{display:block;font-size:14px;color:var(--muted);margin-top:3px}
+.mcard .mc{color:var(--muted);flex:none;display:grid}
+.mcard:active{transform:scale(.99)}
+.linkbtn{align-self:center;border:0;background:transparent;color:var(--brand-fg);opacity:.7;font:inherit;font-size:14px;text-decoration:underline;padding:8px}
+.logins{display:flex;flex-direction:column;gap:8px}
+.logins .lt{font-size:13px;opacity:.7;text-align:center}
+.lbtn{display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.05);color:var(--brand-fg);border-radius:14px;padding:11px 12px;font:inherit;text-align:left;min-height:60px}
+.lbtn .li{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.1);display:grid;place-items:center;flex:none;color:var(--gold)}
+.lbtn span:last-child{font-weight:800;font-size:16px;line-height:1.2}
+.lbtn small{display:block;font-weight:500;font-size:12px;opacity:.7}
+.lbtn.open{border-color:rgba(196,154,42,.6)}
+.lbtn.open .li{background:var(--gold);color:var(--gold-ink)}
+.cat .ic{color:var(--c)}
+.howto li span b{color:var(--brand)}
+.bmiss{background:color-mix(in srgb,#e8572a 12%,transparent)}
+.brow.ismiss::before{background:#d9822b}
+.bmiss{color:#a85a12}
+.trow .rs{font-family:var(--f-head);font-weight:700;white-space:nowrap;min-width:64px;text-align:right}
 </style>
 <script src="config.js"></script>
 </head>
@@ -260,29 +410,46 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
       <div class="logo"><img src="data:image/jpeg;base64,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Z/3x/wDWqin7UWkJqraqvwX8QjUGTYboWy+aV9N23OKAPpDx/wCIP+EV8E6z4k+ySXn9m2clz5Ef3pNik4FeY/ss/Gm++MGk6zNqGhQ6ZcabMihoHLRyK4JAyR94Y5+oriX/AGtonRkf4TeK2VhgqY8gj8qqaT+1FpGk25ttK+C/iGxhZixjt7ZY1JPU4C9aALtxb3K/8FB4Zzby+U2g5Emw7SPLIzn68V9PLXy7/wANZW3nCb/hUfinzQu0P5Q3Y9M7elP/AOGuE/6JR4s/74/+tQB9QV81f8FEbnyvgrp8Ak2mfWYht/vARyH/AAqof2uV/wCiUeLMf7n/ANat/wDap8Iaz8XfgNpuoeHtOuU1CB4tUTT5htmZTGwaPH98BuntQB+dsRxLG2M4YHH41+v/AIPlE/hLR51BAksIHAPbMamvy18FfCnx74p8UwaDp/hjU47hpgkrz27RxwDPLOzAAAV+qOgWJ0zQtP00yeYbS1jg34xu2KFz+lAF2iiigAooooAKKKKACiiigAooooAKMUUUAJgelJ5af3F/KnUUAN2J/cX8qNif3F/KnUUAN2J/cX8qNif3F/KnUUAN2J/cX8qNif3F/KnUUAN2J/cX8qNif3F/KnUUAN8uP+4v5U7A9KKKADA54HPWiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/9k=" alt="Secret Ovens"></div>
       <div><b>SECRET OVENS</b><small>GOOD FOOD, GOOD MOOD</small></div>
     </div>
-    <div class="hello">नमस्ते, <b id="helloName"></b> 👋 <button type="button" id="changeName">नाम बदलो</button></div>
-    <div class="hero">
+    <div class="hello"><span>नमस्ते, <b id="helloName"></b></span><span class="rolechip" id="roleChip" hidden></span><button type="button" class="homebtn" id="toHome" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5M5.5 9.5V20h5v-6h3v6h5V9.5"/></svg>होम</button></div>
+    <div class="hero" id="roleHero" hidden>
+      <h1 id="roleH1"></h1>
+      <p id="roleP"></p>
+    </div>
+    <div class="hero" id="listHero">
       <h1>कल का सामान</h1>
       <p>जो सामान खत्म हो रहा है, उसकी लिस्ट बनाकर भेजें।</p>
     </div>
     <div class="setup" id="setup" hidden>⚠️ ऐप अभी Google Sheet से नहीं जुड़ा है। GitHub पर <b>docs/config.js</b> में लिंक डालें।</div>
-    <div class="datebox">
+    <div class="datebox" id="dateBox">
       <span class="lbl">सामान किस दिन के लिए चाहिए?</span>
       <div class="dchips" id="dchips"></div>
       <label class="dpick" for="fordate">दूसरी तारीख चुनें <input id="fordate" type="date"></label>
     </div>
-    <button class="go" id="go">🛒 लिस्ट बनाओ <span aria-hidden="true">→</span></button>
-    <div class="row2" id="adminRow" hidden>
-      <button class="ledger" id="toCombined">📋 सबकी कुल लिस्ट</button>
-      <button class="ledger" id="toReport">📒 हफ़्ते / महीने का हिसाब</button>
+    <button class="go" id="go"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/><path d="M3 4h2l2.4 11h11l2-8H6.2"/></svg> लिस्ट बनाओ <span aria-hidden="true">→</span></button>
+    <div class="menu" id="roleMenu" hidden>
+      <button class="mcard" id="toHisab"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span><span class="mt"><b><span id="hisabT">बाज़ार का हिसाब</span></b><small><span id="hisabSub">लाया हुआ सामान और दाम लिखें</span></small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
+      <div class="menu" id="ownGrid">
+        <button class="mcard" id="toPhotos"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span><span class="mt"><b>सामान की फ़ोटो</b><small>हर सामान की असली फ़ोटो लगाएँ</small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
+        <button class="mcard" id="toCombined"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/></svg></span><span class="mt"><b>सबकी कुल लिस्ट</b><small>सबकी लिस्ट मिलाकर · WhatsApp पर भेजें</small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
+        <button class="mcard" id="toReport"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><rect x="6" y="11" width="3" height="7"/><rect x="11" y="7" width="3" height="11"/><rect x="16" y="13" width="3" height="5"/></svg></span><span class="mt"><b>हफ़्ते / महीने का हिसाब</b><small>कितना सामान आया, कितने का</small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
+        <a class="mcard" id="toSheet" target="_blank" rel="noopener" href="#"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M4 15h16M10 4v16"/></svg></span><span class="mt"><b>Google Sheet</b><small>पूरा रिकॉर्ड देखें और डाउनलोड करें</small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></a>
+      </div>
+      <button type="button" class="linkbtn" id="adminLink">इस फ़ोन से लॉग-आउट करें</button>
+    </div>
+    <div class="landing" id="roleRow">
+      <div class="lhead"><span class="ldate" id="lDate"></span><h1>आज क्या करना है?</h1><p>अपना काम चुनें</p></div>
+      <button class="rcard" id="toChef" style="--rc:#3f7a4f"><span class="ri"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 14a4 4 0 0 1-1-7.9A5 5 0 0 1 12 3a5 5 0 0 1 6 3.1A4 4 0 0 1 17 14"/><path d="M7 14h10v6H7z"/><path d="M7 17h10"/></svg></span><span class="rt"><b>शेफ़ / हेल्पर</b><small>कल के सामान की लिस्ट भेजें</small></span><span class="rb free">खुला</span><span class="rc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
+      <button class="rcard" id="toBuy" style="--rc:#b8892a"><span class="ri"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/><path d="M3 4h2l2.4 11h11l2-8H6.2"/></svg></span><span class="rt"><b>खरीदार</b><small>बाज़ार का सामान और दाम लिखें</small><em id="sBuy"></em></span><span class="rb" id="bBuy">कोड</span><span class="rc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
+      <button class="rcard" id="toOwn" style="--rc:#2f5d7a"><span class="ri"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><rect x="6" y="11" width="3" height="7"/><rect x="11" y="7" width="3" height="11"/><rect x="16" y="13" width="3" height="5"/></svg></span><span class="rt"><b>मालिक</b><small>पूरा हिसाब-किताब और रिपोर्ट</small><em id="sOwn"></em></span><span class="rb" id="bOwn">कोड</span><span class="rc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
     </div>
     <div class="adminbox" id="adminBox" hidden>
-      <label for="apin">एडमिन PIN</label>
-      <input id="apin" type="password" inputmode="numeric" maxlength="8" placeholder="PIN">
+      <label for="apin" id="apinLbl">कोड डालें</label>
+      <input id="apin" type="password" inputmode="numeric" maxlength="8" placeholder="4 अंक का कोड">
       <button type="button" class="btn gold" id="apinGo">खोलो</button>
-      <span class="aerr" id="apinErr" hidden>PIN गलत है</span>
+      <span class="aerr" id="apinErr" hidden>कोड गलत है</span>
     </div>
-    <p class="ver">ऐप वर्ज़न 8 · 26 नवंबर · <button type="button" class="adminlink" id="adminLink">🔑 एडमिन</button></p>
+    <p class="ver">ऐप वर्ज़न 10</p>
+    
   </div>
 </section>
 
@@ -337,8 +504,8 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
     <div class="bigtick" aria-hidden="true">✓</div>
     <h2>लिस्ट भेज दी गई!</h2>
     <p id="doneTxt"></p>
-    <button class="btn primary wide" id="doneHome">🏠 शुरू पर वापस जाओ</button>
-    <button class="btn ghost wide" id="doneCombined" hidden>📋 सबकी कुल लिस्ट देखें</button>
+    <button class="btn primary wide" id="doneHome">शुरू पर वापस जाओ</button>
+    <button class="btn ghost wide" id="doneCombined" hidden>सबकी कुल लिस्ट देखें</button>
   </div>
 </section>
 
@@ -355,6 +522,18 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
   </div>
 </section>
 
+<section id="photos" class="screen" hidden>
+  <header class="appbar"><div class="wrap">
+    <button class="back" data-back aria-label="पीछे">‹</button>
+    <h2><small>शेफ़/हेल्पर को पहचानने में आसानी</small>सामान की फ़ोटो</h2>
+    <button class="home" data-home aria-label="होम"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5M5.5 9.5V20h5v-6h3v6h5V9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div></header>
+  <div class="wrap">
+    <p class="ro">रसोई में रखे असली पैकेट या सामान की फ़ोटो खींचें। ये शेफ़/हेल्पर की लिस्ट में उस सामान के आगे दिखेगी। जिसकी फ़ोटो नहीं है, उस पर चिह्न दिखता है।</p>
+    <div id="phOut"></div>
+  </div>
+</section>
+
 <section id="report" class="screen" hidden>
   <header class="appbar"><div class="wrap">
     <button class="back" data-back aria-label="पीछे">‹</button>
@@ -366,6 +545,23 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
     <div class="range"><label for="rfrom">से <input id="rfrom" type="date"></label><label for="rto">तक <input id="rto" type="date"></label></div>
     <div id="repOut"></div>
   </div>
+</section>
+
+<section id="hisab" class="screen" hidden>
+  <header class="appbar"><div class="wrap">
+    <button class="back" data-back aria-label="पीछे">‹</button>
+    <h2 id="hTitle"><small>खरीदार</small>बाज़ार का हिसाब</h2>
+    <button class="home" data-home aria-label="होम"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5M5.5 9.5V20h5v-6h3v6h5V9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div></header>
+  <div class="wrap">
+    <div class="dchips light" id="hdchips"></div>
+    <label class="dpick light" for="hdate">दूसरी तारीख चुनें <input id="hdate" type="date"></label>
+    <div id="hOut"></div>
+  </div>
+  <div class="bar" id="hBar" hidden><div class="wrap">
+    <div class="count"><b id="hTotal">₹0</b><span id="hSub"></span></div>
+    <button class="btn gold" id="hSave">सेव करें</button>
+  </div></div>
 </section>
 
 <div class="bar" id="bar" hidden><div class="wrap">
@@ -390,27 +586,53 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
     </div>
   </div>
 </div>
+<div class="qbar" id="qbar" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8.5a15 15 0 0 1 20 0M5 12a10 10 0 0 1 14 0M8.5 15.5a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1"/></svg><span id="qtxt"></span><button type="button" id="qgo">अभी भेजें</button></div>
 <div class="toast" id="toast" hidden></div>
 
 <script>
 const API=String(window.SO_API||"").trim();
-const ADMIN_PIN=String(window.SO_ADMIN_PIN||"5050");
+/* लॉगिन कोड Google Sheet के "Codes" टैब में हैं */
+const SHOPIC=`<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9l1.5-5h13L20 9M4 9h16v11H4zM9 20v-6h6v6"/></svg>`;
+const CHEVJS=`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>`;
+const CAMI=`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>`;
+const CAM=`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>`;
+const ROLE_NAME={chef:"शेफ़ / हेल्पर",buy:"खरीदार",own:"मालिक"};
+const UNITS=["kg","पैकेट","पीस","लीटर","गड्डी","बोतल","दर्जन"];
+const DEMO=false;
 const READY=/^https:\/\/script\.google(usercontent)?\.com\//.test(API);
 const P="पैकेट";
 const CATS=[
- ["सब्ज़ी","#2e7d32","🥬","kg",["आलू","प्याज़","टमाटर","पत्ता गोभी","शिमला मिर्च","लहसुन","अदरक","ब्रोकली","मशरूम","हरी मिर्च","धनिया","पुदीना","नींबू","बीन्स","गाजर","फूल गोभी","पालक","सिरका प्याज़","चुकंदर"]],
- ["मसाला","#c62828","🌶️","kg",["सबूत लाल मिर्च","काली मिर्च",["कसूरी मेथी",P],["किचन किंग",P],["चिकन मसाला",P],["देगी मिर्च",P],["मीट मसाला",P],["अमचूर पाउडर",P],"अजवाइन","धनिया पाउडर","जीरा पाउडर",["गरम मसाला",P],"कुटी लाल मिर्च","काला नमक",["सफ़ेद मिर्च (White Pepper)",P],["चाट मसाला",P],"दालचीनी","जावित्री","छोटी इलायची","बड़ी इलायची",["इलायची पाउडर",P],"लौंग","तेज पत्ता","साबुत जीरा","स्टार फूल (चक्र फूल)",["हींग",P]]],
- ["राशन","#b7791f","🌾","kg",["आटा","मैदा","नमक","चाइनीज़ चावल","इंडियन चावल","तिल","मूंगफली","नारियल पाउडर","बेसन","काजू","मगज़","सोयाबीन चूरा","अरारोट",["अजीनोमोटो",P],["लाल रंग",P],["हरा रंग",P],["पीला रंग",P],["काउंटर सॉफ्ट","पीस"],["रिफाइंड तेल","लीटर"],["सरसों तेल","लीटर"],"डालडा"]],
- ["दाल","#d9631e","🫘","kg",["अरहर दाल","काली उड़द","चना दाल","राजमा","छोले","मिक्स दाल","सोयाबीन बड़ी","काला चना"]],
- ["सॉस","#ad1457","🥫",P,["टोमैटो सॉस","ग्रीन सॉस","सोया सॉस","सिरका (Vinegar)","मखनी सॉस","मेयो","पेरी पेरी मसाला","ओरिगेनो","ब्रेड क्रम्ब","कॉर्न"]],
- ["डेयरी","#1565c0","🧀",P,[["पनीर","kg"],["दही","kg"],["खोया","kg"],"अमूल बटर","डिलीशियस बटर चाप","डिलीशियस बटर चाइनीज़","अमूल क्रीम",["घी चाइनीज़","kg"],["घी इंडियन","kg"],"नूडल्स","सफल मटर"]],
- ["पैकिंग","#455a64","📦","पीस",["500 ML चाइनीज़ चाप बॉक्स","650 ML चाइनीज़ चाप बॉक्स","300 ML इंडियन गोल ब्लैक बॉक्स","500 ML इंडियन गोल ब्लैक बॉक्स","750 ML इंडियन गोल ब्लैक बॉक्स","2 CP ब्लैक बॉक्स इंडियन","5 CP ब्लैक थाली इंडियन","7 CP ब्लैक थाली इंडियन","4 CP ब्लैक थाली चाइनीज़","कार कंटेनर हाफ","कार कंटेनर फुल","ज़ोमैटो पेपर बैग हाफ","ज़ोमैटो पेपर बैग फुल","कुरकुरे मोमोज़ पैकिंग",["डिप बॉक्स चाइनीज़",P],["चटनी कप टेबल",P],["छोटी डिस्पोज़ेबल प्लेट",P],["डिस्पोज़ल गिलास",P],["कांटा (Fork)",P],["चम्मच",P],["टिश्यू पेपर",P],["टूथपिक",P],["फॉयल पेपर","रोल"],["सिल्वर फॉयल","रोल"],["1 kg पन्नी","kg"],["2 kg पन्नी","kg"],["5 kg पन्नी","kg"],["चटनी पन्नी","kg"]]],
- ["अन्य","#6a1b9a","🔥","पीस",["रुमाली रोटी","कोल्ड ड्रिंक","पानी की बोतल","गैस सिलेंडर",["कोयला","kg"],["सर्फ़",P],["डस्टबिन पॉलीथीन",P],"बटर ब्रश","रोटी वाला कपड़ा"]]
+ ["सब्ज़ी", "#3f7a4f", "🥬", "kg", [["आलू", "kg"], ["प्याज़", "kg"], ["टमाटर", "kg"], ["पत्ता गोभी", "kg"], ["शिमला मिर्च", "kg"], ["लहसुन", "kg"], ["अदरक", "kg"], ["ब्रोकली", "kg"], ["मशरूम", "kg"], ["हरी मिर्च", "kg"], ["धनिया", "kg"], ["पुदीना", "kg"], ["नींबू", "kg"], ["बीन्स", "kg"], ["गाजर", "kg"], ["फूल गोभी", "kg"], ["पालक", "kg"], ["सिरका प्याज़", "kg"], ["चुकंदर", "kg"]]],
+ ["मसाला", "#a24c3f", "🌶️", "kg", [["सबूत लाल मिर्च", "kg"], ["काली मिर्च", "kg"], ["कसूरी मेथी", "kg"], ["किचन किंग", "पैकेट"], ["चिकन मसाला", "पैकेट"], ["देगी मिर्च", "पैकेट"], ["मीट मसाला", "पैकेट"], ["अमचूर पाउडर", "kg"], ["अजवाइन", "kg"], ["धनिया पाउडर", "kg"], ["जीरा पाउडर", "kg"], ["गरम मसाला", "kg"], ["कुटी लाल मिर्च", "kg"], ["काला नमक", "kg"], ["सफ़ेद मिर्च (White Pepper)", "ग्राम", 50], ["चाट मसाला", "kg"], ["दालचीनी", "ग्राम", 50], ["जावित्री", "ग्राम", 50], ["छोटी इलायची", "ग्राम", 50], ["बड़ी इलायची", "ग्राम", 50], ["इलायची पाउडर", "ग्राम", 50], ["लौंग", "ग्राम", 50], ["तेज पत्ता", "ग्राम", 50], ["साबुत जीरा", "ग्राम", 50], ["स्टार फूल (चक्र फूल)", "ग्राम", 50], ["हींग", "ग्राम", 50]]],
+ ["राशन", "#977236", "🌾", "kg", [["आटा", "kg"], ["मैदा", "kg"], ["नमक", "kg"], ["चाइनीज़ चावल", "kg"], ["इंडियन चावल", "kg"], ["तिल", "kg"], ["मूंगफली", "kg"], ["नारियल पाउडर", "kg"], ["बेसन", "kg"], ["काजू", "kg"], ["मगज़", "kg"], ["सोयाबीन चूरा", "kg"], ["अरारोट", "kg"], ["अजीनोमोटो", "kg"], ["लाल रंग", "पीस"], ["हरा रंग", "पीस"], ["पीला रंग", "पीस"], ["काउंटर saunf", "kg"], ["रिफाइंड तेल", "पेटी"], ["सरसों तेल", "लीटर"], ["डालडा", "kg"]]],
+ ["दाल", "#ae6a3f", "🫘", "kg", [["अरहर दाल", "kg"], ["काली उड़द", "kg"], ["चना दाल", "kg"], ["राजमा", "kg"], ["छोले", "kg"], ["मिक्स दाल", "kg"], ["सोयाबीन बड़ी", "kg"], ["काला चना", "kg"]]],
+ ["सॉस", "#8a4c63", "🥫", "पैकेट", [["टोमैटो सॉस", "लीटर"], ["ग्रीन सॉस", "लीटर"], ["सोया सॉस", "लीटर"], ["सिरका (Vinegar)", "लीटर"], ["मखनी सॉस", "पैकेट"], ["मेयो", "पैकेट"], ["पेरी पेरी मसाला", "kg", 0.5], ["ओरिगेनो", "पैकेट"], ["ब्रेड क्रम्ब", "kg"], ["कॉर्न", "पैकेट"]]],
+ ["डेयरी", "#3f6886", "🧀", "पैकेट", [["पनीर", "चक्का"], ["दही", "kg"], ["खोया", "kg", 0.5], ["अमूल बटर", "kg"], ["डिलीशियस बटर चाप", "kg"], ["डिलीशियस बटर चाइनीज़", "kg"], ["अमूल क्रीम", "पैकेट"], ["घी चाइनीज़", "ग्राम", 50], ["घी इंडियन", "ग्राम", 50], ["नूडल्स", "पैकेट"], ["सफल मटर", "पैकेट"]]],
+ ["पैकिंग", "#5d6970", "📦", "पीस", [["500 ML चाइनीज़ चाप बॉक्स", "पीस"], ["650 ML चाइनीज़ चाप बॉक्स", "पीस"], ["300 ML इंडियन गोल ब्लैक बॉक्स", "पीस"], ["500 ML इंडियन गोल ब्लैक बॉक्स", "पीस"], ["750 ML इंडियन गोल ब्लैक बॉक्स", "पीस"], ["2 CP ब्लैक बॉक्स इंडियन", "पीस"], ["5 CP ब्लैक थाली इंडियन", "पीस"], ["7 CP ब्लैक थाली इंडियन", "पीस"], ["4 CP ब्लैक थाली चाइनीज़", "पीस"], ["कार कंटेनर हाफ", "पीस"], ["कार कंटेनर फुल", "पीस"], ["ज़ोमैटो पेपर बैग हाफ", "kg"], ["ज़ोमैटो पेपर बैग फुल", "kg"], ["कुरकुरे मोमोज़ पैकिंग", "kg"], ["डिप बॉक्स चाइनीज़", "पीस"], ["चटनी कप टेबल", "पीस"], ["छोटी डिस्पोज़ेबल प्लेट", "पीस"], ["डिस्पोज़ल गिलास", "पीस"], ["कांटा (Fork)", "पैकेट"], ["चम्मच", "पैकेट"], ["टिश्यू पेपर", "पैकेट"], ["टूथपिक", "पैकेट"], ["Food Wrap", "रोल"], ["सिल्वर फॉयल", "रोल"], ["1 kg पन्नी", "kg"], ["2 kg पन्नी", "kg"], ["5 kg पन्नी", "kg"], ["चटनी पन्नी", "kg"]]],
+ ["अन्य", "#695c88", "🔥", "पीस", [["रुमाली रोटी", "पीस"], ["कोल्ड ड्रिंक", "पेटी"], ["पानी की बोतल", "पेटी"], ["गैस सिलेंडर", "पीस"], ["कोयला", "kg"], ["सर्फ़", "kg"], ["डस्टबिन पॉलीथीन", "kg"], ["बटर ब्रश", "पीस"], ["Duster Kapda", "पीस"], ["Table Safai Kapda", "पीस"]]]
 ];
 const ITEMS=[];let n=0;const byName={};
-CATS.forEach(([cat,c,ic,du,list],ci)=>list.forEach(x=>{const [name,u]=Array.isArray(x)?x:[x,du];const it={id:++n,name,ci,c,u,step:u==="kg"?(ci===1?0.1:0.5):u==="लीटर"?0.5:1};ITEMS.push(it);byName[name]=it}));
+const SHOP={},IMG={};
+const EMO={"आलू": "🥔", "प्याज़": "🧅", "टमाटर": "🍅", "पत्ता गोभी": "🥬", "शिमला मिर्च": "🫑", "लहसुन": "🧄", "अदरक": "🫚", "ब्रोकली": "🥦", "मशरूम": "🍄", "हरी मिर्च": "🌶️", "धनिया": "🌿", "पुदीना": "🌿", "नींबू": "🍋", "बीन्स": "🫛", "गाजर": "🥕", "फूल गोभी": "🥦", "पालक": "🥬", "सिरका प्याज़": "🧅", "चुकंदर": "🟣", "सबूत लाल मिर्च": "🌶️", "काली मिर्च": "⚫", "कुटी लाल मिर्च": "🌶️", "छोटी इलायची": "🟢", "बड़ी इलायची": "🟤", "दालचीनी": "🪵", "लौंग": "🟤", "तेज पत्ता": "🍃", "स्टार फूल (चक्र फूल)": "⭐", "साबुत जीरा": "🌾", "नमक": "🧂", "काला नमक": "🧂", "आटा": "🌾", "मैदा": "🌾", "चाइनीज़ चावल": "🍚", "इंडियन चावल": "🍚", "मूंगफली": "🥜", "काजू": "🥜", "नारियल पाउडर": "🥥", "बेसन": "🌾", "तिल": "⚪", "रिफाइंड तेल": "🛢️", "सरसों तेल": "🛢️", "डालडा": "🧈", "लाल रंग": "🔴", "हरा रंग": "🟢", "पीला रंग": "🟡", "अरहर दाल": "🫘", "काली उड़द": "🫘", "चना दाल": "🫘", "राजमा": "🫘", "छोले": "🫘", "मिक्स दाल": "🫘", "सोयाबीन बड़ी": "🟤", "काला चना": "🫘", "टोमैटो सॉस": "🍅", "ग्रीन सॉस": "🟢", "सोया सॉस": "🍶", "सिरका (Vinegar)": "🍶", "मेयो": "🥚", "कॉर्न": "🌽", "ओरिगेनो": "🌿", "ब्रेड क्रम्ब": "🍞", "पनीर": "🧀", "दही": "🥣", "खोया": "🥛", "अमूल बटर": "🧈", "डिलीशियस बटर चाप": "🧈", "डिलीशियस बटर चाइनीज़": "🧈", "अमूल क्रीम": "🥛", "घी चाइनीज़": "🫙", "घी इंडियन": "🫙", "नूडल्स": "🍜", "सफल मटर": "🟢", "डिप बॉक्स चाइनीज़": "🥡", "चटनी कप टेबल": "🥣", "छोटी डिस्पोज़ेबल प्लेट": "🍽️", "डिस्पोज़ल गिलास": "🥤", "कांटा (Fork)": "🍴", "चम्मच": "🥄", "टिश्यू पेपर": "🧻", "टूथपिक": "🪥", "Food Wrap": "🧻", "सिल्वर फॉयल": "🧻", "ज़ोमैटो पेपर बैग हाफ": "🛍️", "ज़ोमैटो पेपर बैग फुल": "🛍️", "1 kg पन्नी": "🛍️", "2 kg पन्नी": "🛍️", "5 kg पन्नी": "🛍️", "चटनी पन्नी": "🛍️", "कुरकुरे मोमोज़ पैकिंग": "🥟", "कार कंटेनर हाफ": "🥡", "कार कंटेनर फुल": "🥡", "रुमाली रोटी": "🫓", "कोल्ड ड्रिंक": "🥤", "पानी की बोतल": "💧", "गैस सिलेंडर": "🔥", "कोयला": "⚫", "सर्फ़": "🧼", "डस्टबिन पॉलीथीन": "🗑️", "बटर ब्रश": "🖌️", "Duster Kapda": "🧽", "Table Safai Kapda": "🧽"};
+const CATI={"सब्ज़ी":"🥬","मसाला":"🌶️","राशन":"🌾","दाल":"🫘","सॉस":"🍶","डेयरी":"🧀","पैकिंग":"📦","अन्य":"🧺"};
+const thumb=(n,ci,cls="th")=>{const e=EMO[n]||CATI[(CATS[ci]||[])[0]]||"🧺";return IMG[n]?`<span class="${cls}"><img src="https://lh3.googleusercontent.com/d/${encodeURIComponent(IMG[n])}=w160" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('em');this.parentNode.textContent='${e}'"></span>`:`<span class="${cls} em" aria-hidden="true">${e}</span>`};
+const thumbN=(n,cls)=>{const it=byName[n];return thumb(n,it?it.ci:-1,cls)};
+function buildItems(){ITEMS.length=0;n=0;Object.keys(byName).forEach(k=>delete byName[k]);
+  CATS.forEach(([cat,c,ic,du,list],ci)=>list.forEach(x=>{const [name,u,st]=Array.isArray(x)?x:[x,du];const sp=cat==="मसाला";const fixed=+st>0;
+    const it={id:++n,name,ci,c,u,fixed,shop:SHOP[name]||"",step:fixed?+st:u==="ग्राम"?50:u==="kg"?(sp?0.1:0.5):u==="लीटर"?0.5:1};ITEMS.push(it);byName[name]=it}))}
+const CAT_VER=2; /* बिल्ट-इन सामान लिस्ट का वर्ज़न (Excel 26 नवंबर) */
+const amt=(u,q,r)=>u==="ग्राम"?q*r/1000:q*r;
+const rateUnit=u=>u==="ग्राम"?"1 kg":"1 "+u;
+const buyStep=(n,u)=>{const it=byName[n];if(it&&it.fixed)return it.step;return u==="ग्राम"?50:1};
+const buyMin=(n,u)=>String(buyStep(n,u));
+/* खरीदार कुल रकम लिखता है; 1 इकाई (ग्राम के लिए 1 kg) का दाम ऐप खुद निकालता है */
+const syncR=e=>{const q=parseFloat(e.q),t=parseFloat(e.t);e.r=q>0&&t>0?String(Math.round((e.u==="ग्राम"?t*1000/q:t/q)*10000)/10000):""};
+const r2=v=>Math.round(v*100)/100;
+buildItems();
+const BASE_CATS=CATS.map(c=>c.slice());
+const PAL=["#3f7a4f","#a24c3f","#977236","#ae6a3f","#8a4c63","#3f6886","#5d6970","#695c88"];
 const byId=id=>ITEMS.find(it=>it.id==id);
-const quick=it=>/कोल्ड ड्रिंक|पानी की बोतल/.test(it.name)?[12,24,48,96]:it.u==="kg"?(it.ci===1?[0.1,0.25,0.5,1]:[0.5,1,2,5]):it.u==="लीटर"?[1,2,5,15]:it.u==="पीस"&&it.ci===6?[25,50,100,200]:[1,2,5,10];
+const quick=it=>it.u==="ग्राम"?[50,100,250,500]:it.fixed?[it.step,it.step*2,it.step*4,it.step*10]:/पेटी|चक्का|रोल/.test(it.u)?[1,2,3,5]:/कोल्ड ड्रिंक|पानी की बोतल/.test(it.name)?[12,24,48,96]:it.u==="kg"?(CATS[it.ci][0]==="मसाला"?[0.1,0.25,0.5,1]:[0.5,1,2,5]):it.u==="लीटर"?[1,2,5,15]:it.u==="पीस"&&CATS[it.ci][0]==="पैकिंग"?[25,50,100,200]:[1,2,5,10];
 const fmt=v=>{const x=parseFloat(v);return isNaN(x)||x<=0?"":String(Math.round(x*100)/100)};
 const esc=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
 const $=id=>document.getElementById(id);
@@ -420,9 +642,11 @@ const catColor=name=>(CATS.find(c=>c[0]===name)||[0,"#777"])[1];
 
 /* ---------- saved on this phone ---------- */
 const KEY="so-v5";
-let state={picked:{},pickedFor:"",who:"",names:[],dev:"",admin:false};
+let state={picked:{},pickedFor:"",who:"",names:[],dev:"",admin:false,role:"",code:"",codes:{},sheet:""};
 try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.picked)state=Object.assign(state,s)}catch(e){}
 if(!state.dev)state.dev=Math.random().toString(36).slice(2,8);
+if(!state.codes||typeof state.codes!=="object")state.codes={};
+if(state.code&&state.role&&!state.codes[state.role])state.codes[state.role]=state.code;delete state.code;
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}};
 save();
 
@@ -440,18 +664,45 @@ let forDate=ymd(addDays(now,1));
 let screen="start",curCat=0;
 
 /* ---------- server ---------- */
+/* ---------- DEMO server (असली ऐप में Google Sheet) ---------- */
+const DB={subs:{},buys:{}};
+(DEMO?function seed(){
+  const mk=(who,dev,list)=>({who,dev,at:Date.now()-3600e3,items:list.map(([n,q])=>{const it=byName[n];return {c:CATS[it.ci][0],n,u:it.u,q}})});
+  const tmr=ymd(addDays(now,1));
+  const base=[mk("राजू","d1",[["टमाटर",null],["प्याज़",10],["आलू",5],["हरी मिर्च",1],["पनीर",null]]),
+    mk("मोहन (हेल्पर)","d2",[["नूडल्स",6],["सोया सॉस",2],["डस्टबिन पॉलीथीन",null],["सर्फ़",5]]),
+    mk("बहादुर (चाइनीज़)","d3",[["पत्ता गोभी",3],["शिमला मिर्च",2],["प्याज़",5]])];
+  DB.subs[TODAY]=base.map(s=>Object.assign({d:TODAY},s));
+  DB.subs[tmr]=base.slice(0,2).map(s=>Object.assign({d:tmr},s));
+  const R={"टमाटर":[24,26,26,30,30,32],"प्याज़":[27,28,28,27,28,28],"पनीर":[360,360,370,370,380,380],"आलू":[18,18,20,20,20,22],"नूडल्स":[45,45,45,45,46,46],"सर्फ़":[20,20,20,20,20,20],"डस्टबिन पॉलीथीन":[60,60,60,65,65,65]};
+  const Q={"टमाटर":5,"प्याज़":10,"पनीर":4,"आलू":5,"नूडल्स":6,"सर्फ़":5,"डस्टबिन पॉलीथीन":2};
+  for(let k=6;k>=1;k--){const d=ymd(addDays(now,-k));const names=Object.keys(R).filter((n,i)=>(k+i)%3!==0||n==="पनीर");
+    DB.subs[d]=[mk("राजू","d1",names.map(n=>[n,n==="पनीर"?null:Q[n]])).valueOf()].map(s=>Object.assign({d},s));
+    DB.buys[d]=names.map(n=>{const it=byName[n];return {n,c:CATS[it.ci][0],u:it.u,q:Q[n],r:R[n][6-k]}})}
+}:function(){})();
+async function demoApi(p,b){
+  await new Promise(r=>setTimeout(r,250));
+  if(b&&b.action==="submit"){const l=(DB.subs[b.date]||[]).filter(s=>!(s.dev===b.dev&&s.who===b.who));if(b.items.length)l.push({d:b.date,dev:b.dev,who:b.who,at:Date.now(),items:b.items});DB.subs[b.date]=l;return{ok:true}}
+  if(b&&b.action==="buy"){DB.buys[b.date]=b.rows;return{ok:true}}
+  if(b&&b.action==="delete")return{ok:true};
+  if(p.action==="day")return{ok:true,subs:DB.subs[p.date]||[],buys:DB.buys[p.date]||[]};
+  if(p.action==="range"){let subs=[],buys=[];Object.keys(DB.subs).forEach(d=>{if(d>=p.from&&d<=p.to)subs=subs.concat(DB.subs[d])});Object.keys(DB.buys).forEach(d=>{if(d>=p.from&&d<=p.to)buys=buys.concat(DB.buys[d].map(x=>Object.assign({d},x)))});return{ok:true,subs,buys}}
+  return{ok:false,error:"demo"};
+}
 async function api(params,body){
+  if(DEMO)return demoApi(params||{},body);
   if(!READY)throw new Error("setup");
   const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),25000);
   try{
     const url=API+(params?"?"+new URLSearchParams(params):"");
-    const res=await fetch(url,body?{method:"POST",body:JSON.stringify(body),signal:ctrl.signal}:{signal:ctrl.signal});
-    const j=await res.json();
+    let res,j;
+    try{res=await fetch(url,body?{method:"POST",body:JSON.stringify(body),signal:ctrl.signal}:{signal:ctrl.signal});j=await res.json()}
+    catch(err){throw new Error("net")}
     if(!j.ok)throw new Error(j.error||"server");
     return j;
   }finally{clearTimeout(t)}
 }
-const errText=e=>e&&e.message==="setup"?"ऐप अभी Google Sheet से नहीं जुड़ा है।":"इंटरनेट या सर्वर से जुड़ नहीं पाए।";
+const errText=e=>e&&e.message==="net"?"इंटरनेट नहीं मिल रहा।":e&&e.message==="locked"?"बहुत बार गलत कोड — 10 मिनट बाद कोशिश करें।":e&&e.message==="setup"?"ऐप अभी Google Sheet से नहीं जुड़ा है।":e&&e.message==="action"?"Google Sheet का कोड (Code.gs) अभी अपडेट नहीं हुआ।":e&&e.message==="code"?"कोड बदल गया है — फिर से लॉगिन करें।":"इंटरनेट या सर्वर से जुड़ नहीं पाए।";
 const isMine=s=>s.dev===state.dev&&s.who===(state.who||"");
 const label=s=>s.who||"बिना नाम";
 
@@ -470,14 +721,15 @@ function aggregate(subs){
 const qText=e=>e.hasQ?`${e.q} ${e.u}`:"—";
 
 /* ---------- navigation ---------- */
-const SCREENS=["login","start","cats","items","review","done","combined","report"];
+const SCREENS=["login","start","cats","items","review","done","combined","report","hisab","photos"];
 function show(s){
-  if((s==="combined"||s==="report")&&!state.admin)s="start";
+  if((s==="combined"||s==="report"||s==="photos")&&state.role!=="own")s="start";
+  if(s==="hisab"&&state.role!=="buy"&&state.role!=="own")s="start";
   screen=s;
   SCREENS.forEach(id=>$(id).hidden=id!==s);
-  $("bar").hidden=!(s==="cats"||s==="items");
+  $("bar").hidden=!(s==="cats"||s==="items");$("hBar").hidden=true;
   window.scrollTo(0,0);
-  ({start:renderStart,cats:renderCats,items:renderItems,review:renderReview,combined:()=>loadC(),report:()=>{if(!rFrom)setPeriod("week");loadRep()}}[s]||(()=>{}))();
+  ({photos:()=>renderPhotos(),hisab:()=>loadH(),start:renderStart,cats:renderCats,items:renderItems,review:renderReview,combined:()=>loadC(),report:()=>{if(!rFrom)setPeriod("week");loadRep()}}[s]||(()=>{}))();
   renderBar();
 }
 function goBack(){
@@ -496,8 +748,24 @@ function dateChips(el,sel){
 }
 function renderStart(){
   $("helloName").textContent=state.who;
-  $("adminRow").hidden=!state.admin;$("adminBox").hidden=true;
-  $("adminLink").textContent=state.admin?"🔑 एडमिन बंद करो":"🔑 एडमिन";
+  state.admin=state.role==="own";
+  $("roleRow").hidden=!!state.role;$("roleMenu").hidden=!state.role;$("adminBox").hidden=true;$("ownGrid").hidden=state.role!=="own";
+  $("toSheet").hidden=!state.sheet;if(state.sheet)$("toSheet").href=state.sheet;
+  const r=state.role;
+  const isBO=r==="buy"||r==="own";
+  $("listHero").hidden=$("dateBox").hidden=$("go").hidden=r!=="chef";$("roleHero").hidden=!isBO;
+  $("roleMenu").hidden=!isBO;$("roleRow").hidden=!!r;
+  {const d=new Date();$("lDate").textContent=`${DAY[d.getDay()]}, ${d.getDate()} ${MON[d.getMonth()]}`}$("ownGrid").hidden=r!=="own";$("toHome").hidden=!r;$("adminBox").hidden=true;
+  $("roleChip").hidden=!r;$("roleChip").textContent=ROLE_NAME[r]||"";
+  if(r){$("roleH1").textContent=r==="own"?"मालिक":"खरीदार";$("roleP").textContent=r==="own"?"हिसाब, कुल लिस्ट और पूरा रिकॉर्ड":"बाज़ार से लाया सामान और उसका दाम लिखें"}
+  $("hisabSub").textContent=r==="own"?"खरीदार ने क्या लिखा · देखें या बदलें":"लाया हुआ सामान और दाम लिखें";
+  $("toSheet").hidden=!state.sheet;if(state.sheet)$("toSheet").href=state.sheet;
+  if(!r)landStatus();
+  $("bBuy").textContent=state.codes.buy?"खुला":"🔒 कोड";$("bOwn").textContent=state.codes.own?"खुला":"🔒 कोड";
+  $("bBuy").classList.toggle("free",!!state.codes.buy);$("bOwn").classList.toggle("free",!!state.codes.own);
+  const lb=(k)=>`<span class="li"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><span>${ROLE_NAME[k]}<small>${state.codes[k]?"खुला है · सीधे जाएँ":"कोड से खुलेगा"}</small></span>`;
+
+  $("toBuy").classList.toggle("open",!!state.codes.buy);$("toOwn").classList.toggle("open",!!state.codes.own);
   $("setup").hidden=READY;
   dateChips($("dchips"),forDate);$("fordate").value=forDate;
 }
@@ -528,6 +796,7 @@ const othersText=e=>e.hasQ?`${e.q} ${e.u}`:"जुड़ा है";
 
 /* ---------- categories / items ---------- */
 const picked=()=>ITEMS.filter(it=>it.id in state.picked);
+const CAT_ICON={"सब्ज़ी": "<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 19c0-8 6-14 15-14 0 9-6 15-14 15\"/><path d=\"M5 19l8-8\"/></svg>", "मसाला": "<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M14 6c3 0 5 2 5 5 0 6-7 10-14 9 4-2 6-5 6-9 0-3 1-5 3-5z\"/><path d=\"M14 6c0-1.5 1-3 3-3\"/></svg>", "राशन": "<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 21V7\"/><path d=\"M12 11c-2 0-4-1.5-4-4 2 0 4 1.5 4 4zm0 0c2 0 4-1.5 4-4-2 0-4 1.5-4 4zm0 5c-2 0-4-1.5-4-4 2 0 4 1.5 4 4zm0 0c2 0 4-1.5 4-4-2 0-4 1.5-4 4z\"/></svg>", "दाल": "<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 11h18a9 9 0 0 1-18 0z\"/><path d=\"M8 8c.5-1 1.5-1 2 0M12 7c.5-1 1.5-1 2 0M15 9c.5-1 1.5-1 2 0\"/></svg>", "सॉस": "<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10 3h4v4l2 3v10a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V10l2-3z\"/><path d=\"M8 14h8\"/></svg>", "डेयरी": "<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8 3h8v3l2 3v12H6V9l2-3z\"/><path d=\"M6 9h12M10 14h4\"/></svg>", "पैकिंग": "<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 7l9-4 9 4-9 4-9-4z\"/><path d=\"M3 7v10l9 4 9-4V7M12 11v10\"/></svg>", "अन्य": "<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"4\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"13\" y=\"4\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"4\" y=\"13\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"13\" y=\"13\" width=\"7\" height=\"7\" rx=\"1.5\"/></svg>"};
 function renderCats(){
   $("catsTitle").innerHTML=`<small>${esc(hiDate(forDate))} के लिए</small>क्या सामान चाहिए?`;
   let st="";
@@ -536,14 +805,14 @@ function renderCats(){
   else if(day.subs&&state.admin){const o=day.subs.filter(s=>!isMine(s)).length;st=o?`इस दिन के लिए <b>${o} लिस्ट</b> पहले आ चुकी हैं। आपका सामान उसमें जुड़ जाएगा।`:"इस दिन के लिए अभी कोई और लिस्ट नहीं आई।"}
   $("dayStatus").innerHTML=st;
   $("catGrid").innerHTML=CATS.map(([cat,c,ic,,list],ci)=>{const k=picked().filter(it=>it.ci===ci).length;
-    return `<button type="button" class="cat" style="--c:${c}" data-ci="${ci}">${k?`<span class="badge">${k}</span>`:""}<span class="ic" aria-hidden="true">${ic}</span><span><span class="nm">${cat}</span><span class="ct">${list.length} items</span></span></button>`}).join("");
+    return `<button type="button" class="cat" style="--c:${c}" data-ci="${ci}">${k?`<span class="badge">${k}</span>`:""}<span class="ic" aria-hidden="true">${CAT_ICON[cat]||ic}</span><span><span class="nm">${cat}</span><span class="ct">${list.length} सामान</span></span></button>`}).join("");
 }
 function renderItems(){
   const [cat,c]=CATS[curCat];const om=othersMap();
   $("catTitle").innerHTML=`<small>जो सामान चाहिए उस पर टैप करो</small>${cat}`;
   $("itemGrid").innerHTML=ITEMS.filter(it=>it.ci===curCat).map(it=>{
     const on=it.id in state.picked,q=fmt(state.picked[it.id]),o=om[it.name];
-    return `<div class="tile${on?" on":""}" style="--c:${c}"><button type="button" class="pick" data-id="${it.id}" aria-pressed="${on}"><span class="t">${esc(it.name)}<small>${on&&q?`<b class="qchip">${q} ${it.u}</b>`:on?`<b class="qchip">चुना</b>`:it.u}</small>${o?`<small class="othr">पहले से: ${esc(othersText(o))}</small>`:""}</span><span class="tick">✓</span></button></div>`}).join("");
+    return `<div class="tile${on?" on":""}" style="--c:${c}"><button type="button" class="pick" data-id="${it.id}" aria-pressed="${on}">${thumb(it.name,it.ci)}<span class="t">${esc(it.name)}<small>${on&&q?`<b class="qchip">${q} ${it.u}</b>`:on?`<b class="qchip">चुना</b>`:it.u}</small>${o?`<small class="othr">पहले से: ${esc(othersText(o))}</small>`:""}</span><span class="tick">✓</span></button></div>`}).join("");
 }
 function renderBar(){
   const p=picked(),k=p.length,noQty=p.filter(it=>!fmt(state.picked[it.id])).length;
@@ -606,9 +875,9 @@ function setQty(id,v){
 async function submit(items,btn){
   const txt=btn.textContent;btn.disabled=true;btn.textContent="भेज रहे हैं…";$("subErr").hidden=true;
   try{
-    await api(null,{action:"submit",date:forDate,dev:state.dev,who:state.who||"",items});
+    const r=await send({action:"submit",date:forDate,dev:state.dev,who:state.who||"",items});
     state.picked={};state.pickedFor="";save();
-    $("doneTxt").textContent=items.length?`${hiDate(forDate)} के लिए ${items.length} सामान भेजे गए। धन्यवाद!`:`${hiDate(forDate)} की आपकी लिस्ट हटा दी गई।`;
+    $("doneTxt").textContent=(items.length?`${hiDate(forDate)} के लिए ${items.length} सामान भेजे गए। धन्यवाद!`:`${hiDate(forDate)} की आपकी लिस्ट हटा दी गई।`)+(r&&r.queued?" (इंटरनेट नहीं है — लिस्ट फ़ोन में रुकी है, इंटरनेट आते ही अपने-आप चली जाएगी।)":"");
     day.date="";$("doneCombined").hidden=!state.admin;show("done");
   }catch(e){$("subErr").textContent="लिस्ट नहीं गई। "+errText(e)+" फिर से “लिस्ट भेजो” दबाओ।";$("subErr").hidden=false;if(btn.id==="withdraw"){$("sendbox").hidden=false}}
   finally{btn.disabled=false;btn.textContent=txt}
@@ -681,13 +950,13 @@ function setPeriod(p){
 }
 async function loadRep(){
   const key=rFrom+"_"+rTo;rep={key,subs:null,loading:true,error:""};renderRep();
-  try{const j=await api({action:"range",from:rFrom,to:rTo});if(rep.key!==key)return;rep.subs=j.subs}
+  try{const j=await api(null,{action:"report",from:rFrom,to:rTo,code:state.codes.own||""});if(rep.key!==key)return;rep.subs=j.subs;rep.buys=(j.buys||[]).filter(x=>!x.na);rep.cash=j.cash||[];rep.na=(j.buys||[]).filter(x=>x.na).length}
   catch(e){if(rep.key!==key)return;rep.error=errText(e)}
   rep.loading=false;renderRep();
 }
 function repMessage(rows,days){
   let m=`*Secret Ovens – सामान का हिसाब*\n📅 ${shortDate(rFrom)} से ${shortDate(rTo)} ${parse(rTo).getFullYear()}\n🧾 ${days} दिन की लिस्टें\n`;let cur="";
-  rows.forEach(e=>{if(e.c!==cur){cur=e.c;m+=`\n*${cur}*\n`}m+=`• ${e.n} – ${e.hasQ?e.q+" "+e.u:"मात्रा नहीं"} (${e.days.size} दिन)\n`});
+  rows.forEach(e=>{if(e.c!==cur){cur=e.c;m+=`\n*${cur}*\n`}m+=`• ${e.n} – ${e.cost?e.cost.q+" "+e.cost.u+" · "+money(e.cost.t):(e.hasQ?e.q+" "+e.u:"मात्रा नहीं")} (${e.days.size} दिन)\n`});
   return m;
 }
 function renderRep(){
@@ -698,17 +967,219 @@ function renderRep(){
   if(rep.loading){o.innerHTML=`<p class="empty">लोड हो रहा है…</p>`;return}
   if(rep.error){o.innerHTML=`<p class="empty">⚠️ ${esc(rep.error)}</p><div class="sendbox"><button class="btn ghost wide" data-act="rrefresh">फिर से कोशिश करें ↻</button></div>`;return}
   const subs=rep.subs||[];
-  if(!subs.length){o.innerHTML=`<p class="empty">इन तारीखों में कोई लिस्ट नहीं आई।</p>`;return}
+  if(!subs.length&&!(rep.buys||[]).length){o.innerHTML=`<p class="empty">इन तारीखों में कोई लिस्ट नहीं आई।</p>`;return}
   const rows=aggregate(subs),days=new Set(subs.map(s=>s.d)).size;
-  o.innerHTML=`<div class="sum"><div><b>${days}</b><span>दिन की लिस्टें</span></div><div><b>${rows.length}</b><span>अलग-अलग सामान</span></div></div>
+  const cost={};let all=0;(rep.buys||[]).forEach(x=>{const k=x.n;const c=cost[k]||(cost[k]={t:0,q:0,u:x.u,min:1e9,max:0,n:0});c.t+=amt(x.u,x.q,x.r);c.q+=x.q;c.n++;c.min=Math.min(c.min,x.r);c.max=Math.max(c.max,x.r);all+=amt(x.u,x.q,x.r)});
+  rows.forEach(e=>e.cost=cost[e.n]);
+  (rep.buys||[]).forEach(x=>{if(!rows.find(r=>r.n===x.n)){const c=cost[x.n];rows.push({n:x.n,c:x.c,u:x.u,q:0,hasQ:false,days:new Set([x.d]),cost:c})}});
+  const byCat={};(rep.buys||[]).forEach(x=>byCat[x.c]=(byCat[x.c]||0)+amt(x.u,x.q,x.r));
+  const cats=Object.entries(byCat).sort((a,b)=>b[1]-a[1]),cmax=cats.length?cats[0][1]:1;
+  const rises=Object.entries(cost).filter(([k,c])=>c.n>1&&c.max>=c.min*1.15).sort((a,b)=>b[1].max/b[1].min-a[1].max/a[1].min).slice(0,6);
+  o.innerHTML=`<div class="sum"><div><b>${money(all)}</b><span>कुल खर्च (खरीदार के बिल से)</span></div><div><b>${days}</b><span>दिन की लिस्टें · ${rows.length} सामान</span></div>
+</div>
+  ${(()=>{const dd={};(rep.buys||[]).forEach(x=>dd[x.d]=(dd[x.d]||0)+amt(x.u,x.q,x.r));const ds=Object.keys(dd).sort();if(!ds.length)return"";const mx=Math.max(...ds.map(k=>dd[k]));
+    return `<div class="group"><h3>रोज़ का खर्च</h3>${ds.map(k=>`<div class="cbar"><span class="t">${esc(shortDate(k))}</span><span class="bw"><i style="width:${Math.max(3,dd[k]/mx*100)}%;background:var(--brand)"></i></span><span class="rs">${money(dd[k])}</span></div>`).join("")}</div>`})()}
+  ${cats.length?`<div class="group"><h3>कैटेगरी-वार खर्च</h3>${cats.map(([c,v])=>`<div class="cbar"><span class="t">${esc(c)}</span><span class="bw"><i style="width:${Math.max(3,v/cmax*100)}%;background:${catColor(c)}"></i></span><span class="rs">${money(v)}</span></div>`).join("")}</div>`:""}
+  ${rises.length?`<div class="group"><h3>⚠ दाम बढ़े (15% से ज़्यादा)</h3>${rises.map(([k,c])=>`<div class="trow"><span class="t">${esc(k)}</span><span class="rs up">₹${c.min} → ₹${c.max}</span></div>`).join("")}</div>`:""}
+  ${rep.na?`<p class="tip">${rep.na} बार सामान बाज़ार में नहीं मिला</p>`:""}
   <div class="sendbox top"><a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(repMessage(rows,days))}">हिसाब WhatsApp पर भेजें</a><button class="btn ghost wide" data-act="rcopy">कॉपी करें</button></div>`+
-  groupsHTML(rows,e=>`<div class="trow"><span class="t">${esc(e.n)}</span><span class="q">${esc(qText(e))}</span><span class="d">${e.days.size} दिन</span></div>`);
+  groupsHTML(rows,e=>`<div class="trow"><span class="t">${esc(e.n)}${e.cost?`<small class="by">${e.cost.n} बार खरीदा · ${e.cost.q} ${esc(e.cost.u)} · रेट ₹${e.cost.min}${e.cost.max!==e.cost.min?"–"+e.cost.max:""}</small>`:""}</span><span class="d">${e.days.size} दिन</span><span class="rs">${e.cost?money(e.cost.t):"—"}</span></div>`);
   o.dataset.msg=repMessage(rows,days);
 }
 $("pchips").addEventListener("click",e=>{const b=e.target.closest("[data-p]");if(b){setPeriod(b.dataset.p);loadRep()}});
 $("rfrom").addEventListener("change",e=>{if(e.target.value){rFrom=e.target.value;period="";loadRep()}});
 $("rto").addEventListener("change",e=>{if(e.target.value){rTo=e.target.value;period="";loadRep()}});
 $("repOut").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if(b.dataset.act==="rrefresh")loadRep();if(b.dataset.act==="rcopy")copy($("repOut").dataset.msg||"")});
+
+/* ---------- बाज़ार हिसाब (खरीदार लिखे, मालिक देखे) ---------- */
+let hDate=TODAY,H={date:"",rows:null,loading:false,error:""};
+const money=v=>"₹"+Math.round(v).toLocaleString("en-IN");
+async function loadH(){
+  const date=hDate;H={date,rows:null,loading:true,error:"",given:"",photos:[],last:{},extra:[],lump:""};renderH();
+  try{const j=await api(null,{action:"hisab",date,code:state.codes[state.role]||""});if(H.date!==date)return;
+    const saved={};(j.buys||[]).forEach(x=>saved[x.n]=x);
+    const qd=QUEUE.find(x=>x.body.action==="buy"&&x.body.date===date);
+    if(qd)qd.body.rows.forEach(x=>saved[x.n]=x);
+    const mk=(n,c,u,cq,s)=>({n,c,u,cq,step:buyStep(n,u),shop:(byName[n]&&byName[n].shop)||"",na:!!(s&&s.na),q:s?(s.na?buyMin(n,u):String(s.q)):(cq!==null?String(cq):buyMin(n,u)),r:s&&!s.na?String(s.r):"",t:s&&!s.na&&s.q>0&&s.r>0?String(Math.round(amt(u,+s.q,+s.r)*100)/100):""});
+    {const lp=Object.values(saved).find(x=>x.c==="एकमुश्त");H.lump=lp?String(lp.r):"";Object.keys(saved).forEach(k=>{if(saved[k].c==="एकमुश्त")delete saved[k]})}
+    H.extra=Object.values(saved).filter(x=>x.c==="अन्य खर्च").map(x=>({t:x.n.replace(/^अन्य खर्च:\s*/,""),a:String(x.r)}));
+    Object.keys(saved).forEach(k=>{if(saved[k].c==="अन्य खर्च")delete saved[k]});
+    H.rows=aggregate(j.subs||[]).map(e=>{const s=saved[e.n];return mk(e.n,e.c,s?s.u:e.u,e.hasQ?e.q:null,s)});
+    Object.values(saved).forEach(x=>{if(!H.rows.find(r=>r.n===x.n))H.rows.push(mk(x.n,x.c,x.u,null,x))});
+    H.last=j.last||{};
+    H.given=qd?String(qd.body.given||""):(j.cash&&j.cash.given?String(j.cash.given):"");
+    H.photos=j.cash&&j.cash.photo?j.cash.photo.split(/\s+/).filter(Boolean):[];
+  }catch(e){if(H.date!==date)return;H.error=errText(e);if(e.message==="code"){delete state.codes[state.role];state.role="";save()}}
+  H.loading=false;renderH();
+}
+function hGroups(rows,fn){
+  if(!rows.some(r=>r.shop))return groupsHTML(rows,fn);
+  const order=[],map={};rows.forEach(r=>{const k=r.shop||"बाकी सामान";if(!map[k]){map[k]=[];order.push(k)}map[k].push(r)});
+  order.sort((a,b)=>(a==="बाकी सामान")-(b==="बाकी सामान"));
+  return order.map(k=>`<div class="group shopg"><h3>${SHOPIC}${esc(k)}<span class="gc">${map[k].length}</span></h3>${map[k].map(fn).join("")}</div>`).join("");
+}
+function renderH(){
+  const own=state.role==="own";
+  $("hTitle").innerHTML=own?"<small>मालिक</small>बाज़ार का हिसाब":"<small>खरीदार</small>बाज़ार का हिसाब";
+  const opts=[[ymd(addDays(now,-1)),"बीता कल"],[TODAY,"आज"],[ymd(addDays(now,1)),"कल"]];
+  $("hdchips").innerHTML=opts.map(([v,l])=>`<button type="button" data-d="${v}" aria-pressed="${v===hDate}"><b>${parse(v).getDate()}</b><span>${l} · ${DAY[parse(v).getDay()]}</span></button>`).join("");
+  $("hdate").value=hDate;$("hdate").max=ymd(addDays(now,2));
+  const o=$("hOut");$("hBar").hidden=true;
+  if(H.loading){o.innerHTML=`<p class="empty">लोड हो रहा है…</p>`;return}
+  if(H.error){o.innerHTML=`<p class="empty">⚠️ ${esc(H.error)}</p><div class="sendbox"><button class="btn ghost wide" id="hRetry">फिर से कोशिश करें ↻</button></div>`;return}
+  $("hBar").hidden=false;
+  let h=`<div class="daytotal"><span>${esc(hiDate(hDate))} को आया सामान</span><b id="hSpent">₹0</b><small id="hCount"></small></div>
+  <div class="photorow"><label class="btn ghost" for="hPhoto">${CAM} बिल की फ़ोटो लें</label><input type="file" id="hPhoto" accept="image/*" capture="environment" hidden>
+    <span class="pst" id="hPhotoSt">${H.photos.length?`✓ ${H.photos.length} फ़ोटो सेव`:"दुकान की पर्ची की फ़ोटो"}</span></div>
+  <details class="lump"${H.lump||!H.rows.length?" open":""}><summary><span>आइटम नहीं लिखे? <b>पूरे दिन की रकम</b> लिखें</span><i>${CHEVJS}</i></summary>
+    <div class="lumpin"><div class="price"><span>₹</span><input id="hLump" type="number" inputmode="decimal" min="0" placeholder="जैसे 3000" value="${esc(H.lump)}" aria-label="पूरे दिन की रकम"></div>
+    <small>उस दिन जितने का भी सामान आया, उसकी कुल रकम। ये दिन के खर्च और रिपोर्ट में जुड़ेगी।</small></div></details>
+  ${own&&H.photos.length?`<div class="plinks">${H.photos.map((u,i)=>`<a href="${esc(u)}" target="_blank" rel="noopener">बिल ${i+1} देखें ↗</a>`).join("")}</div>`:""}
+  ${H.rows.length?"":`<p class="empty sm">${esc(hiDate(hDate))} की लिस्ट नहीं आई — ऊपर पूरे दिन की रकम लिख सकते हैं।</p>`}
+  ${H.rows.length?"":"<!--"}<ol class="howto"><li><span><b>+ / −</b> से बताएँ कितना लाए</span></li><li><span>कुल <b>कितने का आया</b>, वो रकम लिखें</span></li><li><span>नहीं मिला तो <b>नहीं मिला</b> दबाएँ</span></li><li><span>नीचे <b>सेव करें</b> दबाएँ</span></li></ol>${H.rows.length?"":"-->"}`;
+  h+=hGroups(H.rows,e=>{const x=H.rows.indexOf(e),l=H.last[e.n];return `<div class="brow" id="hr${x}">
+   <div class="bh"><span class="bnw">${thumbN(e.n,"th sm")}<span class="bn">${esc(e.n)}</span></span>${e.cq===null?'<span class="bmiss">शेफ़ ने मात्रा नहीं लिखी</span>':`<span class="bask">लिस्ट में: ${e.cq} ${esc(e.u)}</span>`}</div>
+   <div class="bg">
+    <div class="bcol"><span class="bl">कितना लाए</span><div class="stepper hstep"><button type="button" class="st hst" data-hx="${x}" data-hstep="-1" aria-label="कम">−</button><label class="val"><input id="hq${x}" data-hx="${x}" data-hf="q" type="number" inputmode="decimal" min="0" placeholder="0" value="${esc(e.q)}" aria-label="${esc(e.n)} कितना लाए"><span>${esc(e.u)}</span></label><button type="button" class="st hst" data-hx="${x}" data-hstep="1" aria-label="ज़्यादा">+</button></div></div>
+    <div class="bcol"><label class="bl" for="hr_${x}">कुल कितने का आया</label><div class="price"><span>₹</span><input id="hr_${x}" data-hx="${x}" data-hf="t" type="number" inputmode="decimal" min="0" placeholder="0" value="${esc(e.t)}"></div></div>
+   </div>
+   <div class="bt"><button type="button" class="na" data-na="${x}" aria-pressed="${e.na}">नहीं मिला</button><span class="bf"><span id="hl${x}" class="last">${l?`पिछली बार ₹${l.r}/${esc(l.u||e.u)}`:""}</span><span id="hf${x}"></span></span><b id="ht${x}">—</b></div></div>`});
+  h+=`<div class="group xg"><h3>अन्य खर्च<span class="gc">ऑटो, मज़दूरी, कुछ और</span></h3><div id="xList">${xRows()}</div>
+    <button type="button" class="btn ghost xadd" id="xAdd">+ अन्य खर्च जोड़ें</button></div>`;
+  h+=`<div class="sendbox"><a class="btn wa" id="hWa" target="_blank" rel="noopener" href="#">बिल WhatsApp पर भेजें</a><button class="btn ghost wide" id="hAdd">+ लिस्ट में और सामान जोड़ें</button></div>`;
+  o.innerHTML=h;updH();
+}
+function xRows(){return (H.extra||[]).map((x,i)=>`<div class="xrow"><input class="xt" data-xi="${i}" data-xf="t" placeholder="किस चीज़ का खर्च" value="${esc(x.t)}" aria-label="खर्च किस चीज़ का">
+  <div class="price"><span>₹</span><input data-xi="${i}" data-xf="a" type="number" inputmode="decimal" min="0" placeholder="0" value="${esc(x.a)}" aria-label="रकम"></div>
+  <button type="button" class="xdel" data-xdel="${i}" aria-label="हटाएँ">×</button></div>`).join("")}
+const xSum=()=>(H.extra||[]).reduce((a,x)=>a+(parseFloat(x.a)||0),0);
+function hMsg(){let m=`*${brandName()} – बाज़ार बिल*\n📅 ${hiDate(hDate)}\n`;let t=0;
+  H.rows.forEach(e=>{const q=parseFloat(e.q),r=parseFloat(e.r);if(e.na){m+=`• ${e.n}: ❌ नहीं मिला\n`;return}const tt=parseFloat(e.t);if(q>0&&tt>0){t+=tt;m+=`• ${e.n}: ${e.q} ${e.u} = ${money(tt)} (${rateUnit(e.u)} ₹${r2(r)})\n`}else m+=`• ${e.n}: ❗ ${q>0?"रेट":"मात्रा"} बाकी\n`});
+  {const lp=parseFloat(H.lump)||0;if(lp){t+=lp;m+=`• पूरे दिन की रकम (बिना लिस्ट) = ${money(lp)}\n`}}
+  (H.extra||[]).forEach(x=>{const a=parseFloat(x.a)||0;if(a){t+=a;m+=`• अन्य: ${x.t||"खर्च"} = ${money(a)}\n`}});
+  return m+`\n*कुल: ${money(t)}*`}
+const brandName=()=>(document.querySelector(".brand b")||{}).textContent||"Secret Ovens";
+function updH(){let t=0,d=0;
+  H.rows.forEach((e,x)=>{const q=parseFloat(e.q),r=parseFloat(e.r),tt=parseFloat(e.t),ok=!e.na&&q>0&&tt>0,l=H.last[e.n];if(ok){t+=tt}if(ok||e.na)d++;
+    const row=$("hr"+x);row.className="brow "+(e.na?"isna":ok?"isdone":e.cq===null?"ismiss":"");
+    row.querySelectorAll("input,.hst").forEach(i=>i.disabled=e.na);
+    let hint=e.na?"":ok?`${rateUnit(e.u)} = ₹${r2(r)} पड़ा`:(q>0?(e.cq===null?"मात्रा जाँचें, फिर कुल रकम लिखें":"कुल रकम लिखें"):"+ दबाकर मात्रा बताएँ");
+    let cls="";if(ok&&l&&l.r>0){const ch=Math.round((r-l.r)/l.r*100);if(ch>=15){hint=`⚠ ${rateUnit(e.u)} = ₹${r2(r)} · ${ch}% महँगा`;cls="up"}else if(ch<=-15){hint=`${rateUnit(e.u)} = ₹${r2(r)} · ${-ch}% सस्ता`;cls="down"}}
+    const f=$("hf"+x);f.textContent=hint;f.className=cls;
+    $("ht"+x).textContent=e.na?"नहीं मिला":ok?money(tt):""});
+  const na=H.rows.filter(e=>e.na).length;
+  t+=xSum();const lump=parseFloat(H.lump)||0;t+=lump;
+  $("hSpent").textContent=money(t);$("hCount").textContent=(H.rows.length?`${d-na} सामान आया`+(na?` · ${na} नहीं मिला`:"")+(H.rows.length-d?` · ${H.rows.length-d} बाकी`:""):"बिना लिस्ट")+(lump?` · पूरे दिन की रकम ${money(lump)}`:"");
+  $("hTotal").textContent="कुल "+money(t);$("hSub").textContent=H.rows.length?`${H.rows.length} में से ${d} सामान पूरे`:"पूरे दिन की रकम";
+  const w=$("hWa");if(w)w.href="https://wa.me/?text="+encodeURIComponent(hMsg());
+}
+$("hOut").addEventListener("input",e=>{const t=e.target;
+  if(t.id==="hLump"){const v=t.value.replace(/[^0-9.]/g,"");if(v!==t.value)t.value=v;H.lump=v;updH();return}
+  if(t.dataset.xf){const x=H.extra[+t.dataset.xi];if(t.dataset.xf==="a"){const v=t.value.replace(/[^0-9.]/g,"");if(v!==t.value)t.value=v;x.a=v}else x.t=t.value.slice(0,60);updH();return}
+  const f=t.dataset.hf;if(!f||!state.role)return;const r=H.rows[+t.dataset.hx];
+  const v=t.value.replace(/[^0-9.]/g,"");if(v!==t.value)t.value=v;r[f]=fmt(v)?v:"";syncR(r);updH()});
+$("hOut").addEventListener("click",e=>{const sb=e.target.closest(".hst");
+  if(sb){const x=+sb.dataset.hx,r=H.rows[x];const nv=Math.max(0,Math.round(((parseFloat(r.q)||0)+(+sb.dataset.hstep)*(r.step||1))*100)/100);r.q=fmt(nv);$("hq"+x).value=r.q;syncR(r);updH();return}
+  const na=e.target.closest(".na");if(na){const r=H.rows[+na.dataset.na];r.na=!r.na;na.setAttribute("aria-pressed",r.na);updH();return}
+  if(e.target.id==="hRetry"){loadH();return}
+  if(e.target.id==="xAdd"){H.extra=H.extra||[];H.extra.push({t:"",a:""});$("xList").innerHTML=xRows();const ins=$("xList").querySelectorAll(".xt");ins[ins.length-1].focus();return}
+  const xd=e.target.closest("[data-xdel]");if(xd){H.extra.splice(+xd.dataset.xdel,1);$("xList").innerHTML=xRows();updH();return}
+  if(e.target.id==="hAdd"){forDate=hDate;state.picked={};state.pickedFor=forDate;save();prefill=true;loadDay(forDate);show("cats")}});
+$("hdchips").addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b){hDate=b.dataset.d;loadH()}});
+$("hdate").addEventListener("change",e=>{if(e.target.value){hDate=e.target.value;loadH()}});
+function shrink(file,mx){return new Promise((ok,bad)=>{const img=new Image(),u=URL.createObjectURL(file);
+  img.onload=()=>{const m=mx||1400,k=Math.min(1,m/Math.max(img.width,img.height)),c=document.createElement("canvas");c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);
+    c.getContext("2d").drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL("image/jpeg",0.72))};
+  img.onerror=()=>bad(new Error("photo"));img.src=u})}
+$("hOut").addEventListener("change",async e=>{if(e.target.id!=="hPhoto"||!e.target.files[0])return;const st=$("hPhotoSt");
+  st.textContent="फ़ोटो भेज रहे हैं…";
+  try{const data=await shrink(e.target.files[0]);const j=await api(null,{action:"photo",date:hDate,who:state.who,code:state.codes[state.role]||"",data});
+    H.photos.push(j.url);st.textContent=`✓ ${H.photos.length} फ़ोटो सेव`;toast("बिल की फ़ोटो सेव ✓")}
+  catch(err){st.textContent="फ़ोटो नहीं गई — "+errText(err)}e.target.value=""});
+$("hSave").addEventListener("click",async e=>{const b=e.currentTarget;
+  const left=H.rows.filter(x=>!x.na&&!(parseFloat(x.q)>0&&parseFloat(x.r)>0)).length;
+  if(!H.rows.length&&!(parseFloat(H.lump)>0)&&!xSum()){toast("पहले रकम लिखें");return}b.disabled=true;b.textContent="सेव हो रहा है…";
+  try{const r=await send({action:"buy",date:hDate,who:state.who,code:state.codes[state.role]||"",given:0,rows:H.rows.map(x=>({n:x.n,c:x.c,u:x.u,cq:x.cq,na:!!x.na,q:+x.q||0,r:+x.r||0})).concat(parseFloat(H.lump)>0?[{n:"पूरे दिन का सामान (एकमुश्त)",c:"एकमुश्त",u:"₹",cq:null,na:false,q:1,r:+H.lump}]:[]).concat((H.extra||[]).filter(x=>parseFloat(x.a)>0).map(x=>({n:"अन्य खर्च: "+(x.t||"खर्च"),c:"अन्य खर्च",u:"₹",cq:null,na:false,q:1,r:+x.a})))});
+    toast(r.queued?"इंटरनेट नहीं — हिसाब फ़ोन में रुका है, इंटरनेट आते ही Sheet में चला जाएगा":left?`Sheet में सेव ✓ (${left} सामान बाकी)`:"पूरा हिसाब Sheet में सेव ✓")}
+  catch(err){toast("सेव नहीं हुआ — "+errText(err));if(err.message==="code"){delete state.codes[state.role];state.role="";save();show("start")}}
+  finally{b.disabled=false;b.textContent="सेव करें"}});
+
+/* ---------- नेटवर्क न हो तो कतार (बाद में अपने-आप Sheet में) ---------- */
+const QKEY="so-queue-v1";
+let QUEUE=(()=>{try{return JSON.parse(localStorage.getItem(QKEY)||"[]")||[]}catch(e){return []}})();
+const qSave=()=>{try{localStorage.setItem(QKEY,JSON.stringify(QUEUE))}catch(e){}renderQ()};
+const qKey=b=>b.action==="buy"?"buy|"+b.date:b.action+"|"+b.date+"|"+(b.dev||"")+"|"+(b.who||"");
+async function send(body){
+  try{return await api(null,body)}
+  catch(e){if(e.message!=="net")throw e;
+    QUEUE=QUEUE.filter(x=>qKey(x.body)!==qKey(body));QUEUE.push({body,at:Date.now()});qSave();return {queued:true}}
+}
+let flushing=false;
+async function flushQ(){
+  if(flushing||!QUEUE.length)return;flushing=true;let sent=0;
+  try{while(QUEUE.length){const it=QUEUE[0];
+    try{await api(null,it.body);sent++}
+    catch(e){if(e.message==="net")break;toast("एक एंट्री नहीं गई: "+errText(e))}
+    QUEUE.shift();qSave()}}
+  finally{flushing=false}
+  if(sent)toast(`${sent} रुकी हुई एंट्री Sheet में चली गई ✓`);
+}
+function renderQ(){const b=$("qbar");if(!b)return;b.hidden=!QUEUE.length;
+  $("qtxt").textContent=`${QUEUE.length} एंट्री भेजना बाकी — इंटरनेट आते ही अपने-आप चली जाएगी`}
+window.addEventListener("online",flushQ);setInterval(()=>{if(QUEUE.length)flushQ()},30000);
+
+/* ---------- पहली स्क्रीन पर आज का हाल ---------- */
+let lsAt=0;
+async function landStatus(){
+  const code=state.codes.buy||state.codes.own;if(!code||Date.now()-lsAt<60000)return;lsAt=Date.now();
+  try{const j=await api(null,{action:"hisab",date:TODAY,code});
+    const n=aggregate(j.subs||[]).length,b=(j.buys||[]),done=b.length,t=b.reduce((a,x)=>a+(x.na?0:amt(x.u,x.q,x.r)),0);
+    const txt=!n&&!done?"आज की लिस्ट अभी नहीं आई":`आज: ${n} सामान · ${done} पूरे`+(t?` · ${money(t)}`:"");
+    if(state.codes.buy)$("sBuy").textContent=txt;if(state.codes.own)$("sOwn").textContent=txt;
+  }catch(e){lsAt=0}
+}
+
+/* ---------- सामान की लिस्ट Google Sheet (Items टैब) से ---------- */
+const IKEY="so-items-v1";
+function setCatalog(list,settings){
+  if(settings){document.querySelectorAll(".brand b").forEach(b=>{if(settings.name)b.textContent=settings.name});document.querySelectorAll(".brand small").forEach(b=>{if(settings.tagline)b.textContent=settings.tagline})}
+  if(!list||!list.length)return;
+  const keep={};Object.keys(state.picked).forEach(id=>{const it=byId(id);if(it)keep[it.name]=state.picked[id]});
+  const base={};BASE_CATS.forEach(c=>base[c[0]]=c);
+  const order=[],map={};Object.keys(SHOP).forEach(k=>delete SHOP[k]);
+  Object.keys(IMG).forEach(k=>delete IMG[k]);
+  list.forEach(x=>{if(!x.n)return;if(x.img)IMG[x.n]=x.img;const c=x.c||"अन्य";if(!map[c]){map[c]=[];order.push(c)}map[c].push([x.n,x.u||(base[c]?base[c][3]:"पीस"),+x.step||0]);if(x.shop)SHOP[x.n]=x.shop});
+  CATS.length=0;order.forEach((c,i)=>{const b=base[c];CATS.push([c,b?b[1]:PAL[i%PAL.length],b?b[2]:"",b?b[3]:"पीस",map[c]])});
+  buildItems();
+  state.picked={};Object.keys(keep).forEach(nm=>{if(byName[nm])state.picked[byName[nm].id]=keep[nm]});save();
+}
+async function loadCatalog(){
+  try{const c=JSON.parse(localStorage.getItem(IKEY)||"null");if(c&&(+c.ver||0)>=CAT_VER)setCatalog(c.items,c.settings);else localStorage.removeItem(IKEY)}catch(e){}
+  try{const j=await api({action:"items"});
+    let ver=+((j.settings||{}).listVersion||0);
+    if(state.codes.own&&(!(j.items&&j.items.length)||ver<CAT_VER)){const items=[];BASE_CATS.forEach(([cat,,,du,list])=>list.forEach(x=>{const [nm,u,st]=Array.isArray(x)?x:[x,du];items.push({c:cat,n:nm,u,step:+st||""})}));
+      try{const r=await api(null,{action:"seedItems",code:state.codes.own,version:CAT_VER,items});if(r&&!r.skipped){j.items=items;ver=CAT_VER}}catch(e){}}
+    /* Sheet की लिस्ट पुरानी हो (वर्ज़न कम) तो ऐप की नई लिस्ट ही चलेगी */
+    if(j.items&&j.items.length&&ver>=CAT_VER){setCatalog(j.items,j.settings);try{localStorage.setItem(IKEY,JSON.stringify({items:j.items,settings:j.settings,ver}))}catch(e){}}
+    else setCatalog(null,j.settings);
+    if(screen==="cats")renderCats();if(screen==="items")renderItems();
+  }catch(e){}
+}
+
+/* ---------- सामान की फ़ोटो (मालिक) ---------- */
+function renderPhotos(){
+  const have=ITEMS.filter(it=>IMG[it.name]).length;
+  $("phOut").innerHTML=`<p class="tip">${have} / ${ITEMS.length} सामान की फ़ोटो लगी है</p>`+CATS.map(([cat,c],ci)=>{const its=ITEMS.filter(it=>it.ci===ci);if(!its.length)return"";
+    return `<div class="group" style="--c:${c}"><h3><i></i>${esc(cat)}<span class="gc">${its.filter(it=>IMG[it.name]).length}/${its.length}</span></h3>${its.map(it=>`<div class="phrow" id="ph${it.id}">${thumb(it.name,it.ci)}<span class="t">${esc(it.name)}<small>${esc(it.u)}</small></span>
+      <label class="btn ghost phbtn">${CAMI}<span>${IMG[it.name]?"बदलें":"फ़ोटो"}</span><input type="file" accept="image/*" capture="environment" data-ph="${it.id}" hidden></label></div>`).join("")}</div>`}).join("");
+}
+$("toPhotos").addEventListener("click",()=>show("photos"));
+$("phOut").addEventListener("change",async e=>{const inp=e.target;if(!inp.dataset.ph||!inp.files[0])return;const it=byId(inp.dataset.ph),row=$("ph"+it.id);
+  const lab=row.querySelector(".phbtn span");lab.textContent="भेज रहे…";
+  try{const data=await shrink(inp.files[0],600);const j=await api(null,{action:"itemPhoto",code:state.codes.own||"",name:it.name,data});
+    IMG[it.name]=j.img;try{const c=JSON.parse(localStorage.getItem(IKEY)||"null");if(c){c.items.forEach(x=>{if(x.n===it.name)x.img=j.img});localStorage.setItem(IKEY,JSON.stringify(c))}}catch(_){}
+    toast(it.name+" की फ़ोटो लग गई ✓");renderPhotos()}
+  catch(err){lab.textContent="फ़ोटो";toast("फ़ोटो नहीं गई — "+errText(err))}});
 
 /* ---------- shared bits ---------- */
 function toast(t){const el=$("toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}
@@ -731,7 +1202,7 @@ $("toReview").addEventListener("click",()=>show("review"));
 document.addEventListener("click",e=>{
   if(e.target.closest("[data-back]")){goBack();return}
   if(e.target.closest("[data-home]")){if(!$("qsheet").hidden)closeQty();show("start");return}
-  const sb=e.target.closest(".st");
+  const sb=e.target.closest(".st:not(.hst)");
   if(sb){const it=byId(sb.dataset.id);const cur=parseFloat(state.picked[it.id])||0;const nv=Math.max(0,Math.round((cur+(+sb.dataset.step)*it.step)*100)/100);$("q"+it.id).value=fmt(nv);setQty(it.id,nv);return}
   const pk=e.target.closest(".pick");if(pk){openQty(+pk.dataset.id);return}
   const x=e.target.closest(".x[data-x]");if(x){delete state.picked[x.dataset.x];save();renderReview();renderBar()}
@@ -746,18 +1217,29 @@ $("loginGo").addEventListener("click",()=>{
 });
 $("lname").addEventListener("keydown",e=>{if(e.key==="Enter")$("loginGo").click()});
 $("lname").addEventListener("input",()=>$("lerr").hidden=true);
-$("changeName").addEventListener("click",()=>{$("lname").value=state.who;show("login")});
 
-$("adminLink").addEventListener("click",()=>{
-  if(state.admin){state.admin=false;save();renderStart();toast("एडमिन बंद हो गया");return}
-  $("adminBox").hidden=!$("adminBox").hidden;$("apinErr").hidden=true;$("apin").value="";if(!$("adminBox").hidden)$("apin").focus();
+let askRole="",tries=0;
+$("adminLink").addEventListener("click",()=>{const k=state.role,r=ROLE_NAME[k];delete state.codes[k];if(k==="own")state.sheet="";state.role="";save();renderStart();toast(r+" इस फ़ोन से लॉग-आउट हो गया")});
+$("toHome").addEventListener("click",()=>{state.role="";save();renderStart()});
+$("toChef").addEventListener("click",()=>{state.role="chef";save();renderStart()});
+const askCode=r=>{if(state.codes[r]){state.role=r;save();renderStart();return}askRole=r;tries=0;$("apinLbl").textContent=`${ROLE_NAME[r]} का कोड डालें`;$("adminBox").hidden=false;$("apinErr").hidden=true;$("apin").value="";$("apin").focus()};
+$("toBuy").addEventListener("click",()=>askCode("buy"));
+$("toOwn").addEventListener("click",()=>askCode("own"));
+$("apinGo").addEventListener("click",async e=>{
+  if(tries>=3){$("apinErr").textContent="3 बार गलत — थोड़ी देर बाद ऐप फिर से खोलें";$("apinErr").hidden=false;return}
+  const b=e.currentTarget,code=$("apin").value.trim();if(!code)return;
+  b.disabled=true;b.textContent="जाँच…";$("apinErr").hidden=true;
+  try{const j=await api(null,{action:"login",role:askRole,code});
+    state.role=askRole;state.codes[askRole]=code;if(j.sheet)state.sheet=j.sheet;save();if(askRole==="own")loadCatalog();renderStart();toast(ROLE_NAME[askRole]+" लॉगिन हो गया ✓")}
+  catch(err){if(err.message==="code"){tries++;$("apinErr").textContent=tries>=3?"3 बार गलत कोड":`कोड गलत है (${3-tries} मौके बचे)`}else $("apinErr").textContent=errText(err);$("apinErr").hidden=false}
+  finally{b.disabled=false;b.textContent="खोलो"}
 });
-$("apinGo").addEventListener("click",()=>{
-  if($("apin").value.trim()===ADMIN_PIN){state.admin=true;save();renderStart();toast("एडमिन चालू हो गया ✓")}
-  else{$("apinErr").hidden=false}
-});
+$("toHisab").addEventListener("click",()=>{hDate=TODAY;show("hisab")});
+
 $("apin").addEventListener("keydown",e=>{if(e.key==="Enter")$("apinGo").click()});
 
+$("qgo").addEventListener("click",()=>{toast("भेज रहे हैं…");flushQ()});
+renderQ();flushQ();loadCatalog();
 show(state.who?"start":"login");
 </script>
 
