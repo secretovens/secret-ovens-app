@@ -586,6 +586,9 @@ const amt=(u,q,r)=>u==="ग्राम"?q*r/1000:q*r;
 const rateUnit=u=>u==="ग्राम"?"1 kg":"1 "+u;
 const buyStep=(n,u)=>{const it=byName[n];if(it&&it.fixed)return it.step;return u==="ग्राम"?50:1};
 const buyMin=(n,u)=>String(buyStep(n,u));
+/* खरीदार कुल रकम लिखता है; 1 इकाई (ग्राम के लिए 1 kg) का दाम ऐप खुद निकालता है */
+const syncR=e=>{const q=parseFloat(e.q),t=parseFloat(e.t);e.r=q>0&&t>0?String(Math.round((e.u==="ग्राम"?t*1000/q:t/q)*10000)/10000):""};
+const r2=v=>Math.round(v*100)/100;
 buildItems();
 const BASE_CATS=CATS.map(c=>c.slice());
 const PAL=["#3f7a4f","#a24c3f","#977236","#ae6a3f","#8a4c63","#3f6886","#5d6970","#695c88"];
@@ -958,7 +961,7 @@ async function loadH(){
     const saved={};(j.buys||[]).forEach(x=>saved[x.n]=x);
     const qd=QUEUE.find(x=>x.body.action==="buy"&&x.body.date===date);
     if(qd)qd.body.rows.forEach(x=>saved[x.n]=x);
-    const mk=(n,c,u,cq,s)=>({n,c,u,cq,step:buyStep(n,u),shop:(byName[n]&&byName[n].shop)||"",na:!!(s&&s.na),q:s?(s.na?buyMin(n,u):String(s.q)):(cq!==null?String(cq):buyMin(n,u)),r:s&&!s.na?String(s.r):""});
+    const mk=(n,c,u,cq,s)=>({n,c,u,cq,step:buyStep(n,u),shop:(byName[n]&&byName[n].shop)||"",na:!!(s&&s.na),q:s?(s.na?buyMin(n,u):String(s.q)):(cq!==null?String(cq):buyMin(n,u)),r:s&&!s.na?String(s.r):"",t:s&&!s.na&&s.q>0&&s.r>0?String(Math.round(amt(u,+s.q,+s.r)*100)/100):""});
     H.extra=Object.values(saved).filter(x=>x.c==="अन्य खर्च").map(x=>({t:x.n.replace(/^अन्य खर्च:\s*/,""),a:String(x.r)}));
     Object.keys(saved).forEach(k=>{if(saved[k].c==="अन्य खर्च")delete saved[k]});
     H.rows=aggregate(j.subs||[]).map(e=>{const s=saved[e.n];return mk(e.n,e.c,s?s.u:e.u,e.hasQ?e.q:null,s)});
@@ -989,12 +992,12 @@ function renderH(){
   <div class="photorow"><label class="btn ghost" for="hPhoto">${CAM} बिल की फ़ोटो लें</label><input type="file" id="hPhoto" accept="image/*" capture="environment" hidden>
     <span class="pst" id="hPhotoSt">${H.photos.length?`✓ ${H.photos.length} फ़ोटो सेव`:"दुकान की पर्ची की फ़ोटो"}</span></div>
   ${own&&H.photos.length?`<div class="plinks">${H.photos.map((u,i)=>`<a href="${esc(u)}" target="_blank" rel="noopener">बिल ${i+1} देखें ↗</a>`).join("")}</div>`:""}
-  <ol class="howto"><li><span><b>+ / −</b> से बताएँ कितना लाए</span></li><li><span>1 kg या 1 पैकेट का <b>दाम</b> लिखें</span></li><li><span>नहीं मिला तो <b>नहीं मिला</b> दबाएँ</span></li><li><span>नीचे <b>सेव करें</b> दबाएँ</span></li></ol>`;
+  <ol class="howto"><li><span><b>+ / −</b> से बताएँ कितना लाए</span></li><li><span>कुल <b>कितने का आया</b>, वो रकम लिखें</span></li><li><span>नहीं मिला तो <b>नहीं मिला</b> दबाएँ</span></li><li><span>नीचे <b>सेव करें</b> दबाएँ</span></li></ol>`;
   h+=hGroups(H.rows,e=>{const x=H.rows.indexOf(e),l=H.last[e.n];return `<div class="brow" id="hr${x}">
    <div class="bh"><span class="bn">${esc(e.n)}</span>${e.cq===null?'<span class="bmiss">शेफ़ ने मात्रा नहीं लिखी</span>':`<span class="bask">लिस्ट में: ${e.cq} ${esc(e.u)}</span>`}</div>
    <div class="bg">
     <div class="bcol"><span class="bl">कितना लाए</span><div class="stepper hstep"><button type="button" class="st hst" data-hx="${x}" data-hstep="-1" aria-label="कम">−</button><label class="val"><input id="hq${x}" data-hx="${x}" data-hf="q" type="number" inputmode="decimal" min="0" placeholder="0" value="${esc(e.q)}" aria-label="${esc(e.n)} कितना लाए"><span>${esc(e.u)}</span></label><button type="button" class="st hst" data-hx="${x}" data-hstep="1" aria-label="ज़्यादा">+</button></div></div>
-    <div class="bcol"><label class="bl" for="hr_${x}">${esc(rateUnit(e.u))} का दाम</label><div class="price"><span>₹</span><input id="hr_${x}" data-hx="${x}" data-hf="r" type="number" inputmode="decimal" min="0" placeholder="0" value="${esc(e.r)}"></div></div>
+    <div class="bcol"><label class="bl" for="hr_${x}">कुल कितने का आया</label><div class="price"><span>₹</span><input id="hr_${x}" data-hx="${x}" data-hf="t" type="number" inputmode="decimal" min="0" placeholder="0" value="${esc(e.t)}"></div></div>
    </div>
    <div class="bt"><button type="button" class="na" data-na="${x}" aria-pressed="${e.na}">नहीं मिला</button><span class="bf"><span id="hl${x}" class="last">${l?`पिछली बार ₹${l.r}/${esc(l.u||e.u)}`:""}</span><span id="hf${x}"></span></span><b id="ht${x}">—</b></div></div>`});
   h+=`<div class="group xg"><h3>अन्य खर्च<span class="gc">ऑटो, मज़दूरी, कुछ और</span></h3><div id="xList">${xRows()}</div>
@@ -1007,18 +1010,18 @@ function xRows(){return (H.extra||[]).map((x,i)=>`<div class="xrow"><input class
   <button type="button" class="xdel" data-xdel="${i}" aria-label="हटाएँ">×</button></div>`).join("")}
 const xSum=()=>(H.extra||[]).reduce((a,x)=>a+(parseFloat(x.a)||0),0);
 function hMsg(){let m=`*${brandName()} – बाज़ार बिल*\n📅 ${hiDate(hDate)}\n`;let t=0;
-  H.rows.forEach(e=>{const q=parseFloat(e.q),r=parseFloat(e.r);if(e.na){m+=`• ${e.n}: ❌ नहीं मिला\n`;return}if(q>0&&r>0){const v=amt(e.u,q,r);t+=v;m+=`• ${e.n}: ${e.q} ${e.u} × ₹${e.r}${e.u==="ग्राम"?"/kg":""} = ${money(v)}\n`}else m+=`• ${e.n}: ❗ ${q>0?"रेट":"मात्रा"} बाकी\n`});
+  H.rows.forEach(e=>{const q=parseFloat(e.q),r=parseFloat(e.r);if(e.na){m+=`• ${e.n}: ❌ नहीं मिला\n`;return}const tt=parseFloat(e.t);if(q>0&&tt>0){t+=tt;m+=`• ${e.n}: ${e.q} ${e.u} = ${money(tt)} (${rateUnit(e.u)} ₹${r2(r)})\n`}else m+=`• ${e.n}: ❗ ${q>0?"रेट":"मात्रा"} बाकी\n`});
   (H.extra||[]).forEach(x=>{const a=parseFloat(x.a)||0;if(a){t+=a;m+=`• अन्य: ${x.t||"खर्च"} = ${money(a)}\n`}});
   return m+`\n*कुल: ${money(t)}*`}
 const brandName=()=>(document.querySelector(".brand b")||{}).textContent||"Secret Ovens";
 function updH(){let t=0,d=0;
-  H.rows.forEach((e,x)=>{const q=parseFloat(e.q),r=parseFloat(e.r),ok=!e.na&&q>0&&r>0,l=H.last[e.n];if(ok){t+=amt(e.u,q,r)}if(ok||e.na)d++;
+  H.rows.forEach((e,x)=>{const q=parseFloat(e.q),r=parseFloat(e.r),tt=parseFloat(e.t),ok=!e.na&&q>0&&tt>0,l=H.last[e.n];if(ok){t+=tt}if(ok||e.na)d++;
     const row=$("hr"+x);row.className="brow "+(e.na?"isna":ok?"isdone":e.cq===null?"ismiss":"");
     row.querySelectorAll("input,.hst").forEach(i=>i.disabled=e.na);
-    let hint=e.na?"":ok?(e.u==="ग्राम"?`${e.q} ग्राम × ₹${e.r}/kg`:`${e.q} ${e.u} × ₹${e.r}`):(q>0?(e.cq===null?"मात्रा जाँचें, फिर दाम लिखें":"दाम लिखें"):"+ दबाकर मात्रा बताएँ");
-    let cls="";if(ok&&l&&l.r>0){const ch=Math.round((r-l.r)/l.r*100);if(ch>=15){hint=`⚠ पिछली बार से ${ch}% महँगा`;cls="up"}else if(ch<=-15){hint=`पिछली बार से ${-ch}% सस्ता`;cls="down"}}
+    let hint=e.na?"":ok?`${rateUnit(e.u)} = ₹${r2(r)} पड़ा`:(q>0?(e.cq===null?"मात्रा जाँचें, फिर कुल रकम लिखें":"कुल रकम लिखें"):"+ दबाकर मात्रा बताएँ");
+    let cls="";if(ok&&l&&l.r>0){const ch=Math.round((r-l.r)/l.r*100);if(ch>=15){hint=`⚠ ${rateUnit(e.u)} = ₹${r2(r)} · ${ch}% महँगा`;cls="up"}else if(ch<=-15){hint=`${rateUnit(e.u)} = ₹${r2(r)} · ${-ch}% सस्ता`;cls="down"}}
     const f=$("hf"+x);f.textContent=hint;f.className=cls;
-    $("ht"+x).textContent=e.na?"नहीं मिला":ok?money(amt(e.u,q,r)):""});
+    $("ht"+x).textContent=e.na?"नहीं मिला":ok?money(tt):""});
   const na=H.rows.filter(e=>e.na).length;
   t+=xSum();
   $("hSpent").textContent=money(t);$("hCount").textContent=`${d-na} सामान आया`+(na?` · ${na} नहीं मिला`:"")+(H.rows.length-d?` · ${H.rows.length-d} बाकी`:"");
@@ -1028,9 +1031,9 @@ function updH(){let t=0,d=0;
 $("hOut").addEventListener("input",e=>{const t=e.target;
   if(t.dataset.xf){const x=H.extra[+t.dataset.xi];if(t.dataset.xf==="a"){const v=t.value.replace(/[^0-9.]/g,"");if(v!==t.value)t.value=v;x.a=v}else x.t=t.value.slice(0,60);updH();return}
   const f=t.dataset.hf;if(!f||!state.role)return;const r=H.rows[+t.dataset.hx];
-  const v=t.value.replace(/[^0-9.]/g,"");if(v!==t.value)t.value=v;r[f]=fmt(v)?v:"";updH()});
+  const v=t.value.replace(/[^0-9.]/g,"");if(v!==t.value)t.value=v;r[f]=fmt(v)?v:"";syncR(r);updH()});
 $("hOut").addEventListener("click",e=>{const sb=e.target.closest(".hst");
-  if(sb){const x=+sb.dataset.hx,r=H.rows[x];const nv=Math.max(0,Math.round(((parseFloat(r.q)||0)+(+sb.dataset.hstep)*(r.step||1))*100)/100);r.q=fmt(nv);$("hq"+x).value=r.q;updH();return}
+  if(sb){const x=+sb.dataset.hx,r=H.rows[x];const nv=Math.max(0,Math.round(((parseFloat(r.q)||0)+(+sb.dataset.hstep)*(r.step||1))*100)/100);r.q=fmt(nv);$("hq"+x).value=r.q;syncR(r);updH();return}
   const na=e.target.closest(".na");if(na){const r=H.rows[+na.dataset.na];r.na=!r.na;na.setAttribute("aria-pressed",r.na);updH();return}
   if(e.target.id==="hRetry"){loadH();return}
   if(e.target.id==="xAdd"){H.extra=H.extra||[];H.extra.push({t:"",a:""});$("xList").innerHTML=xRows();const ins=$("xList").querySelectorAll(".xt");ins[ins.length-1].focus();return}
