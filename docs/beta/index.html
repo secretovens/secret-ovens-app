@@ -278,6 +278,32 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
 .bt b{font-family:var(--f-head);font-size:19px;color:var(--fg);white-space:nowrap}
 .brow.isdone .bt b{color:var(--wa)}
 #hisab .sendbox{margin-bottom:8px}
+/* ----- v10 ----- */
+.cashcard{margin-top:14px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:10px;background:var(--surface);border-radius:16px;box-shadow:inset 0 0 0 1.5px var(--line);padding:12px}
+.cashcard .cc b{display:block;font-family:var(--f-head);font-size:20px;line-height:44px;white-space:nowrap}
+.cashcard .cc b.neg,.sum b.neg{color:var(--danger)}
+.photorow{display:flex;align-items:center;gap:12px;margin-top:10px}
+.photorow .btn{padding:10px 14px;font-size:16px;background:var(--surface)}
+.photorow .pst{font-size:13px;color:var(--muted)}
+.plinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.plinks a{font-size:14px;color:var(--brand);font-weight:700}
+.bt{justify-content:space-between}
+.bt .bf{flex:1;text-align:right;display:flex;flex-direction:column;align-items:flex-end;line-height:1.25}
+.bt .last{font-size:12px;color:var(--muted)}
+.bt .up{color:var(--danger);font-weight:700}.bt .down{color:var(--wa);font-weight:700}
+.na{border:0;border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;font-weight:700;background:var(--bg);color:var(--muted);box-shadow:inset 0 0 0 1.5px var(--line);flex:none}
+.na[aria-pressed="true"]{background:var(--danger);color:#fff;box-shadow:none}
+.brow.isna .bg,.brow.isna .bn{opacity:.4}.brow.isna::before{background:var(--muted)}
+.brow.isna .bt b{color:var(--danger);font-size:15px}
+.shopg h3{color:var(--brand)}.shopg h3 svg{flex:none}
+.qbar{position:fixed;left:12px;right:12px;top:calc(10px + env(safe-area-inset-top,0px));z-index:40;display:flex;align-items:center;gap:10px;background:#3a2f0b;color:#fbe7b0;border-radius:14px;padding:10px 12px;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.qbar span{flex:1}.qbar button{border:0;background:var(--gold);color:var(--gold-ink);border-radius:10px;padding:8px 12px;font:inherit;font-weight:800;font-size:14px}
+.sum{grid-template-columns:repeat(2,1fr)}
+.cbar{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 14px;border-top:1px solid var(--line)}
+.group h3+.cbar{border-top:0}
+.cbar .t{font-weight:700;font-size:15px}.cbar .bw{height:10px;background:var(--bg);border-radius:6px;overflow:hidden}.cbar .bw i{display:block;height:100%;border-radius:6px}
+.cbar .rs,.trow .rs{font-family:var(--f-head);font-weight:700;white-space:nowrap}
+.trow .rs.up{color:var(--danger)}
+@media(max-width:380px){.cashcard{grid-template-columns:1fr 1fr}.cashcard .cc:first-child{grid-column:1/-1}}
 /* ----- v9 professional layer ----- */
 .hello{display:flex;align-items:center;gap:10px;margin-bottom:-6px}
 .hello .rolechip{margin-left:auto;background:rgba(255,255,255,.12);color:var(--gold);border:1px solid rgba(196,154,42,.5);font-weight:700;font-size:13px;padding:3px 12px}
@@ -374,7 +400,7 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
       <button type="button" class="btn gold" id="apinGo">खोलो</button>
       <span class="aerr" id="apinErr" hidden>कोड गलत है</span>
     </div>
-    <p class="ver">ऐप वर्ज़न 9 (बीटा)</p>
+    <p class="ver">ऐप वर्ज़न 10 (बीटा)</p>
     
   </div>
 </section>
@@ -499,11 +525,14 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
     </div>
   </div>
 </div>
+<div class="qbar" id="qbar" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8.5a15 15 0 0 1 20 0M5 12a10 10 0 0 1 14 0M8.5 15.5a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1"/></svg><span id="qtxt"></span><button type="button" id="qgo">अभी भेजें</button></div>
 <div class="toast" id="toast" hidden></div>
 
 <script>
 const API=String(window.SO_API||"").trim();
 /* लॉगिन कोड Google Sheet के "Codes" टैब में हैं */
+const SHOPIC=`<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9l1.5-5h13L20 9M4 9h16v11H4zM9 20v-6h6v6"/></svg>`;
+const CAM=`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>`;
 const ROLE_NAME={buy:"खरीदार",own:"मालिक"};
 const UNITS=["kg","पैकेट","पीस","लीटर","गड्डी","बोतल","दर्जन"];
 const DEMO=false;
@@ -520,9 +549,14 @@ const CATS=[
  ["अन्य","#695c88","🔥","पीस",["रुमाली रोटी","कोल्ड ड्रिंक","पानी की बोतल","गैस सिलेंडर",["कोयला","kg"],["सर्फ़",P],["डस्टबिन पॉलीथीन",P],"बटर ब्रश","रोटी वाला कपड़ा"]]
 ];
 const ITEMS=[];let n=0;const byName={};
-CATS.forEach(([cat,c,ic,du,list],ci)=>list.forEach(x=>{const [name,u]=Array.isArray(x)?x:[x,du];const it={id:++n,name,ci,c,u,step:u==="kg"?(ci===1?0.1:0.5):u==="लीटर"?0.5:1};ITEMS.push(it);byName[name]=it}));
+const SHOP={};
+function buildItems(){ITEMS.length=0;n=0;Object.keys(byName).forEach(k=>delete byName[k]);
+  CATS.forEach(([cat,c,ic,du,list],ci)=>list.forEach(x=>{const [name,u]=Array.isArray(x)?x:[x,du];const sp=cat==="मसाला";const it={id:++n,name,ci,c,u,shop:SHOP[name]||"",step:u==="kg"?(sp?0.1:0.5):u==="लीटर"?0.5:1};ITEMS.push(it);byName[name]=it}))}
+buildItems();
+const BASE_CATS=CATS.map(c=>c.slice());
+const PAL=["#3f7a4f","#a24c3f","#977236","#ae6a3f","#8a4c63","#3f6886","#5d6970","#695c88"];
 const byId=id=>ITEMS.find(it=>it.id==id);
-const quick=it=>/कोल्ड ड्रिंक|पानी की बोतल/.test(it.name)?[12,24,48,96]:it.u==="kg"?(it.ci===1?[0.1,0.25,0.5,1]:[0.5,1,2,5]):it.u==="लीटर"?[1,2,5,15]:it.u==="पीस"&&it.ci===6?[25,50,100,200]:[1,2,5,10];
+const quick=it=>/कोल्ड ड्रिंक|पानी की बोतल/.test(it.name)?[12,24,48,96]:it.u==="kg"?(CATS[it.ci][0]==="मसाला"?[0.1,0.25,0.5,1]:[0.5,1,2,5]):it.u==="लीटर"?[1,2,5,15]:it.u==="पीस"&&CATS[it.ci][0]==="पैकिंग"?[25,50,100,200]:[1,2,5,10];
 const fmt=v=>{const x=parseFloat(v);return isNaN(x)||x<=0?"":String(Math.round(x*100)/100)};
 const esc=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
 const $=id=>document.getElementById(id);
@@ -585,13 +619,14 @@ async function api(params,body){
   const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),25000);
   try{
     const url=API+(params?"?"+new URLSearchParams(params):"");
-    const res=await fetch(url,body?{method:"POST",body:JSON.stringify(body),signal:ctrl.signal}:{signal:ctrl.signal});
-    const j=await res.json();
+    let res,j;
+    try{res=await fetch(url,body?{method:"POST",body:JSON.stringify(body),signal:ctrl.signal}:{signal:ctrl.signal});j=await res.json()}
+    catch(err){throw new Error("net")}
     if(!j.ok)throw new Error(j.error||"server");
     return j;
   }finally{clearTimeout(t)}
 }
-const errText=e=>e&&e.message==="setup"?"ऐप अभी Google Sheet से नहीं जुड़ा है।":e&&e.message==="action"?"Google Sheet का कोड (Code.gs) अभी अपडेट नहीं हुआ।":e&&e.message==="code"?"कोड बदल गया है — फिर से लॉगिन करें।":"इंटरनेट या सर्वर से जुड़ नहीं पाए।";
+const errText=e=>e&&e.message==="net"?"इंटरनेट नहीं मिल रहा।":e&&e.message==="locked"?"बहुत बार गलत कोड — 10 मिनट बाद कोशिश करें।":e&&e.message==="setup"?"ऐप अभी Google Sheet से नहीं जुड़ा है।":e&&e.message==="action"?"Google Sheet का कोड (Code.gs) अभी अपडेट नहीं हुआ।":e&&e.message==="code"?"कोड बदल गया है — फिर से लॉगिन करें।":"इंटरनेट या सर्वर से जुड़ नहीं पाए।";
 const isMine=s=>s.dev===state.dev&&s.who===(state.who||"");
 const label=s=>s.who||"बिना नाम";
 
@@ -759,9 +794,9 @@ function setQty(id,v){
 async function submit(items,btn){
   const txt=btn.textContent;btn.disabled=true;btn.textContent="भेज रहे हैं…";$("subErr").hidden=true;
   try{
-    await api(null,{action:"submit",date:forDate,dev:state.dev,who:state.who||"",items});
+    const r=await send({action:"submit",date:forDate,dev:state.dev,who:state.who||"",items});
     state.picked={};state.pickedFor="";save();
-    $("doneTxt").textContent=items.length?`${hiDate(forDate)} के लिए ${items.length} सामान भेजे गए। धन्यवाद!`:`${hiDate(forDate)} की आपकी लिस्ट हटा दी गई।`;
+    $("doneTxt").textContent=(items.length?`${hiDate(forDate)} के लिए ${items.length} सामान भेजे गए। धन्यवाद!`:`${hiDate(forDate)} की आपकी लिस्ट हटा दी गई।`)+(r&&r.queued?" (इंटरनेट नहीं है — लिस्ट फ़ोन में रुकी है, इंटरनेट आते ही अपने-आप चली जाएगी।)":"");
     day.date="";$("doneCombined").hidden=!state.admin;show("done");
   }catch(e){$("subErr").textContent="लिस्ट नहीं गई। "+errText(e)+" फिर से “लिस्ट भेजो” दबाओ।";$("subErr").hidden=false;if(btn.id==="withdraw"){$("sendbox").hidden=false}}
   finally{btn.disabled=false;btn.textContent=txt}
@@ -834,7 +869,7 @@ function setPeriod(p){
 }
 async function loadRep(){
   const key=rFrom+"_"+rTo;rep={key,subs:null,loading:true,error:""};renderRep();
-  try{const j=await api({action:"range",from:rFrom,to:rTo});if(rep.key!==key)return;rep.subs=j.subs;rep.buys=j.buys||[]}
+  try{const j=await api(null,{action:"report",from:rFrom,to:rTo,code:state.codes.own||""});if(rep.key!==key)return;rep.subs=j.subs;rep.buys=(j.buys||[]).filter(x=>!x.na);rep.cash=j.cash||[];rep.na=(j.buys||[]).filter(x=>x.na).length}
   catch(e){if(rep.key!==key)return;rep.error=errText(e)}
   rep.loading=false;renderRep();
 }
@@ -851,11 +886,20 @@ function renderRep(){
   if(rep.loading){o.innerHTML=`<p class="empty">लोड हो रहा है…</p>`;return}
   if(rep.error){o.innerHTML=`<p class="empty">⚠️ ${esc(rep.error)}</p><div class="sendbox"><button class="btn ghost wide" data-act="rrefresh">फिर से कोशिश करें ↻</button></div>`;return}
   const subs=rep.subs||[];
-  if(!subs.length){o.innerHTML=`<p class="empty">इन तारीखों में कोई लिस्ट नहीं आई।</p>`;return}
+  if(!subs.length&&!(rep.buys||[]).length){o.innerHTML=`<p class="empty">इन तारीखों में कोई लिस्ट नहीं आई।</p>`;return}
   const rows=aggregate(subs),days=new Set(subs.map(s=>s.d)).size;
   const cost={};let all=0;(rep.buys||[]).forEach(x=>{const k=x.n;const c=cost[k]||(cost[k]={t:0,q:0,u:x.u,min:1e9,max:0,n:0});c.t+=x.q*x.r;c.q+=x.q;c.n++;c.min=Math.min(c.min,x.r);c.max=Math.max(c.max,x.r);all+=x.q*x.r});
   rows.forEach(e=>e.cost=cost[e.n]);
-  o.innerHTML=`<div class="sum"><div><b>${money(all)}</b><span>कुल खर्च (खरीदार के बिल से)</span></div><div><b>${days}</b><span>दिन की लिस्टें · ${rows.length} सामान</span></div></div>
+  (rep.buys||[]).forEach(x=>{if(!rows.find(r=>r.n===x.n)){const c=cost[x.n];rows.push({n:x.n,c:x.c,u:x.u,q:0,hasQ:false,days:new Set([x.d]),cost:c})}});
+  const byCat={};(rep.buys||[]).forEach(x=>byCat[x.c]=(byCat[x.c]||0)+x.q*x.r);
+  const cats=Object.entries(byCat).sort((a,b)=>b[1]-a[1]),cmax=cats.length?cats[0][1]:1;
+  const given=(rep.cash||[]).reduce((a,c)=>a+c.given,0);
+  const rises=Object.entries(cost).filter(([k,c])=>c.n>1&&c.max>=c.min*1.15).sort((a,b)=>b[1].max/b[1].min-a[1].max/a[1].min).slice(0,6);
+  o.innerHTML=`<div class="sum"><div><b>${money(all)}</b><span>कुल खर्च (खरीदार के बिल से)</span></div><div><b>${days}</b><span>दिन की लिस्टें · ${rows.length} सामान</span></div>
+  ${given?`<div><b>${money(given)}</b><span>खरीदार को दिए पैसे</span></div><div><b class="${given-all<0?"neg":""}">${money(given-all)}</b><span>बचे पैसे</span></div>`:""}</div>
+  ${cats.length?`<div class="group"><h3>कैटेगरी-वार खर्च</h3>${cats.map(([c,v])=>`<div class="cbar"><span class="t">${esc(c)}</span><span class="bw"><i style="width:${Math.max(3,v/cmax*100)}%;background:${catColor(c)}"></i></span><span class="rs">${money(v)}</span></div>`).join("")}</div>`:""}
+  ${rises.length?`<div class="group"><h3>⚠ दाम बढ़े (15% से ज़्यादा)</h3>${rises.map(([k,c])=>`<div class="trow"><span class="t">${esc(k)}</span><span class="rs up">₹${c.min} → ₹${c.max}</span></div>`).join("")}</div>`:""}
+  ${rep.na?`<p class="tip">${rep.na} बार सामान बाज़ार में नहीं मिला</p>`:""}
   <div class="sendbox top"><a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(repMessage(rows,days))}">हिसाब WhatsApp पर भेजें</a><button class="btn ghost wide" data-act="rcopy">कॉपी करें</button></div>`+
   groupsHTML(rows,e=>`<div class="trow"><span class="t">${esc(e.n)}${e.cost?`<small class="by">${e.cost.n} बार खरीदा · ${e.cost.q} ${esc(e.cost.u)} · रेट ₹${e.cost.min}${e.cost.max!==e.cost.min?"–"+e.cost.max:""}</small>`:""}</span><span class="d">${e.days.size} दिन</span><span class="rs">${e.cost?money(e.cost.t):"—"}</span></div>`);
   o.dataset.msg=repMessage(rows,days);
@@ -869,13 +913,25 @@ $("repOut").addEventListener("click",e=>{const b=e.target.closest("button");if(!
 let hDate=TODAY,H={date:"",rows:null,loading:false,error:""};
 const money=v=>"₹"+Math.round(v).toLocaleString("en-IN");
 async function loadH(){
-  const date=hDate;H={date,rows:null,loading:true,error:""};renderH();
-  try{const j=await api({action:"day",date});if(H.date!==date)return;
+  const date=hDate;H={date,rows:null,loading:true,error:"",given:"",photos:[],last:{}};renderH();
+  try{const j=await api(null,{action:"hisab",date,code:state.codes[state.role]||""});if(H.date!==date)return;
     const saved={};(j.buys||[]).forEach(x=>saved[x.n]=x);
-    H.rows=aggregate(j.subs||[]).map(e=>{const s=saved[e.n];return {n:e.n,c:e.c,u:s?s.u:e.u,cq:e.hasQ?e.q:null,q:s?String(s.q):(e.hasQ?String(e.q):"1"),r:s?String(s.r):""}});
-    (j.buys||[]).forEach(x=>{if(!H.rows.find(r=>r.n===x.n))H.rows.push({n:x.n,c:x.c,u:x.u,cq:null,q:String(x.q),r:String(x.r)})});
-  }catch(e){if(H.date!==date)return;H.error=errText(e)}
+    const qd=QUEUE.find(x=>x.body.action==="buy"&&x.body.date===date);
+    if(qd)qd.body.rows.forEach(x=>saved[x.n]=x);
+    const mk=(n,c,u,cq,s)=>({n,c,u,cq,shop:(byName[n]&&byName[n].shop)||"",na:!!(s&&s.na),q:s?(s.na?"1":String(s.q)):(cq!==null?String(cq):"1"),r:s&&!s.na?String(s.r):""});
+    H.rows=aggregate(j.subs||[]).map(e=>{const s=saved[e.n];return mk(e.n,e.c,s?s.u:e.u,e.hasQ?e.q:null,s)});
+    Object.values(saved).forEach(x=>{if(!H.rows.find(r=>r.n===x.n))H.rows.push(mk(x.n,x.c,x.u,null,x))});
+    H.last=j.last||{};
+    H.given=qd?String(qd.body.given||""):(j.cash&&j.cash.given?String(j.cash.given):"");
+    H.photos=j.cash&&j.cash.photo?j.cash.photo.split(/\s+/).filter(Boolean):[];
+  }catch(e){if(H.date!==date)return;H.error=errText(e);if(e.message==="code"){delete state.codes[state.role];state.role="";save()}}
   H.loading=false;renderH();
+}
+function hGroups(rows,fn){
+  if(!rows.some(r=>r.shop))return groupsHTML(rows,fn);
+  const order=[],map={};rows.forEach(r=>{const k=r.shop||"बाकी सामान";if(!map[k]){map[k]=[];order.push(k)}map[k].push(r)});
+  order.sort((a,b)=>(a==="बाकी सामान")-(b==="बाकी सामान"));
+  return order.map(k=>`<div class="group shopg"><h3>${SHOPIC}${esc(k)}<span class="gc">${map[k].length}</span></h3>${map[k].map(fn).join("")}</div>`).join("");
 }
 function renderH(){
   const own=state.role==="own";
@@ -884,42 +940,117 @@ function renderH(){
   $("hdchips").innerHTML=opts.map(([v,l])=>`<button type="button" data-d="${v}" aria-pressed="${v===hDate}"><b>${parse(v).getDate()}</b><span>${l} · ${DAY[parse(v).getDay()]}</span></button>`).join("");
   const o=$("hOut");$("hBar").hidden=true;
   if(H.loading){o.innerHTML=`<p class="empty">लोड हो रहा है…</p>`;return}
-  if(H.error){o.innerHTML=`<p class="empty">⚠️ ${esc(H.error)}</p>`;return}
+  if(H.error){o.innerHTML=`<p class="empty">⚠️ ${esc(H.error)}</p><div class="sendbox"><button class="btn ghost wide" id="hRetry">फिर से कोशिश करें ↻</button></div>`;return}
   if(!H.rows.length){o.innerHTML=`<p class="empty">${esc(hiDate(hDate))} की लिस्ट अभी नहीं आई।</p>`;return}
   $("hBar").hidden=false;
-  let h=`<ol class="howto"><li><span><b>+ / −</b> से बताएँ कितना लाए</span></li><li><span>1 kg या 1 पैकेट का <b>दाम</b> लिखें</span></li><li><span>नीचे <b>सेव करें</b> दबाएँ</span></li></ol>`;
-  h+=groupsHTML(H.rows,e=>{const x=H.rows.indexOf(e);return `<div class="brow" id="hr${x}">
+  let h=`<div class="cashcard">
+    <div class="cc"><label class="bl" for="hGiven">खरीदार को दिए पैसे</label><div class="price"><span>₹</span><input id="hGiven" type="number" inputmode="numeric" min="0" placeholder="0" value="${esc(H.given)}"></div></div>
+    <div class="cc"><span class="bl">खर्च हुए</span><b id="hSpent">₹0</b></div>
+    <div class="cc"><span class="bl">बचे पैसे</span><b id="hLeft">—</b></div>
+  </div>
+  <div class="photorow"><label class="btn ghost" for="hPhoto">${CAM} बिल की फ़ोटो लें</label><input type="file" id="hPhoto" accept="image/*" capture="environment" hidden>
+    <span class="pst" id="hPhotoSt">${H.photos.length?`✓ ${H.photos.length} फ़ोटो सेव`:"दुकान की पर्ची की फ़ोटो"}</span></div>
+  ${own&&H.photos.length?`<div class="plinks">${H.photos.map((u,i)=>`<a href="${esc(u)}" target="_blank" rel="noopener">बिल ${i+1} देखें ↗</a>`).join("")}</div>`:""}
+  <ol class="howto"><li><span><b>+ / −</b> से बताएँ कितना लाए</span></li><li><span>1 kg या 1 पैकेट का <b>दाम</b> लिखें</span></li><li><span>नहीं मिला तो <b>नहीं मिला</b> दबाएँ</span></li><li><span>नीचे <b>सेव करें</b> दबाएँ</span></li></ol>`;
+  h+=hGroups(H.rows,e=>{const x=H.rows.indexOf(e),l=H.last[e.n];return `<div class="brow" id="hr${x}">
    <div class="bh"><span class="bn">${esc(e.n)}</span>${e.cq===null?'<span class="bmiss">शेफ़ ने मात्रा नहीं लिखी</span>':`<span class="bask">लिस्ट में: ${e.cq} ${esc(e.u)}</span>`}</div>
    <div class="bg">
     <div class="bcol"><span class="bl">कितना लाए</span><div class="stepper hstep"><button type="button" class="st hst" data-hx="${x}" data-hstep="-1" aria-label="कम">−</button><label class="val"><input id="hq${x}" data-hx="${x}" data-hf="q" type="number" inputmode="decimal" min="0" placeholder="0" value="${esc(e.q)}" aria-label="${esc(e.n)} कितना लाए"><span>${esc(e.u)}</span></label><button type="button" class="st hst" data-hx="${x}" data-hstep="1" aria-label="ज़्यादा">+</button></div></div>
     <div class="bcol"><label class="bl" for="hr_${x}">1 ${esc(e.u)} का दाम</label><div class="price"><span>₹</span><input id="hr_${x}" data-hx="${x}" data-hf="r" type="number" inputmode="decimal" min="0" placeholder="0" value="${esc(e.r)}"></div></div>
    </div>
-   <div class="bt"><span id="hf${x}"></span><b id="ht${x}">—</b></div></div>`});
+   <div class="bt"><button type="button" class="na" data-na="${x}" aria-pressed="${e.na}">नहीं मिला</button><span class="bf"><span id="hl${x}" class="last">${l?`पिछली बार ₹${l.r}/${esc(l.u||e.u)}`:""}</span><span id="hf${x}"></span></span><b id="ht${x}">—</b></div></div>`});
   h+=`<div class="sendbox"><a class="btn wa" id="hWa" target="_blank" rel="noopener" href="#">बिल WhatsApp पर भेजें</a><button class="btn ghost wide" id="hAdd">+ लिस्ट में और सामान जोड़ें</button></div>`;
   o.innerHTML=h;updH();
 }
-function hMsg(){let m=`*Secret Ovens – बाज़ार बिल*\n📅 ${hiDate(hDate)}\n`;let t=0;
-  H.rows.forEach(e=>{const q=parseFloat(e.q),r=parseFloat(e.r);if(q>0&&r>0){t+=q*r;m+=`• ${e.n}: ${e.q} ${e.u} × ₹${e.r} = ${money(q*r)}\n`}else m+=`• ${e.n}: ❗ ${q>0?"रेट":"मात्रा"} बाकी\n`});
-  return m+`\n*कुल: ${money(t)}*`}
+function hMsg(){let m=`*${brandName()} – बाज़ार बिल*\n📅 ${hiDate(hDate)}\n`;let t=0;
+  H.rows.forEach(e=>{const q=parseFloat(e.q),r=parseFloat(e.r);if(e.na){m+=`• ${e.n}: ❌ नहीं मिला\n`;return}if(q>0&&r>0){t+=q*r;m+=`• ${e.n}: ${e.q} ${e.u} × ₹${e.r} = ${money(q*r)}\n`}else m+=`• ${e.n}: ❗ ${q>0?"रेट":"मात्रा"} बाकी\n`});
+  const g=parseFloat(H.given);return m+`\n*कुल: ${money(t)}*`+(g>0?`\nदिए: ${money(g)} · बचे: ${money(g-t)}`:"")}
+const brandName=()=>(document.querySelector(".brand b")||{}).textContent||"Secret Ovens";
 function updH(){let t=0,d=0;
-  H.rows.forEach((e,x)=>{const q=parseFloat(e.q),r=parseFloat(e.r),ok=q>0&&r>0;if(ok){t+=q*r;d++}
-    $("ht"+x).textContent=ok?money(q*r):"";
-    $("hf"+x).textContent=ok?`${e.q} ${e.u} × ₹${e.r} =`:(q>0?(e.cq===null?"मात्रा जाँचें, फिर दाम लिखें":"दाम लिखें"):"+ दबाकर मात्रा बताएँ");
-    $("hr"+x).className="brow "+(ok?"isdone":e.cq===null?"ismiss":"")});
+  H.rows.forEach((e,x)=>{const q=parseFloat(e.q),r=parseFloat(e.r),ok=!e.na&&q>0&&r>0,l=H.last[e.n];if(ok){t+=q*r}if(ok||e.na)d++;
+    const row=$("hr"+x);row.className="brow "+(e.na?"isna":ok?"isdone":e.cq===null?"ismiss":"");
+    row.querySelectorAll("input,.hst").forEach(i=>i.disabled=e.na);
+    let hint=e.na?"":ok?`${e.q} ${e.u} × ₹${e.r}`:(q>0?(e.cq===null?"मात्रा जाँचें, फिर दाम लिखें":"दाम लिखें"):"+ दबाकर मात्रा बताएँ");
+    let cls="";if(ok&&l&&l.r>0){const ch=Math.round((r-l.r)/l.r*100);if(ch>=15){hint=`⚠ पिछली बार से ${ch}% महँगा`;cls="up"}else if(ch<=-15){hint=`पिछली बार से ${-ch}% सस्ता`;cls="down"}}
+    const f=$("hf"+x);f.textContent=hint;f.className=cls;
+    $("ht"+x).textContent=e.na?"नहीं मिला":ok?money(q*r):""});
+  const g=parseFloat(H.given);
+  $("hSpent").textContent=money(t);$("hLeft").textContent=g>0?money(g-t):"—";$("hLeft").className=g>0&&g-t<0?"neg":"";
   $("hTotal").textContent="कुल "+money(t);$("hSub").textContent=`${H.rows.length} में से ${d} सामान पूरे`;
   const w=$("hWa");if(w)w.href="https://wa.me/?text="+encodeURIComponent(hMsg());
 }
-$("hOut").addEventListener("input",e=>{const t=e.target,f=t.dataset.hf;if(!f||!state.role)return;const r=H.rows[+t.dataset.hx];
+$("hOut").addEventListener("input",e=>{const t=e.target;if(t.id==="hGiven"){H.given=t.value.replace(/[^0-9.]/g,"");updH();return}
+  const f=t.dataset.hf;if(!f||!state.role)return;const r=H.rows[+t.dataset.hx];
   const v=t.value.replace(/[^0-9.]/g,"");if(v!==t.value)t.value=v;r[f]=fmt(v)?v:"";updH()});
 $("hOut").addEventListener("click",e=>{const sb=e.target.closest(".hst");
   if(sb){const x=+sb.dataset.hx,r=H.rows[x];const nv=Math.max(0,Math.round(((parseFloat(r.q)||0)+(+sb.dataset.hstep))*100)/100);r.q=fmt(nv);$("hq"+x).value=r.q;updH();return}
+  const na=e.target.closest(".na");if(na){const r=H.rows[+na.dataset.na];r.na=!r.na;na.setAttribute("aria-pressed",r.na);updH();return}
+  if(e.target.id==="hRetry"){loadH();return}
   if(e.target.id==="hAdd"){forDate=hDate;state.picked={};state.pickedFor=forDate;save();prefill=true;loadDay(forDate);show("cats")}});
 $("hdchips").addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b){hDate=b.dataset.d;loadH()}});
+function shrink(file){return new Promise((ok,bad)=>{const img=new Image(),u=URL.createObjectURL(file);
+  img.onload=()=>{const m=1400,k=Math.min(1,m/Math.max(img.width,img.height)),c=document.createElement("canvas");c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);
+    c.getContext("2d").drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL("image/jpeg",0.72))};
+  img.onerror=()=>bad(new Error("photo"));img.src=u})}
+$("hOut").addEventListener("change",async e=>{if(e.target.id!=="hPhoto"||!e.target.files[0])return;const st=$("hPhotoSt");
+  st.textContent="फ़ोटो भेज रहे हैं…";
+  try{const data=await shrink(e.target.files[0]);const j=await api(null,{action:"photo",date:hDate,who:state.who,code:state.codes[state.role]||"",data});
+    H.photos.push(j.url);st.textContent=`✓ ${H.photos.length} फ़ोटो सेव`;toast("बिल की फ़ोटो सेव ✓")}
+  catch(err){st.textContent="फ़ोटो नहीं गई — "+errText(err)}e.target.value=""});
 $("hSave").addEventListener("click",async e=>{const b=e.currentTarget;
-  const left=H.rows.filter(x=>!(parseFloat(x.q)>0&&parseFloat(x.r)>0)).length;b.disabled=true;
-  b.textContent="सेव हो रहा है…";
-  try{await api(null,{action:"buy",date:hDate,who:state.who,code:state.codes[state.role]||"",rows:H.rows.map(x=>({n:x.n,c:x.c,u:x.u,cq:x.cq,q:+x.q||0,r:+x.r||0}))});toast(left?`Sheet में सेव ✓ (${left} सामान बाकी)`:"पूरा हिसाब Sheet में सेव ✓")}
-  catch(err){toast("सेव नहीं हुआ — "+errText(err));if(err.message==="code"){delete state.codes[state.role];state.role="";save();show("start")}}finally{b.disabled=false;b.textContent="सेव करें"}});
+  const left=H.rows.filter(x=>!x.na&&!(parseFloat(x.q)>0&&parseFloat(x.r)>0)).length;b.disabled=true;b.textContent="सेव हो रहा है…";
+  try{const r=await send({action:"buy",date:hDate,who:state.who,code:state.codes[state.role]||"",given:+H.given||0,rows:H.rows.map(x=>({n:x.n,c:x.c,u:x.u,cq:x.cq,na:!!x.na,q:+x.q||0,r:+x.r||0}))});
+    toast(r.queued?"इंटरनेट नहीं — हिसाब फ़ोन में रुका है, इंटरनेट आते ही Sheet में चला जाएगा":left?`Sheet में सेव ✓ (${left} सामान बाकी)`:"पूरा हिसाब Sheet में सेव ✓")}
+  catch(err){toast("सेव नहीं हुआ — "+errText(err));if(err.message==="code"){delete state.codes[state.role];state.role="";save();show("start")}}
+  finally{b.disabled=false;b.textContent="सेव करें"}});
+
+/* ---------- नेटवर्क न हो तो कतार (बाद में अपने-आप Sheet में) ---------- */
+const QKEY="so-queue-v1";
+let QUEUE=(()=>{try{return JSON.parse(localStorage.getItem(QKEY)||"[]")||[]}catch(e){return []}})();
+const qSave=()=>{try{localStorage.setItem(QKEY,JSON.stringify(QUEUE))}catch(e){}renderQ()};
+const qKey=b=>b.action==="buy"?"buy|"+b.date:b.action+"|"+b.date+"|"+(b.dev||"")+"|"+(b.who||"");
+async function send(body){
+  try{return await api(null,body)}
+  catch(e){if(e.message!=="net")throw e;
+    QUEUE=QUEUE.filter(x=>qKey(x.body)!==qKey(body));QUEUE.push({body,at:Date.now()});qSave();return {queued:true}}
+}
+let flushing=false;
+async function flushQ(){
+  if(flushing||!QUEUE.length)return;flushing=true;let sent=0;
+  try{while(QUEUE.length){const it=QUEUE[0];
+    try{await api(null,it.body);sent++}
+    catch(e){if(e.message==="net")break;toast("एक एंट्री नहीं गई: "+errText(e))}
+    QUEUE.shift();qSave()}}
+  finally{flushing=false}
+  if(sent)toast(`${sent} रुकी हुई एंट्री Sheet में चली गई ✓`);
+}
+function renderQ(){const b=$("qbar");if(!b)return;b.hidden=!QUEUE.length;
+  $("qtxt").textContent=`${QUEUE.length} एंट्री भेजना बाकी — इंटरनेट आते ही अपने-आप चली जाएगी`}
+window.addEventListener("online",flushQ);setInterval(()=>{if(QUEUE.length)flushQ()},30000);
+
+/* ---------- सामान की लिस्ट Google Sheet (Items टैब) से ---------- */
+const IKEY="so-items-v1";
+function setCatalog(list,settings){
+  if(settings){document.querySelectorAll(".brand b").forEach(b=>{if(settings.name)b.textContent=settings.name});document.querySelectorAll(".brand small").forEach(b=>{if(settings.tagline)b.textContent=settings.tagline})}
+  if(!list||!list.length)return;
+  const keep={};Object.keys(state.picked).forEach(id=>{const it=byId(id);if(it)keep[it.name]=state.picked[id]});
+  const base={};BASE_CATS.forEach(c=>base[c[0]]=c);
+  const order=[],map={};Object.keys(SHOP).forEach(k=>delete SHOP[k]);
+  list.forEach(x=>{if(!x.n)return;const c=x.c||"अन्य";if(!map[c]){map[c]=[];order.push(c)}map[c].push([x.n,x.u||(base[c]?base[c][3]:"पीस")]);if(x.shop)SHOP[x.n]=x.shop});
+  CATS.length=0;order.forEach((c,i)=>{const b=base[c];CATS.push([c,b?b[1]:PAL[i%PAL.length],b?b[2]:"",b?b[3]:"पीस",map[c]])});
+  buildItems();
+  state.picked={};Object.keys(keep).forEach(nm=>{if(byName[nm])state.picked[byName[nm].id]=keep[nm]});save();
+}
+async function loadCatalog(){
+  try{const c=JSON.parse(localStorage.getItem(IKEY)||"null");if(c)setCatalog(c.items,c.settings)}catch(e){}
+  try{const j=await api({action:"items"});
+    if(j.items&&j.items.length){setCatalog(j.items,j.settings);try{localStorage.setItem(IKEY,JSON.stringify({items:j.items,settings:j.settings}))}catch(e){}}
+    else{setCatalog(null,j.settings);
+      if(state.codes.own){const items=[];BASE_CATS.forEach(([cat,,,du,list])=>list.forEach(x=>{const [nm,u]=Array.isArray(x)?x:[x,du];items.push({c:cat,n:nm,u})}));
+        try{await api(null,{action:"seedItems",code:state.codes.own,items})}catch(e){}}}
+    if(screen==="cats")renderCats();if(screen==="items")renderItems();
+  }catch(e){}
+}
 
 /* ---------- shared bits ---------- */
 function toast(t){const el=$("toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}
@@ -969,7 +1100,7 @@ $("apinGo").addEventListener("click",async e=>{
   const b=e.currentTarget,code=$("apin").value.trim();if(!code)return;
   b.disabled=true;b.textContent="जाँच…";$("apinErr").hidden=true;
   try{const j=await api(null,{action:"login",role:askRole,code});
-    state.role=askRole;state.codes[askRole]=code;if(j.sheet)state.sheet=j.sheet;save();renderStart();toast(ROLE_NAME[askRole]+" लॉगिन हो गया ✓")}
+    state.role=askRole;state.codes[askRole]=code;if(j.sheet)state.sheet=j.sheet;save();if(askRole==="own")loadCatalog();renderStart();toast(ROLE_NAME[askRole]+" लॉगिन हो गया ✓")}
   catch(err){if(err.message==="code"){tries++;$("apinErr").textContent=tries>=3?"3 बार गलत कोड":`कोड गलत है (${3-tries} मौके बचे)`}else $("apinErr").textContent=errText(err);$("apinErr").hidden=false}
   finally{b.disabled=false;b.textContent="खोलो"}
 });
@@ -977,6 +1108,8 @@ $("toHisab").addEventListener("click",()=>{hDate=TODAY;show("hisab")});
 
 $("apin").addEventListener("keydown",e=>{if(e.key==="Enter")$("apinGo").click()});
 
+$("qgo").addEventListener("click",()=>{toast("भेज रहे हैं…");flushQ()});
+renderQ();flushQ();loadCatalog();
 show(state.who?"start":"login");
 </script>
 
