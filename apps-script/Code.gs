@@ -427,9 +427,9 @@ function exportXls_(from, to) {
     ["पिछली अवधि से बदलाव", pTotal ? "=(B4-B6)/B6" : "—"],
     ["", ""],
     ["इस अवधि की कुल बिक्री (₹)", saleTotal ? "='रोज़ का खर्च'!D" + (nDays + 2) : ""],
-    ["Food cost % (खरीद ÷ बिक्री)", "=IF(B9>0,B4/B9,\"बिक्री भरें\")"],
-    ["हाल", "=IF(B9>0,IF(B10<=0.32,\"✅ ठीक है (28–32%)\",IF(B10<=0.35,\"⚠ ध्यान दें (32–35%)\",\"❌ बहुत ज़्यादा – मुनाफ़ा घट रहा है\")),\"\")"],
-    ["सामान के बाद बचा (₹) = बिक्री − खरीद", "=IF(B9>0,B9-B4,\"\")"],
+    ["बचत % (सामान के बाद) = (बिक्री − खरीद) ÷ बिक्री", "=IF(B9>0,(B9-B4)/B9,\"बिक्री भरें\")"],
+    ["हाल", "=IF(B9>0,IF(B10<0,\"🔴 घाटा\",IF(B10>0.8,\"सारी खरीद भरी है? जाँचें\",IF(B10>=0.68,\"✅ अच्छी (68% या ज़्यादा)\",IF(B10>=0.65,\"⚠ ध्यान दें (65–68%)\",\"❌ कम है – सामान महँगा या दाम कम\")))),\"\")"],
+    ["बचत (₹) = बिक्री − खरीद", "=IF(B9>0,B9-B4,\"\")"],
     ["", ""],
     ["एकमुश्त / अन्य खर्च (₹)", r2(specials.reduce(function (s, e) { return s + e.t; }, 0))]
   ];
@@ -438,7 +438,7 @@ function exportXls_(from, to) {
   s1.getRange("B4:B6").setNumberFormat("₹#,##0"); s1.getRange("B12").setNumberFormat("₹#,##0"); s1.getRange("B14").setNumberFormat("₹#,##0");
   s1.getRange("B7").setNumberFormat("+0%;-0%;0%"); s1.getRange("B10").setNumberFormat("0.0%");
   s1.getRange("B9").setBackground(Y).setNumberFormat("₹#,##0").setNote("ऐप में भरी रोज़ की बिक्री का जोड़ ('रोज़ का खर्च' शीट से)। खाली हो तो यहाँ खुद भी लिख सकते हैं।");
-  s1.getRange("A16").setValue("भारत के रेस्टोरेंट के लिए Food cost आम तौर पर 28–35% अच्छा माना जाता है (स्रोत: Petpooja / NRAI)।").setFontColor("#666666");
+  s1.getRange("A16").setValue("भारत के रेस्टोरेंट में सामान का खर्च बिक्री का 28–32% ठीक माना जाता है, यानी बचत 68% या ज़्यादा (स्रोत: Petpooja / NRAI)। किराया, तनख़्वाह, गैस इसमें नहीं घटे हैं।").setFontColor("#666666");
   head(s1, 18, ["सबसे ज़्यादा खर्च वाले 10 सामान", "कुल ₹", "हिस्सा %"]);
   const top = items.slice(0, 10).map(function (e) { return [e.n, r2(e.t), total ? e.t / total : 0]; });
   if (top.length) { s1.getRange(19, 1, top.length, 3).setValues(top); s1.getRange(19, 2, top.length, 1).setNumberFormat("₹#,##0"); s1.getRange(19, 3, top.length, 1).setNumberFormat("0%"); }
@@ -485,18 +485,18 @@ function exportXls_(from, to) {
   s3.getRange(wr.length + 3, 1).setValue("यहाँ वो सामान हैं जिनका दाम पिछली अवधि से 10% से ज़्यादा बदला, या इसी अवधि में 15% से ज़्यादा ऊपर-नीचे हुआ। ग्राम वाले सामान का दाम 1 kg का है।").setFontColor("#666666");
   s3.setFrozenRows(1); s3.setColumnWidth(1, 200);
 
-  // ---------- 4. रोज़ का खर्च (बिक्री भरें तो रोज़ का Food cost %) ----------
+  // ---------- 4. रोज़ का खर्च (बिक्री भरें तो रोज़ की बचत %) ----------
   const s4 = xs.insertSheet("रोज़ का खर्च");
-  head(s4, 1, ["तारीख", "दिन", "खरीद ₹", "बिक्री ₹", "Food cost %"]);
+  head(s4, 1, ["तारीख", "दिन", "खरीद ₹", "बिक्री ₹", "बचत %"]);
   const WD = ["रविवार", "सोमवार", "मंगलवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार"];
   const dr = [];
   for (let i = 0; i < nDays; i++) {
     const d = new Date(D(from).getTime() + i * 864e5), k = S(d), r = i + 2;
-    dr.push(["'" + k, WD[d.getDay()], r2(buyDays[k] || 0), saleDays[k] ? r2(saleDays[k]) : "", "=IF(D" + r + ">0,C" + r + "/D" + r + ",\"\")"]);
+    dr.push(["'" + k, WD[d.getDay()], r2(buyDays[k] || 0), saleDays[k] ? r2(saleDays[k]) : "", "=IF(D" + r + ">0,(D" + r + "-C" + r + ")/D" + r + ",\"\")"]);
   }
   if (dr.length) { s4.getRange(2, 1, dr.length, 5).setValues(dr); s4.getRange(2, 4, dr.length, 1).setBackground(Y); s4.getRange(2, 3, dr.length, 2).setNumberFormat("₹#,##0"); s4.getRange(2, 5, dr.length, 1).setNumberFormat("0.0%"); }
   const t4 = dr.length + 2;
-  s4.getRange(t4, 1, 1, 5).setValues([["कुल", "", "=SUM(C2:C" + (t4 - 1) + ")", "=SUM(D2:D" + (t4 - 1) + ")", "=IF(D" + t4 + ">0,C" + t4 + "/D" + t4 + ",\"\")"]]).setFontWeight("bold");
+  s4.getRange(t4, 1, 1, 5).setValues([["कुल", "", "=SUM(C2:C" + (t4 - 1) + ")", "=SUM(D2:D" + (t4 - 1) + ")", "=IF(D" + t4 + ">0,(D" + t4 + "-C" + t4 + ")/D" + t4 + ",\"\")"]]).setFontWeight("bold");
   s4.getRange(t4, 3, 1, 2).setNumberFormat("₹#,##0"); s4.getRange(t4, 5).setNumberFormat("0.0%");
   s4.getRange(t4 + 2, 1).setValue("बिक्री ऐप से अपने-आप आती है; जो दिन छूटा हो, पीले खाने में खुद भर सकते हैं। ध्यान दें: एक दिन की खरीद अगले कई दिन काम आती है, इसलिए रोज़ का % ऊपर-नीचे होगा – हफ़्ते/महीने का कुल % ही असली तस्वीर है।").setFontColor("#666666");
   s4.setFrozenRows(1);

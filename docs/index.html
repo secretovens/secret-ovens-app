@@ -315,7 +315,7 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
 .irow .rs{font-family:var(--f-head);font-size:17px;white-space:nowrap}
 .snap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px}
 .snap .sn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:10px;line-height:1.15}
-.snap small{display:block;font-size:12px;opacity:.75}.snap b{display:block;font-family:var(--f-head);font-size:19px;margin-top:3px;white-space:nowrap}
+.snap small{display:block;font-size:12px;opacity:.75}.snap b{display:block;font-family:var(--f-head);font-size:min(19px,4.4vw);margin-top:3px;white-space:nowrap}
 .snap em{display:block;font-style:normal;font-size:11px;margin-top:2px;opacity:.9}
 .snap .ok b{color:#7ee2a5}.snap .warn b{color:var(--gold)}.snap .bad b{color:#ff9b8f}
 .mcard.hot{box-shadow:inset 0 0 0 2px var(--gold)}
@@ -473,7 +473,7 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
       <button type="button" class="btn gold" id="apinGo">खोलो</button>
       <span class="aerr" id="apinErr" hidden>कोड गलत है</span>
     </div>
-    <p class="ver">ऐप वर्ज़न 12</p>
+    <p class="ver">ऐप वर्ज़न 12.1</p>
     
   </div>
 </section>
@@ -1024,9 +1024,8 @@ function renderRep(){
   const dd={};(rep.buys||[]).forEach(x=>dd[x.d]=(dd[x.d]||0)+amt(x.u,x.q,x.r));const ds=Object.keys(dd).sort(),dmx=ds.length?Math.max(...ds.map(k=>dd[k])):1;
   const cats2=[...new Set(items.map(e=>e.c))];
   const sal=(rep.sales||[]).reduce((a,x)=>a+x.total,0),sd={};(rep.sales||[]).forEach(x=>sd[x.d]=x.total);
-  const fp=sal?all/sal:0,[ft,fc]=sal?fcTxt(fp):["",""];
   o.innerHTML=`<div class="sum"><div><b>${money(all)}</b><span>सामान आया (खरीद)</span></div><div><b>${sal?money(sal):"—"}</b><span>बिक्री${sal?"":" (मालिक → आज की बिक्री में भरें)"}</span></div>
-  <div class="${fc}"><b>${sal?Math.round(fp*100)+"%":"—"}</b><span>Food cost ${ft}</span></div><div><b>${sal?money(sal-all):"—"}</b><span>बिक्री − सामान</span></div></div>
+  ${profitTiles(sal,all)}</div>${sal?PTIP:""}
   <p class="tip">${items.filter(e=>!special(e.c)).length} सामान · ${bdays} दिन की खरीद</p>
   <div class="sendbox top"><button class="btn xls wide" data-act="rxls">${XLSI} Excel में डाउनलोड करें</button>
     <a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(repMessage(items,all))}">WhatsApp पर भेजें</a><button class="btn ghost" data-act="rcopy">कॉपी करें</button></div>
@@ -1225,7 +1224,12 @@ async function loadCatalog(){
 }
 
 /* ---------- बिक्री और मुनाफ़े का हाल (मालिक) ---------- */
-const fcTxt=p=>p<0.2?["कम — सारी खरीद भरी है?","warn"]:p<=0.32?["✅ ठीक है","ok"]:p<=0.35?["⚠ ध्यान दें","warn"]:["❌ बहुत ज़्यादा","bad"];
+/* बचत % = (बिक्री − सामान) ÷ बिक्री. रेस्टोरेंट में सामान 28–32% ठीक है, यानी बचत 68% या ज़्यादा अच्छी */
+const mTxt=m=>m<0?["🔴 घाटा","bad"]:m>0.8?["सारी खरीद भरी है?","warn"]:m>=0.68?["✅ अच्छी","ok"]:m>=0.65?["⚠ ध्यान दें","warn"]:["❌ कम है","bad"];
+const pct=x=>Math.round(x*100)+"%";
+const profitTiles=(sal,pur)=>{if(!sal)return `<div><b>—</b><span>बचत (बिक्री भरें)</span></div><div><b>—</b><span>बचत %</span></div>`;
+  const m=(sal-pur)/sal,[t,c]=mTxt(m);return `<div class="${c}"><b>${money(sal-pur)}</b><span>बचत (सामान के बाद)</span></div><div class="${c}"><b>${pct(m)}</b><span>बचत % · ${t}</span></div>`};
+const PTIP=`<p class="tip"><b>बचत</b> = बिक्री − सामान का खर्च। 68% या ज़्यादा अच्छी है (यानी ₹100 की बिक्री पर ₹32 तक का सामान)। किराया, तनख़्वाह, गैस, बिजली इसमें अभी नहीं घटे हैं।</p>`;
 const monthStart=()=>ymd(new Date(now.getFullYear(),now.getMonth(),1));
 let SALE={date:TODAY,vals:{},month:null,loading:false};
 async function monthData(){const j=await api(null,{action:"report",from:monthStart(),to:TODAY,code:state.codes.own||""});
@@ -1235,8 +1239,8 @@ async function monthData(){const j=await api(null,{action:"report",from:monthSta
   return {bd,sd,pur,sal}}
 let snapAt=0;
 async function ownSnap(){const el=$("ownSnap");if(Date.now()-snapAt<60000&&el.innerHTML)return;snapAt=Date.now();
-  try{const m=await monthData();const p=m.sal?m.pur/m.sal:0,[t,c]=m.sal?fcTxt(p):["",""];
-    el.innerHTML=`<div class="sn"><small>${MON[now.getMonth()]} में बिक्री</small><b>${money(m.sal)}</b></div><div class="sn"><small>सामान आया</small><b>${money(m.pur)}</b></div><div class="sn ${c}"><small>Food cost</small><b>${m.sal?Math.round(p*100)+"%":"—"}</b><em>${m.sal?t:"बिक्री भरें"}</em></div>`;
+  try{const m=await monthData();const g=m.sal?(m.sal-m.pur)/m.sal:0,[t,c]=m.sal?mTxt(g):["",""];
+    el.innerHTML=`<div class="sn"><small>${MON[now.getMonth()]} में बिक्री</small><b>${money(m.sal)}</b></div><div class="sn"><small>सामान आया</small><b>${money(m.pur)}</b></div><div class="sn ${c}"><small>बचत</small><b>${m.sal?money(m.sal-m.pur):"—"}</b><em>${m.sal?pct(g)+" · "+t:"बिक्री भरें"}</em></div>`;
     $("salesSub").textContent=m.sd[TODAY]?`आज: ${money(m.sd[TODAY].total)} भरी है`:"आज की बिक्री अभी नहीं भरी";
   }catch(e){snapAt=0;el.innerHTML=""}}
 async function loadSales(){
@@ -1255,13 +1259,12 @@ async function loadSales(){
 }
 function updSale(){const t=["sCash","sUpi","sZom","sSwi"].reduce((a,id)=>a+(parseFloat($(id).value)||0),0);$("sTotal").textContent=money(t);
   const m=SALE.month,b=SALE.extraBuy!=null?SALE.extraBuy:(m&&m.bd[SALE.date])||0;
-  $("sDayFc").textContent=t?`उस दिन सामान आया ${money(b)}${b?` · ${Math.round(b/t*100)}%`:""}`:""}
-function renderMonth(){const m=SALE.month;if(!m)return;const p=m.sal?m.pur/m.sal:0,[t,c]=m.sal?fcTxt(p):["",""];
+  $("sDayFc").textContent=t?(b?`उस दिन सामान ${money(b)} · बचत ${money(t-b)} (${pct((t-b)/t)})`:"उस दिन का सामान अभी नहीं भरा"):""}
+function renderMonth(){const m=SALE.month;if(!m)return;
   const days=[];for(let i=0;i<7;i++){const d=ymd(addDays(now,-i));days.push(d)}
   $("sOut").innerHTML=`<h3 class="rh">${MON[now.getMonth()]} का हाल <small>1 तारीख से आज तक</small></h3>
   <div class="sum"><div><b>${money(m.sal)}</b><span>कुल बिक्री</span></div><div><b>${money(m.pur)}</b><span>सामान आया</span></div>
-  <div class="${c}"><b>${m.sal?Math.round(p*100)+"%":"—"}</b><span>Food cost ${t}</span></div><div><b>${m.sal?money(m.sal-m.pur):"—"}</b><span>बिक्री − सामान</span></div></div>
-  <p class="tip">अच्छा Food cost 28–32% है। 35% से ऊपर का मतलब है कि सामान पर ज़्यादा खर्च हो रहा है या दाम कम रखे हैं।</p>
+  ${profitTiles(m.sal,m.pur)}</div>${PTIP}
   <div class="group"><h3>पिछले 7 दिन</h3>${days.map(d=>{const s=(m.sd[d]||{}).total||0,b=m.bd[d]||0;return `<div class="drow"><span class="t">${esc(shortDate(d))}<small>${DAY[parse(d).getDay()]}</small></span><span class="v"><small>बिक्री</small>${s?money(s):"—"}</span><span class="v"><small>सामान</small>${b?money(b):"—"}</span></div>`}).join("")}</div>`}
 $("toSales").addEventListener("click",()=>{SALE.date=TODAY;show("sales")});
 $("sdchips").addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b){SALE.date=b.dataset.d;loadSales()}});
