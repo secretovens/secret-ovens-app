@@ -308,12 +308,16 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
       <div><b>SECRET OVENS</b><small>GOOD FOOD, GOOD MOOD</small></div>
     </div>
     <div class="hello">नमस्ते, <b id="helloName"></b> 👋 <span class="rolechip" id="roleChip" hidden></span><button type="button" class="logout" id="adminLink" hidden>लॉग-आउट</button></div>
-    <div class="hero">
+    <div class="hero" id="roleHero" hidden>
+      <h1 id="roleH1"></h1>
+      <p id="roleP"></p>
+    </div>
+    <div class="hero" id="listHero">
       <h1>कल का सामान</h1>
       <p>जो सामान खत्म हो रहा है, उसकी लिस्ट बनाकर भेजें।</p>
     </div>
     <div class="setup" id="setup" hidden>⚠️ ऐप अभी Google Sheet से नहीं जुड़ा है। GitHub पर <b>docs/config.js</b> में लिंक डालें।</div>
-    <div class="datebox">
+    <div class="datebox" id="dateBox">
       <span class="lbl">सामान किस दिन के लिए चाहिए?</span>
       <div class="dchips" id="dchips"></div>
       <label class="dpick" for="fordate">दूसरी तारीख चुनें <input id="fordate" type="date"></label>
@@ -604,6 +608,8 @@ function renderStart(){
   state.admin=state.role==="own";
   $("roleRow").hidden=!!state.role;$("roleMenu").hidden=!state.role;$("adminBox").hidden=true;$("ownGrid").hidden=state.role!=="own";
   $("toSheet").hidden=!state.sheet;if(state.sheet)$("toSheet").href=state.sheet;
+  const r=state.role;$("listHero").hidden=$("dateBox").hidden=$("go").hidden=!!r;$("roleHero").hidden=!r;
+  if(r){$("roleH1").textContent=r==="own"?"मालिक":"खरीदार";$("roleP").textContent=r==="own"?"हिसाब, कुल लिस्ट और पूरा रिकॉर्ड।":"बाज़ार से लाया सामान और उसका दाम लिखें।";}
   $("hisabSub").textContent=state.role==="own"?"खरीदार ने क्या लिखा — देखें या बदलें":"लाया हुआ सामान और दाम लिखें";
   $("roleChip").hidden=!state.role;$("roleChip").textContent=ROLE_NAME[state.role]||"";
   $("adminLink").hidden=!state.role;
@@ -828,7 +834,7 @@ async function loadH(){
   const date=hDate;H={date,rows:null,loading:true,error:""};renderH();
   try{const j=await api({action:"day",date});if(H.date!==date)return;
     const saved={};(j.buys||[]).forEach(x=>saved[x.n]=x);
-    H.rows=aggregate(j.subs||[]).map(e=>{const s=saved[e.n];return {n:e.n,c:e.c,u:s?s.u:e.u,cq:e.hasQ?e.q:null,q:s?String(s.q):(e.hasQ?String(e.q):""),r:s?String(s.r):""}});
+    H.rows=aggregate(j.subs||[]).map(e=>{const s=saved[e.n];return {n:e.n,c:e.c,u:s?s.u:e.u,cq:e.hasQ?e.q:null,q:s?String(s.q):(e.hasQ?String(e.q):"1"),r:s?String(s.r):""}});
     (j.buys||[]).forEach(x=>{if(!H.rows.find(r=>r.n===x.n))H.rows.push({n:x.n,c:x.c,u:x.u,cq:null,q:String(x.q),r:String(x.r)})});
   }catch(e){if(H.date!==date)return;H.error=errText(e)}
   H.loading=false;renderH();
@@ -860,8 +866,8 @@ function hMsg(){let m=`*Secret Ovens – बाज़ार बिल*\n📅 ${h
 function updH(){let t=0,d=0;
   H.rows.forEach((e,x)=>{const q=parseFloat(e.q),r=parseFloat(e.r),ok=q>0&&r>0;if(ok){t+=q*r;d++}
     $("ht"+x).textContent=ok?money(q*r):"";
-    $("hf"+x).textContent=ok?`${e.q} ${e.u} × ₹${e.r} =`:(q>0?"👉 दाम लिखो":"👉 + दबाकर मात्रा बताओ");
-    $("hr"+x).className="brow "+(ok?"isdone":e.cq===null&&!(q>0)?"ismiss":"")});
+    $("hf"+x).textContent=ok?`${e.q} ${e.u} × ₹${e.r} =`:(q>0?(e.cq===null?"👉 मात्रा जाँचो, फिर दाम लिखो":"👉 दाम लिखो"):"👉 + दबाकर मात्रा बताओ");
+    $("hr"+x).className="brow "+(ok?"isdone":e.cq===null?"ismiss":"")});
   $("hTotal").textContent="कुल "+money(t);$("hSub").textContent=`${H.rows.length} में से ${d} सामान पूरे`;
   const w=$("hWa");if(w)w.href="https://wa.me/?text="+encodeURIComponent(hMsg());
 }
