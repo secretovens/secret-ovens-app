@@ -1102,12 +1102,13 @@ function setCatalog(list,settings){
   state.picked={};Object.keys(keep).forEach(nm=>{if(byName[nm])state.picked[byName[nm].id]=keep[nm]});save();
 }
 async function loadCatalog(){
-  try{const c=JSON.parse(localStorage.getItem(IKEY)||"null");if(c)setCatalog(c.items,c.settings)}catch(e){}
+  try{const c=JSON.parse(localStorage.getItem(IKEY)||"null");if(c&&(+c.ver||0)>=CAT_VER)setCatalog(c.items,c.settings);else localStorage.removeItem(IKEY)}catch(e){}
   try{const j=await api({action:"items"});
-    const ver=+((j.settings||{}).listVersion||0);
+    let ver=+((j.settings||{}).listVersion||0);
     if(state.codes.own&&(!(j.items&&j.items.length)||ver<CAT_VER)){const items=[];BASE_CATS.forEach(([cat,,,du,list])=>list.forEach(x=>{const [nm,u,st]=Array.isArray(x)?x:[x,du];items.push({c:cat,n:nm,u,step:+st||""})}));
-      try{await api(null,{action:"seedItems",code:state.codes.own,version:CAT_VER,items});j.items=items}catch(e){}}
-    if(j.items&&j.items.length){setCatalog(j.items,j.settings);try{localStorage.setItem(IKEY,JSON.stringify({items:j.items,settings:j.settings}))}catch(e){}}
+      try{const r=await api(null,{action:"seedItems",code:state.codes.own,version:CAT_VER,items});if(r&&!r.skipped){j.items=items;ver=CAT_VER}}catch(e){}}
+    /* Sheet की लिस्ट पुरानी हो (वर्ज़न कम) तो ऐप की नई लिस्ट ही चलेगी */
+    if(j.items&&j.items.length&&ver>=CAT_VER){setCatalog(j.items,j.settings);try{localStorage.setItem(IKEY,JSON.stringify({items:j.items,settings:j.settings,ver}))}catch(e){}}
     else setCatalog(null,j.settings);
     if(screen==="cats")renderCats();if(screen==="items")renderItems();
   }catch(e){}
