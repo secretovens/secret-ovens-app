@@ -24,7 +24,7 @@ const CASH_SHEET = "Cash";
 const CASH_HEADERS = ["तारीख", "खरीदार", "दिए पैसे ₹", "कुल खर्च ₹", "बचे पैसे ₹", "कब सेव किया", "बिल की फ़ोटो"];
 const CODE_SHEET = "Codes";
 const ITEM_SHEET = "Items";
-const ITEM_HEADERS = ["कैटेगरी", "सामान", "इकाई", "दुकान", "चालू (हाँ/नहीं)"];
+const ITEM_HEADERS = ["कैटेगरी", "सामान", "इकाई", "दुकान", "चालू (हाँ/नहीं)", "स्टेप (+ दबाने पर कितना बढ़े)"];
 const SET_SHEET = "Settings";
 const BILL_FOLDER = "Secret Ovens – बिल की फ़ोटो";
 
@@ -150,9 +150,9 @@ function lastRates_(before) {
 
 function readItems_() {
   const sh = sheet_(ITEM_SHEET, ITEM_HEADERS);
-  return rows_(sh, 5)
+  return rows_(sh, 6)
     .filter(function (r) { return String(r[1]).trim() && String(r[4]).trim() !== "नहीं"; })
-    .map(function (r) { return { c: String(r[0]).trim(), n: String(r[1]).trim(), u: String(r[2]).trim(), shop: String(r[3]).trim() }; });
+    .map(function (r) { return { c: String(r[0]).trim(), n: String(r[1]).trim(), u: String(r[2]).trim(), shop: String(r[3]).trim(), step: Number(r[5]) || "" }; });
 }
 function readSettings_() {
   let sh = ss_().getSheetByName(SET_SHEET);
@@ -167,6 +167,7 @@ function readSettings_() {
     const k = String(r[0]).trim(), v = String(r[1]).trim();
     if (k === "रेस्टोरेंट का नाम") out.name = v;
     if (k === "टैगलाइन") out.tagline = v;
+    if (k === "सामान लिस्ट वर्ज़न") out.listVersion = Number(v) || 0;
   });
   return out;
 }
@@ -249,7 +250,8 @@ function doPost(e) {
       const now = new Date();
       let spent = 0;
       const data = (b.rows || []).filter(function (x) { return x.na || (Number(x.q) > 0 && Number(x.r) > 0); }).map(function (x) {
-        const q = x.na ? 0 : Number(x.q), r = x.na ? 0 : Number(x.r), t = Math.round(q * r * 100) / 100;
+        // ग्राम वाले सामान का दाम 1 kg का होता है
+        const q = x.na ? 0 : Number(x.q), r = x.na ? 0 : Number(x.r), t = Math.round((String(x.u) === "ग्राम" ? q * r / 1000 : q * r) * 100) / 100;
         spent += t;
         return ["'" + b.date, String(b.who || ""), now, String(x.c), String(x.n),
           (x.cq === null || x.cq === undefined || x.cq === "") ? "" : Number(x.cq), q, String(x.u), r, t, x.na ? "नहीं मिला" : "मिला"];
@@ -290,13 +292,27 @@ function doPost(e) {
       return json_({ ok: true, url: url });
     }
 
-    // पहली बार: ऐप की लिस्ट से Items टैब भरना (सिर्फ़ मालिक, सिर्फ़ जब खाली हो)
+    // Items टैब भरना: खाली हो, या ऐप में नई लिस्ट (ऊँचा वर्ज़न) हो। दुकान और चालू/बंद पहले जैसे रहते हैं।
     if (b.action === "seedItems") {
       if (!can_("own", b.code)) return json_({ ok: false, error: "code" });
       const sh = sheet_(ITEM_SHEET, ITEM_HEADERS);
-      if (sh.getLastRow() >= 2) return json_({ ok: true, skipped: true });
-      const data = (b.items || []).slice(0, 2000).map(function (x) { return [String(x.c), String(x.n), String(x.u), String(x.shop || ""), "हाँ"]; });
-      if (data.length) sh.getRange(2, 1, data.length, 5).setValues(data);
+      const ver = Number(b.version) || 0, cur = readSettings_().listVersion || 0;
+      if (sh.getLastRow() >= 2 && ver <= cur) return json_({ ok: true, skipped: true });
+      const old = {};
+      rows_(sh, 6).forEach(function (r) { old[String(r[1]).trim()] = { shop: r[3], on: r[4] }; });
+      if (sh.getLastRow() >= 2) sh.getRange(2, 1, sh.getLastRow() - 1, 6).clearContent();
+      const data = (b.items || []).slice(0, 2000).map(function (x) {
+        const o = old[String(x.n).trim()] || {};
+        return [String(x.c), String(x.n), String(x.u), String(o.shop || x.shop || ""), String(o.on || "हाँ"), x.step ? Number(x.step) : ""];
+      });
+      if (data.length) sh.getRange(2, 1, data.length, 6).setValues(data);
+      if (ver) {
+        const st = ss_().getSheetByName(SET_SHEET);
+        const rr = rows_(st, 2);
+        let row = -1;
+        rr.forEach(function (r, i) { if (String(r[0]).trim() === "सामान लिस्ट वर्ज़न") row = i + 2; });
+        if (row < 0) st.appendRow(["सामान लिस्ट वर्ज़न", ver]); else st.getRange(row, 2).setValue(ver);
+      }
       return json_({ ok: true, seeded: data.length });
     }
 

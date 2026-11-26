@@ -281,6 +281,12 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
 .daytotal{margin-top:14px;background:var(--brand);color:var(--brand-fg);border-radius:16px;padding:14px 16px;display:grid;gap:2px}
 .daytotal span{font-size:14px;opacity:.85}.daytotal b{font-family:var(--f-head);font-size:32px;line-height:1.1;color:var(--gold)}
 .daytotal small{font-size:14px;opacity:.85}
+.xg h3 .gc{font-family:var(--f-body);font-weight:500}
+.xrow{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) 40px;gap:8px;padding:10px 14px;border-top:1px solid var(--line);align-items:center}
+.group h3+div .xrow:first-child{border-top:0}
+.xrow .xt{min-height:44px;border:0;border-radius:12px;box-shadow:inset 0 0 0 1.5px var(--line);padding:0 10px;font:inherit;font-size:16px;background:var(--surface);color:var(--fg)}
+.xdel{border:0;background:transparent;color:var(--muted);font-size:26px;height:44px}
+.xadd{margin:10px 14px 14px;width:calc(100% - 28px);font-size:16px;padding:10px}
 /* ----- landing ----- */
 .landing{display:flex;flex-direction:column;gap:12px}
 .lhead{margin-bottom:4px}
@@ -561,24 +567,30 @@ const DEMO=false;
 const READY=/^https:\/\/script\.google(usercontent)?\.com\//.test(API);
 const P="पैकेट";
 const CATS=[
- ["सब्ज़ी","#3f7a4f","🥬","kg",["आलू","प्याज़","टमाटर","पत्ता गोभी","शिमला मिर्च","लहसुन","अदरक","ब्रोकली","मशरूम","हरी मिर्च","धनिया","पुदीना","नींबू","बीन्स","गाजर","फूल गोभी","पालक","सिरका प्याज़","चुकंदर"]],
- ["मसाला","#a24c3f","🌶️","kg",["सबूत लाल मिर्च","काली मिर्च",["कसूरी मेथी",P],["किचन किंग",P],["चिकन मसाला",P],["देगी मिर्च",P],["मीट मसाला",P],["अमचूर पाउडर",P],"अजवाइन","धनिया पाउडर","जीरा पाउडर",["गरम मसाला",P],"कुटी लाल मिर्च","काला नमक",["सफ़ेद मिर्च (White Pepper)",P],["चाट मसाला",P],"दालचीनी","जावित्री","छोटी इलायची","बड़ी इलायची",["इलायची पाउडर",P],"लौंग","तेज पत्ता","साबुत जीरा","स्टार फूल (चक्र फूल)",["हींग",P]]],
- ["राशन","#977236","🌾","kg",["आटा","मैदा","नमक","चाइनीज़ चावल","इंडियन चावल","तिल","मूंगफली","नारियल पाउडर","बेसन","काजू","मगज़","सोयाबीन चूरा","अरारोट",["अजीनोमोटो",P],["लाल रंग",P],["हरा रंग",P],["पीला रंग",P],["काउंटर सॉफ्ट","पीस"],["रिफाइंड तेल","लीटर"],["सरसों तेल","लीटर"],"डालडा"]],
- ["दाल","#ae6a3f","🫘","kg",["अरहर दाल","काली उड़द","चना दाल","राजमा","छोले","मिक्स दाल","सोयाबीन बड़ी","काला चना"]],
- ["सॉस","#8a4c63","🥫",P,["टोमैटो सॉस","ग्रीन सॉस","सोया सॉस","सिरका (Vinegar)","मखनी सॉस","मेयो","पेरी पेरी मसाला","ओरिगेनो","ब्रेड क्रम्ब","कॉर्न"]],
- ["डेयरी","#3f6886","🧀",P,[["पनीर","kg"],["दही","kg"],["खोया","kg"],"अमूल बटर","डिलीशियस बटर चाप","डिलीशियस बटर चाइनीज़","अमूल क्रीम",["घी चाइनीज़","kg"],["घी इंडियन","kg"],"नूडल्स","सफल मटर"]],
- ["पैकिंग","#5d6970","📦","पीस",["500 ML चाइनीज़ चाप बॉक्स","650 ML चाइनीज़ चाप बॉक्स","300 ML इंडियन गोल ब्लैक बॉक्स","500 ML इंडियन गोल ब्लैक बॉक्स","750 ML इंडियन गोल ब्लैक बॉक्स","2 CP ब्लैक बॉक्स इंडियन","5 CP ब्लैक थाली इंडियन","7 CP ब्लैक थाली इंडियन","4 CP ब्लैक थाली चाइनीज़","कार कंटेनर हाफ","कार कंटेनर फुल","ज़ोमैटो पेपर बैग हाफ","ज़ोमैटो पेपर बैग फुल","कुरकुरे मोमोज़ पैकिंग",["डिप बॉक्स चाइनीज़",P],["चटनी कप टेबल",P],["छोटी डिस्पोज़ेबल प्लेट",P],["डिस्पोज़ल गिलास",P],["कांटा (Fork)",P],["चम्मच",P],["टिश्यू पेपर",P],["टूथपिक",P],["फॉयल पेपर","रोल"],["सिल्वर फॉयल","रोल"],["1 kg पन्नी","kg"],["2 kg पन्नी","kg"],["5 kg पन्नी","kg"],["चटनी पन्नी","kg"]]],
- ["अन्य","#695c88","🔥","पीस",["रुमाली रोटी","कोल्ड ड्रिंक","पानी की बोतल","गैस सिलेंडर",["कोयला","kg"],["सर्फ़",P],["डस्टबिन पॉलीथीन",P],"बटर ब्रश","रोटी वाला कपड़ा"]]
+ ["सब्ज़ी", "#3f7a4f", "🥬", "kg", [["आलू", "kg"], ["प्याज़", "kg"], ["टमाटर", "kg"], ["पत्ता गोभी", "kg"], ["शिमला मिर्च", "kg"], ["लहसुन", "kg"], ["अदरक", "kg"], ["ब्रोकली", "kg"], ["मशरूम", "kg"], ["हरी मिर्च", "kg"], ["धनिया", "kg"], ["पुदीना", "kg"], ["नींबू", "kg"], ["बीन्स", "kg"], ["गाजर", "kg"], ["फूल गोभी", "kg"], ["पालक", "kg"], ["सिरका प्याज़", "kg"], ["चुकंदर", "kg"]]],
+ ["मसाला", "#a24c3f", "🌶️", "kg", [["सबूत लाल मिर्च", "kg"], ["काली मिर्च", "kg"], ["कसूरी मेथी", "kg"], ["किचन किंग", "पैकेट"], ["चिकन मसाला", "पैकेट"], ["देगी मिर्च", "पैकेट"], ["मीट मसाला", "पैकेट"], ["अमचूर पाउडर", "kg"], ["अजवाइन", "kg"], ["धनिया पाउडर", "kg"], ["जीरा पाउडर", "kg"], ["गरम मसाला", "kg"], ["कुटी लाल मिर्च", "kg"], ["काला नमक", "kg"], ["सफ़ेद मिर्च (White Pepper)", "ग्राम", 50], ["चाट मसाला", "kg"], ["दालचीनी", "ग्राम", 50], ["जावित्री", "ग्राम", 50], ["छोटी इलायची", "ग्राम", 50], ["बड़ी इलायची", "ग्राम", 50], ["इलायची पाउडर", "ग्राम", 50], ["लौंग", "ग्राम", 50], ["तेज पत्ता", "ग्राम", 50], ["साबुत जीरा", "ग्राम", 50], ["स्टार फूल (चक्र फूल)", "ग्राम", 50], ["हींग", "ग्राम", 50]]],
+ ["राशन", "#977236", "🌾", "kg", [["आटा", "kg"], ["मैदा", "kg"], ["नमक", "kg"], ["चाइनीज़ चावल", "kg"], ["इंडियन चावल", "kg"], ["तिल", "kg"], ["मूंगफली", "kg"], ["नारियल पाउडर", "kg"], ["बेसन", "kg"], ["काजू", "kg"], ["मगज़", "kg"], ["सोयाबीन चूरा", "kg"], ["अरारोट", "kg"], ["अजीनोमोटो", "kg"], ["लाल रंग", "पीस"], ["हरा रंग", "पीस"], ["पीला रंग", "पीस"], ["काउंटर saunf", "kg"], ["रिफाइंड तेल", "पेटी"], ["सरसों तेल", "लीटर"], ["डालडा", "kg"]]],
+ ["दाल", "#ae6a3f", "🫘", "kg", [["अरहर दाल", "kg"], ["काली उड़द", "kg"], ["चना दाल", "kg"], ["राजमा", "kg"], ["छोले", "kg"], ["मिक्स दाल", "kg"], ["सोयाबीन बड़ी", "kg"], ["काला चना", "kg"]]],
+ ["सॉस", "#8a4c63", "🥫", "पैकेट", [["टोमैटो सॉस", "लीटर"], ["ग्रीन सॉस", "लीटर"], ["सोया सॉस", "लीटर"], ["सिरका (Vinegar)", "लीटर"], ["मखनी सॉस", "पैकेट"], ["मेयो", "पैकेट"], ["पेरी पेरी मसाला", "kg", 0.5], ["ओरिगेनो", "पैकेट"], ["ब्रेड क्रम्ब", "kg"], ["कॉर्न", "पैकेट"]]],
+ ["डेयरी", "#3f6886", "🧀", "पैकेट", [["पनीर", "चक्का"], ["दही", "kg"], ["खोया", "kg", 0.5], ["अमूल बटर", "kg"], ["डिलीशियस बटर चाप", "kg"], ["डिलीशियस बटर चाइनीज़", "kg"], ["अमूल क्रीम", "पैकेट"], ["घी चाइनीज़", "ग्राम", 50], ["घी इंडियन", "ग्राम", 50], ["नूडल्स", "पैकेट"], ["सफल मटर", "पैकेट"]]],
+ ["पैकिंग", "#5d6970", "📦", "पीस", [["500 ML चाइनीज़ चाप बॉक्स", "पीस"], ["650 ML चाइनीज़ चाप बॉक्स", "पीस"], ["300 ML इंडियन गोल ब्लैक बॉक्स", "पीस"], ["500 ML इंडियन गोल ब्लैक बॉक्स", "पीस"], ["750 ML इंडियन गोल ब्लैक बॉक्स", "पीस"], ["2 CP ब्लैक बॉक्स इंडियन", "पीस"], ["5 CP ब्लैक थाली इंडियन", "पीस"], ["7 CP ब्लैक थाली इंडियन", "पीस"], ["4 CP ब्लैक थाली चाइनीज़", "पीस"], ["कार कंटेनर हाफ", "पीस"], ["कार कंटेनर फुल", "पीस"], ["ज़ोमैटो पेपर बैग हाफ", "kg"], ["ज़ोमैटो पेपर बैग फुल", "kg"], ["कुरकुरे मोमोज़ पैकिंग", "kg"], ["डिप बॉक्स चाइनीज़", "पीस"], ["चटनी कप टेबल", "पीस"], ["छोटी डिस्पोज़ेबल प्लेट", "पीस"], ["डिस्पोज़ल गिलास", "पीस"], ["कांटा (Fork)", "पैकेट"], ["चम्मच", "पैकेट"], ["टिश्यू पेपर", "पैकेट"], ["टूथपिक", "पैकेट"], ["Food Wrap", "रोल"], ["सिल्वर फॉयल", "रोल"], ["1 kg पन्नी", "kg"], ["2 kg पन्नी", "kg"], ["5 kg पन्नी", "kg"], ["चटनी पन्नी", "kg"]]],
+ ["अन्य", "#695c88", "🔥", "पीस", [["रुमाली रोटी", "पीस"], ["कोल्ड ड्रिंक", "पेटी"], ["पानी की बोतल", "पेटी"], ["गैस सिलेंडर", "पीस"], ["कोयला", "kg"], ["सर्फ़", "kg"], ["डस्टबिन पॉलीथीन", "kg"], ["बटर ब्रश", "पीस"], ["Duster Kapda", "पीस"], ["Table Safai Kapda", "पीस"]]]
 ];
 const ITEMS=[];let n=0;const byName={};
 const SHOP={};
 function buildItems(){ITEMS.length=0;n=0;Object.keys(byName).forEach(k=>delete byName[k]);
-  CATS.forEach(([cat,c,ic,du,list],ci)=>list.forEach(x=>{const [name,u]=Array.isArray(x)?x:[x,du];const sp=cat==="मसाला";const it={id:++n,name,ci,c,u,shop:SHOP[name]||"",step:u==="kg"?(sp?0.1:0.5):u==="लीटर"?0.5:1};ITEMS.push(it);byName[name]=it}))}
+  CATS.forEach(([cat,c,ic,du,list],ci)=>list.forEach(x=>{const [name,u,st]=Array.isArray(x)?x:[x,du];const sp=cat==="मसाला";const fixed=+st>0;
+    const it={id:++n,name,ci,c,u,fixed,shop:SHOP[name]||"",step:fixed?+st:u==="ग्राम"?50:u==="kg"?(sp?0.1:0.5):u==="लीटर"?0.5:1};ITEMS.push(it);byName[name]=it}))}
+const CAT_VER=2; /* बिल्ट-इन सामान लिस्ट का वर्ज़न (Excel 26 नवंबर) */
+const amt=(u,q,r)=>u==="ग्राम"?q*r/1000:q*r;
+const rateUnit=u=>u==="ग्राम"?"1 kg":"1 "+u;
+const buyStep=(n,u)=>{const it=byName[n];if(it&&it.fixed)return it.step;return u==="ग्राम"?50:1};
+const buyMin=(n,u)=>String(buyStep(n,u));
 buildItems();
 const BASE_CATS=CATS.map(c=>c.slice());
 const PAL=["#3f7a4f","#a24c3f","#977236","#ae6a3f","#8a4c63","#3f6886","#5d6970","#695c88"];
 const byId=id=>ITEMS.find(it=>it.id==id);
-const quick=it=>/कोल्ड ड्रिंक|पानी की बोतल/.test(it.name)?[12,24,48,96]:it.u==="kg"?(CATS[it.ci][0]==="मसाला"?[0.1,0.25,0.5,1]:[0.5,1,2,5]):it.u==="लीटर"?[1,2,5,15]:it.u==="पीस"&&CATS[it.ci][0]==="पैकिंग"?[25,50,100,200]:[1,2,5,10];
+const quick=it=>it.u==="ग्राम"?[50,100,250,500]:it.fixed?[it.step,it.step*2,it.step*4,it.step*10]:/पेटी|चक्का|रोल/.test(it.u)?[1,2,3,5]:/कोल्ड ड्रिंक|पानी की बोतल/.test(it.name)?[12,24,48,96]:it.u==="kg"?(CATS[it.ci][0]==="मसाला"?[0.1,0.25,0.5,1]:[0.5,1,2,5]):it.u==="लीटर"?[1,2,5,15]:it.u==="पीस"&&CATS[it.ci][0]==="पैकिंग"?[25,50,100,200]:[1,2,5,10];
 const fmt=v=>{const x=parseFloat(v);return isNaN(x)||x<=0?"":String(Math.round(x*100)/100)};
 const esc=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
 const $=id=>document.getElementById(id);
@@ -915,15 +927,15 @@ function renderRep(){
   const subs=rep.subs||[];
   if(!subs.length&&!(rep.buys||[]).length){o.innerHTML=`<p class="empty">इन तारीखों में कोई लिस्ट नहीं आई।</p>`;return}
   const rows=aggregate(subs),days=new Set(subs.map(s=>s.d)).size;
-  const cost={};let all=0;(rep.buys||[]).forEach(x=>{const k=x.n;const c=cost[k]||(cost[k]={t:0,q:0,u:x.u,min:1e9,max:0,n:0});c.t+=x.q*x.r;c.q+=x.q;c.n++;c.min=Math.min(c.min,x.r);c.max=Math.max(c.max,x.r);all+=x.q*x.r});
+  const cost={};let all=0;(rep.buys||[]).forEach(x=>{const k=x.n;const c=cost[k]||(cost[k]={t:0,q:0,u:x.u,min:1e9,max:0,n:0});c.t+=amt(x.u,x.q,x.r);c.q+=x.q;c.n++;c.min=Math.min(c.min,x.r);c.max=Math.max(c.max,x.r);all+=amt(x.u,x.q,x.r)});
   rows.forEach(e=>e.cost=cost[e.n]);
   (rep.buys||[]).forEach(x=>{if(!rows.find(r=>r.n===x.n)){const c=cost[x.n];rows.push({n:x.n,c:x.c,u:x.u,q:0,hasQ:false,days:new Set([x.d]),cost:c})}});
-  const byCat={};(rep.buys||[]).forEach(x=>byCat[x.c]=(byCat[x.c]||0)+x.q*x.r);
+  const byCat={};(rep.buys||[]).forEach(x=>byCat[x.c]=(byCat[x.c]||0)+amt(x.u,x.q,x.r));
   const cats=Object.entries(byCat).sort((a,b)=>b[1]-a[1]),cmax=cats.length?cats[0][1]:1;
   const rises=Object.entries(cost).filter(([k,c])=>c.n>1&&c.max>=c.min*1.15).sort((a,b)=>b[1].max/b[1].min-a[1].max/a[1].min).slice(0,6);
   o.innerHTML=`<div class="sum"><div><b>${money(all)}</b><span>कुल खर्च (खरीदार के बिल से)</span></div><div><b>${days}</b><span>दिन की लिस्टें · ${rows.length} सामान</span></div>
 </div>
-  ${(()=>{const dd={};(rep.buys||[]).forEach(x=>dd[x.d]=(dd[x.d]||0)+x.q*x.r);const ds=Object.keys(dd).sort();if(!ds.length)return"";const mx=Math.max(...ds.map(k=>dd[k]));
+  ${(()=>{const dd={};(rep.buys||[]).forEach(x=>dd[x.d]=(dd[x.d]||0)+amt(x.u,x.q,x.r));const ds=Object.keys(dd).sort();if(!ds.length)return"";const mx=Math.max(...ds.map(k=>dd[k]));
     return `<div class="group"><h3>रोज़ का खर्च</h3>${ds.map(k=>`<div class="cbar"><span class="t">${esc(shortDate(k))}</span><span class="bw"><i style="width:${Math.max(3,dd[k]/mx*100)}%;background:var(--brand)"></i></span><span class="rs">${money(dd[k])}</span></div>`).join("")}</div>`})()}
   ${cats.length?`<div class="group"><h3>कैटेगरी-वार खर्च</h3>${cats.map(([c,v])=>`<div class="cbar"><span class="t">${esc(c)}</span><span class="bw"><i style="width:${Math.max(3,v/cmax*100)}%;background:${catColor(c)}"></i></span><span class="rs">${money(v)}</span></div>`).join("")}</div>`:""}
   ${rises.length?`<div class="group"><h3>⚠ दाम बढ़े (15% से ज़्यादा)</h3>${rises.map(([k,c])=>`<div class="trow"><span class="t">${esc(k)}</span><span class="rs up">₹${c.min} → ₹${c.max}</span></div>`).join("")}</div>`:""}
@@ -941,12 +953,14 @@ $("repOut").addEventListener("click",e=>{const b=e.target.closest("button");if(!
 let hDate=TODAY,H={date:"",rows:null,loading:false,error:""};
 const money=v=>"₹"+Math.round(v).toLocaleString("en-IN");
 async function loadH(){
-  const date=hDate;H={date,rows:null,loading:true,error:"",given:"",photos:[],last:{}};renderH();
+  const date=hDate;H={date,rows:null,loading:true,error:"",given:"",photos:[],last:{},extra:[]};renderH();
   try{const j=await api(null,{action:"hisab",date,code:state.codes[state.role]||""});if(H.date!==date)return;
     const saved={};(j.buys||[]).forEach(x=>saved[x.n]=x);
     const qd=QUEUE.find(x=>x.body.action==="buy"&&x.body.date===date);
     if(qd)qd.body.rows.forEach(x=>saved[x.n]=x);
-    const mk=(n,c,u,cq,s)=>({n,c,u,cq,shop:(byName[n]&&byName[n].shop)||"",na:!!(s&&s.na),q:s?(s.na?"1":String(s.q)):(cq!==null?String(cq):"1"),r:s&&!s.na?String(s.r):""});
+    const mk=(n,c,u,cq,s)=>({n,c,u,cq,step:buyStep(n,u),shop:(byName[n]&&byName[n].shop)||"",na:!!(s&&s.na),q:s?(s.na?buyMin(n,u):String(s.q)):(cq!==null?String(cq):buyMin(n,u)),r:s&&!s.na?String(s.r):""});
+    H.extra=Object.values(saved).filter(x=>x.c==="अन्य खर्च").map(x=>({t:x.n.replace(/^अन्य खर्च:\s*/,""),a:String(x.r)}));
+    Object.keys(saved).forEach(k=>{if(saved[k].c==="अन्य खर्च")delete saved[k]});
     H.rows=aggregate(j.subs||[]).map(e=>{const s=saved[e.n];return mk(e.n,e.c,s?s.u:e.u,e.hasQ?e.q:null,s)});
     Object.values(saved).forEach(x=>{if(!H.rows.find(r=>r.n===x.n))H.rows.push(mk(x.n,x.c,x.u,null,x))});
     H.last=j.last||{};
@@ -980,36 +994,47 @@ function renderH(){
    <div class="bh"><span class="bn">${esc(e.n)}</span>${e.cq===null?'<span class="bmiss">शेफ़ ने मात्रा नहीं लिखी</span>':`<span class="bask">लिस्ट में: ${e.cq} ${esc(e.u)}</span>`}</div>
    <div class="bg">
     <div class="bcol"><span class="bl">कितना लाए</span><div class="stepper hstep"><button type="button" class="st hst" data-hx="${x}" data-hstep="-1" aria-label="कम">−</button><label class="val"><input id="hq${x}" data-hx="${x}" data-hf="q" type="number" inputmode="decimal" min="0" placeholder="0" value="${esc(e.q)}" aria-label="${esc(e.n)} कितना लाए"><span>${esc(e.u)}</span></label><button type="button" class="st hst" data-hx="${x}" data-hstep="1" aria-label="ज़्यादा">+</button></div></div>
-    <div class="bcol"><label class="bl" for="hr_${x}">1 ${esc(e.u)} का दाम</label><div class="price"><span>₹</span><input id="hr_${x}" data-hx="${x}" data-hf="r" type="number" inputmode="decimal" min="0" placeholder="0" value="${esc(e.r)}"></div></div>
+    <div class="bcol"><label class="bl" for="hr_${x}">${esc(rateUnit(e.u))} का दाम</label><div class="price"><span>₹</span><input id="hr_${x}" data-hx="${x}" data-hf="r" type="number" inputmode="decimal" min="0" placeholder="0" value="${esc(e.r)}"></div></div>
    </div>
    <div class="bt"><button type="button" class="na" data-na="${x}" aria-pressed="${e.na}">नहीं मिला</button><span class="bf"><span id="hl${x}" class="last">${l?`पिछली बार ₹${l.r}/${esc(l.u||e.u)}`:""}</span><span id="hf${x}"></span></span><b id="ht${x}">—</b></div></div>`});
+  h+=`<div class="group xg"><h3>अन्य खर्च<span class="gc">ऑटो, मज़दूरी, कुछ और</span></h3><div id="xList">${xRows()}</div>
+    <button type="button" class="btn ghost xadd" id="xAdd">+ अन्य खर्च जोड़ें</button></div>`;
   h+=`<div class="sendbox"><a class="btn wa" id="hWa" target="_blank" rel="noopener" href="#">बिल WhatsApp पर भेजें</a><button class="btn ghost wide" id="hAdd">+ लिस्ट में और सामान जोड़ें</button></div>`;
   o.innerHTML=h;updH();
 }
+function xRows(){return (H.extra||[]).map((x,i)=>`<div class="xrow"><input class="xt" data-xi="${i}" data-xf="t" placeholder="किस चीज़ का खर्च" value="${esc(x.t)}" aria-label="खर्च किस चीज़ का">
+  <div class="price"><span>₹</span><input data-xi="${i}" data-xf="a" type="number" inputmode="decimal" min="0" placeholder="0" value="${esc(x.a)}" aria-label="रकम"></div>
+  <button type="button" class="xdel" data-xdel="${i}" aria-label="हटाएँ">×</button></div>`).join("")}
+const xSum=()=>(H.extra||[]).reduce((a,x)=>a+(parseFloat(x.a)||0),0);
 function hMsg(){let m=`*${brandName()} – बाज़ार बिल*\n📅 ${hiDate(hDate)}\n`;let t=0;
-  H.rows.forEach(e=>{const q=parseFloat(e.q),r=parseFloat(e.r);if(e.na){m+=`• ${e.n}: ❌ नहीं मिला\n`;return}if(q>0&&r>0){t+=q*r;m+=`• ${e.n}: ${e.q} ${e.u} × ₹${e.r} = ${money(q*r)}\n`}else m+=`• ${e.n}: ❗ ${q>0?"रेट":"मात्रा"} बाकी\n`});
+  H.rows.forEach(e=>{const q=parseFloat(e.q),r=parseFloat(e.r);if(e.na){m+=`• ${e.n}: ❌ नहीं मिला\n`;return}if(q>0&&r>0){const v=amt(e.u,q,r);t+=v;m+=`• ${e.n}: ${e.q} ${e.u} × ₹${e.r}${e.u==="ग्राम"?"/kg":""} = ${money(v)}\n`}else m+=`• ${e.n}: ❗ ${q>0?"रेट":"मात्रा"} बाकी\n`});
+  (H.extra||[]).forEach(x=>{const a=parseFloat(x.a)||0;if(a){t+=a;m+=`• अन्य: ${x.t||"खर्च"} = ${money(a)}\n`}});
   return m+`\n*कुल: ${money(t)}*`}
 const brandName=()=>(document.querySelector(".brand b")||{}).textContent||"Secret Ovens";
 function updH(){let t=0,d=0;
-  H.rows.forEach((e,x)=>{const q=parseFloat(e.q),r=parseFloat(e.r),ok=!e.na&&q>0&&r>0,l=H.last[e.n];if(ok){t+=q*r}if(ok||e.na)d++;
+  H.rows.forEach((e,x)=>{const q=parseFloat(e.q),r=parseFloat(e.r),ok=!e.na&&q>0&&r>0,l=H.last[e.n];if(ok){t+=amt(e.u,q,r)}if(ok||e.na)d++;
     const row=$("hr"+x);row.className="brow "+(e.na?"isna":ok?"isdone":e.cq===null?"ismiss":"");
     row.querySelectorAll("input,.hst").forEach(i=>i.disabled=e.na);
-    let hint=e.na?"":ok?`${e.q} ${e.u} × ₹${e.r}`:(q>0?(e.cq===null?"मात्रा जाँचें, फिर दाम लिखें":"दाम लिखें"):"+ दबाकर मात्रा बताएँ");
+    let hint=e.na?"":ok?(e.u==="ग्राम"?`${e.q} ग्राम × ₹${e.r}/kg`:`${e.q} ${e.u} × ₹${e.r}`):(q>0?(e.cq===null?"मात्रा जाँचें, फिर दाम लिखें":"दाम लिखें"):"+ दबाकर मात्रा बताएँ");
     let cls="";if(ok&&l&&l.r>0){const ch=Math.round((r-l.r)/l.r*100);if(ch>=15){hint=`⚠ पिछली बार से ${ch}% महँगा`;cls="up"}else if(ch<=-15){hint=`पिछली बार से ${-ch}% सस्ता`;cls="down"}}
     const f=$("hf"+x);f.textContent=hint;f.className=cls;
-    $("ht"+x).textContent=e.na?"नहीं मिला":ok?money(q*r):""});
+    $("ht"+x).textContent=e.na?"नहीं मिला":ok?money(amt(e.u,q,r)):""});
   const na=H.rows.filter(e=>e.na).length;
+  t+=xSum();
   $("hSpent").textContent=money(t);$("hCount").textContent=`${d-na} सामान आया`+(na?` · ${na} नहीं मिला`:"")+(H.rows.length-d?` · ${H.rows.length-d} बाकी`:"");
   $("hTotal").textContent="कुल "+money(t);$("hSub").textContent=`${H.rows.length} में से ${d} सामान पूरे`;
   const w=$("hWa");if(w)w.href="https://wa.me/?text="+encodeURIComponent(hMsg());
 }
-$("hOut").addEventListener("input",e=>{const t=e.target;if(t.id==="hGiven"){H.given=t.value.replace(/[^0-9.]/g,"");updH();return}
+$("hOut").addEventListener("input",e=>{const t=e.target;
+  if(t.dataset.xf){const x=H.extra[+t.dataset.xi];if(t.dataset.xf==="a"){const v=t.value.replace(/[^0-9.]/g,"");if(v!==t.value)t.value=v;x.a=v}else x.t=t.value.slice(0,60);updH();return}
   const f=t.dataset.hf;if(!f||!state.role)return;const r=H.rows[+t.dataset.hx];
   const v=t.value.replace(/[^0-9.]/g,"");if(v!==t.value)t.value=v;r[f]=fmt(v)?v:"";updH()});
 $("hOut").addEventListener("click",e=>{const sb=e.target.closest(".hst");
-  if(sb){const x=+sb.dataset.hx,r=H.rows[x];const nv=Math.max(0,Math.round(((parseFloat(r.q)||0)+(+sb.dataset.hstep))*100)/100);r.q=fmt(nv);$("hq"+x).value=r.q;updH();return}
+  if(sb){const x=+sb.dataset.hx,r=H.rows[x];const nv=Math.max(0,Math.round(((parseFloat(r.q)||0)+(+sb.dataset.hstep)*(r.step||1))*100)/100);r.q=fmt(nv);$("hq"+x).value=r.q;updH();return}
   const na=e.target.closest(".na");if(na){const r=H.rows[+na.dataset.na];r.na=!r.na;na.setAttribute("aria-pressed",r.na);updH();return}
   if(e.target.id==="hRetry"){loadH();return}
+  if(e.target.id==="xAdd"){H.extra=H.extra||[];H.extra.push({t:"",a:""});$("xList").innerHTML=xRows();const ins=$("xList").querySelectorAll(".xt");ins[ins.length-1].focus();return}
+  const xd=e.target.closest("[data-xdel]");if(xd){H.extra.splice(+xd.dataset.xdel,1);$("xList").innerHTML=xRows();updH();return}
   if(e.target.id==="hAdd"){forDate=hDate;state.picked={};state.pickedFor=forDate;save();prefill=true;loadDay(forDate);show("cats")}});
 $("hdchips").addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b){hDate=b.dataset.d;loadH()}});
 function shrink(file){return new Promise((ok,bad)=>{const img=new Image(),u=URL.createObjectURL(file);
@@ -1023,7 +1048,7 @@ $("hOut").addEventListener("change",async e=>{if(e.target.id!=="hPhoto"||!e.targ
   catch(err){st.textContent="फ़ोटो नहीं गई — "+errText(err)}e.target.value=""});
 $("hSave").addEventListener("click",async e=>{const b=e.currentTarget;
   const left=H.rows.filter(x=>!x.na&&!(parseFloat(x.q)>0&&parseFloat(x.r)>0)).length;b.disabled=true;b.textContent="सेव हो रहा है…";
-  try{const r=await send({action:"buy",date:hDate,who:state.who,code:state.codes[state.role]||"",given:0,rows:H.rows.map(x=>({n:x.n,c:x.c,u:x.u,cq:x.cq,na:!!x.na,q:+x.q||0,r:+x.r||0}))});
+  try{const r=await send({action:"buy",date:hDate,who:state.who,code:state.codes[state.role]||"",given:0,rows:H.rows.map(x=>({n:x.n,c:x.c,u:x.u,cq:x.cq,na:!!x.na,q:+x.q||0,r:+x.r||0})).concat((H.extra||[]).filter(x=>parseFloat(x.a)>0).map(x=>({n:"अन्य खर्च: "+(x.t||"खर्च"),c:"अन्य खर्च",u:"₹",cq:null,na:false,q:1,r:+x.a})))});
     toast(r.queued?"इंटरनेट नहीं — हिसाब फ़ोन में रुका है, इंटरनेट आते ही Sheet में चला जाएगा":left?`Sheet में सेव ✓ (${left} सामान बाकी)`:"पूरा हिसाब Sheet में सेव ✓")}
   catch(err){toast("सेव नहीं हुआ — "+errText(err));if(err.message==="code"){delete state.codes[state.role];state.role="";save();show("start")}}
   finally{b.disabled=false;b.textContent="सेव करें"}});
@@ -1057,7 +1082,7 @@ let lsAt=0;
 async function landStatus(){
   const code=state.codes.buy||state.codes.own;if(!code||Date.now()-lsAt<60000)return;lsAt=Date.now();
   try{const j=await api(null,{action:"hisab",date:TODAY,code});
-    const n=aggregate(j.subs||[]).length,b=(j.buys||[]),done=b.length,t=b.reduce((a,x)=>a+(x.na?0:x.q*x.r),0);
+    const n=aggregate(j.subs||[]).length,b=(j.buys||[]),done=b.length,t=b.reduce((a,x)=>a+(x.na?0:amt(x.u,x.q,x.r)),0);
     const txt=!n&&!done?"आज की लिस्ट अभी नहीं आई":`आज: ${n} सामान · ${done} पूरे`+(t?` · ${money(t)}`:"");
     if(state.codes.buy)$("sBuy").textContent=txt;if(state.codes.own)$("sOwn").textContent=txt;
   }catch(e){lsAt=0}
@@ -1071,7 +1096,7 @@ function setCatalog(list,settings){
   const keep={};Object.keys(state.picked).forEach(id=>{const it=byId(id);if(it)keep[it.name]=state.picked[id]});
   const base={};BASE_CATS.forEach(c=>base[c[0]]=c);
   const order=[],map={};Object.keys(SHOP).forEach(k=>delete SHOP[k]);
-  list.forEach(x=>{if(!x.n)return;const c=x.c||"अन्य";if(!map[c]){map[c]=[];order.push(c)}map[c].push([x.n,x.u||(base[c]?base[c][3]:"पीस")]);if(x.shop)SHOP[x.n]=x.shop});
+  list.forEach(x=>{if(!x.n)return;const c=x.c||"अन्य";if(!map[c]){map[c]=[];order.push(c)}map[c].push([x.n,x.u||(base[c]?base[c][3]:"पीस"),+x.step||0]);if(x.shop)SHOP[x.n]=x.shop});
   CATS.length=0;order.forEach((c,i)=>{const b=base[c];CATS.push([c,b?b[1]:PAL[i%PAL.length],b?b[2]:"",b?b[3]:"पीस",map[c]])});
   buildItems();
   state.picked={};Object.keys(keep).forEach(nm=>{if(byName[nm])state.picked[byName[nm].id]=keep[nm]});save();
@@ -1079,10 +1104,11 @@ function setCatalog(list,settings){
 async function loadCatalog(){
   try{const c=JSON.parse(localStorage.getItem(IKEY)||"null");if(c)setCatalog(c.items,c.settings)}catch(e){}
   try{const j=await api({action:"items"});
+    const ver=+((j.settings||{}).listVersion||0);
+    if(state.codes.own&&(!(j.items&&j.items.length)||ver<CAT_VER)){const items=[];BASE_CATS.forEach(([cat,,,du,list])=>list.forEach(x=>{const [nm,u,st]=Array.isArray(x)?x:[x,du];items.push({c:cat,n:nm,u,step:+st||""})}));
+      try{await api(null,{action:"seedItems",code:state.codes.own,version:CAT_VER,items});j.items=items}catch(e){}}
     if(j.items&&j.items.length){setCatalog(j.items,j.settings);try{localStorage.setItem(IKEY,JSON.stringify({items:j.items,settings:j.settings}))}catch(e){}}
-    else{setCatalog(null,j.settings);
-      if(state.codes.own){const items=[];BASE_CATS.forEach(([cat,,,du,list])=>list.forEach(x=>{const [nm,u]=Array.isArray(x)?x:[x,du];items.push({c:cat,n:nm,u})}));
-        try{await api(null,{action:"seedItems",code:state.codes.own,items})}catch(e){}}}
+    else setCatalog(null,j.settings);
     if(screen==="cats")renderCats();if(screen==="items")renderItems();
   }catch(e){}
 }
