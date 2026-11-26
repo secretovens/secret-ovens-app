@@ -313,6 +313,24 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
 .group h3+.irow{border-top:0}
 .irow .t{flex:1;min-width:0;font-weight:700;font-size:16px;line-height:1.25}.irow .t small{display:block;font-size:13px;font-weight:500;color:var(--muted);margin-top:2px}
 .irow .rs{font-family:var(--f-head);font-size:17px;white-space:nowrap}
+.snap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px}
+.snap .sn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:10px;line-height:1.15}
+.snap small{display:block;font-size:12px;opacity:.75}.snap b{display:block;font-family:var(--f-head);font-size:19px;margin-top:3px;white-space:nowrap}
+.snap em{display:block;font-style:normal;font-size:11px;margin-top:2px;opacity:.9}
+.snap .ok b{color:#7ee2a5}.snap .warn b{color:var(--gold)}.snap .bad b{color:#ff9b8f}
+.mcard.hot{box-shadow:inset 0 0 0 2px var(--gold)}
+.salebox{margin-top:14px;background:var(--surface);border-radius:16px;box-shadow:inset 0 0 0 1.5px var(--line);padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sf span{display:block;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.stot{grid-column:1/-1;background:var(--brand);color:var(--brand-fg);border-radius:14px;padding:12px 14px}
+.stot span{font-size:14px;opacity:.85;display:block}.stot b{font-family:var(--f-head);font-size:30px;color:var(--gold)}.stot small{display:block;font-size:13px;opacity:.85}
+.salebox .btn{grid-column:1/-1}
+.sum .ok b{color:var(--wa)}.sum .warn b{color:#b8892a}.sum .bad b{color:var(--danger)}
+.drow{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:14px;align-items:center;padding:9px 14px;border-top:1px solid var(--line)}
+.group h3+.drow{border-top:0}
+.drow .t{font-weight:700}.drow .t small{display:block;font-size:12px;color:var(--muted);font-weight:500}
+.drow .v{text-align:right;font-family:var(--f-head);font-weight:700;min-width:76px;white-space:nowrap}.drow .v small{display:block;font-family:var(--f-body);font-size:11px;color:var(--muted);font-weight:500}
+.cbar .t small.sl{display:block;font-size:11px;color:var(--muted);font-weight:500}
+#sales .dpick{margin-top:10px}
 /* ----- landing ----- */
 .landing{display:flex;flex-direction:column;gap:12px}
 .lhead{margin-bottom:4px}
@@ -421,6 +439,7 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
     <div class="hero" id="roleHero" hidden>
       <h1 id="roleH1"></h1>
       <p id="roleP"></p>
+      <div class="snap" id="ownSnap" hidden></div>
     </div>
     <div class="hero" id="listHero">
       <h1>कल का सामान</h1>
@@ -436,6 +455,7 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
     <div class="menu" id="roleMenu" hidden>
       <button class="mcard" id="toHisab"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span><span class="mt"><b><span id="hisabT">बाज़ार का हिसाब</span></b><small><span id="hisabSub">लाया हुआ सामान और दाम लिखें</span></small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
       <div class="menu" id="ownGrid">
+        <button class="mcard hot" id="toSales"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 5h10M7 9h10M12 9c0 4-3 5-5 5l7 6"/><path d="M12 5c2.5 0 4 1.5 4 4"/></svg></span><span class="mt"><b>आज की बिक्री</b><small id="salesSub">काउंटर, UPI, Zomato, Swiggy</small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
         <button class="mcard" id="toCombined"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/></svg></span><span class="mt"><b>सबकी कुल लिस्ट</b><small>सबकी लिस्ट मिलाकर · WhatsApp पर भेजें</small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
         <button class="mcard" id="toReport"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><rect x="6" y="11" width="3" height="7"/><rect x="11" y="7" width="3" height="11"/><rect x="16" y="13" width="3" height="5"/></svg></span><span class="mt"><b>हफ़्ते / महीने का हिसाब</b><small>कितना सामान आया, कितने का</small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
       </div>
@@ -453,7 +473,7 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
       <button type="button" class="btn gold" id="apinGo">खोलो</button>
       <span class="aerr" id="apinErr" hidden>कोड गलत है</span>
     </div>
-    <p class="ver">ऐप वर्ज़न 11</p>
+    <p class="ver">ऐप वर्ज़न 12</p>
     
   </div>
 </section>
@@ -528,6 +548,27 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
 </section>
 
 
+
+<section id="sales" class="screen" hidden>
+  <header class="appbar"><div class="wrap">
+    <button class="back" data-back aria-label="पीछे">‹</button>
+    <h2><small>मालिक</small>रोज़ की बिक्री</h2>
+    <button class="home" data-home aria-label="होम"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5M5.5 9.5V20h5v-6h3v6h5V9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div></header>
+  <div class="wrap">
+    <div class="dchips light" id="sdchips"></div>
+    <label class="dpick light" for="sdate">दूसरी तारीख चुनें <input id="sdate" type="date"></label>
+    <div class="salebox">
+      <label class="sf"><span>काउंटर (नकद)</span><div class="price"><span>₹</span><input id="sCash" data-sf="cash" type="number" inputmode="decimal" min="0" placeholder="0"></div></label>
+      <label class="sf"><span>UPI / कार्ड</span><div class="price"><span>₹</span><input id="sUpi" data-sf="upi" type="number" inputmode="decimal" min="0" placeholder="0"></div></label>
+      <label class="sf"><span>Zomato</span><div class="price"><span>₹</span><input id="sZom" data-sf="zomato" type="number" inputmode="decimal" min="0" placeholder="0"></div></label>
+      <label class="sf"><span>Swiggy</span><div class="price"><span>₹</span><input id="sSwi" data-sf="swiggy" type="number" inputmode="decimal" min="0" placeholder="0"></div></label>
+      <div class="stot"><span>इस दिन की कुल बिक्री</span><b id="sTotal">₹0</b><small id="sDayFc"></small></div>
+      <button class="btn gold wide" id="sSave">बिक्री सेव करें</button>
+    </div>
+    <div id="sOut"></div>
+  </div>
+</section>
 
 <section id="report" class="screen" hidden>
   <header class="appbar"><div class="wrap">
@@ -717,15 +758,15 @@ function aggregate(subs){
 const qText=e=>e.hasQ?`${e.q} ${e.u}`:"—";
 
 /* ---------- navigation ---------- */
-const SCREENS=["login","start","cats","items","review","done","combined","report","hisab"];
+const SCREENS=["login","start","cats","items","review","done","combined","report","hisab","sales"];
 function show(s){
-  if((s==="combined"||s==="report"||s==="photos")&&state.role!=="own")s="start";
+  if((s==="combined"||s==="report"||s==="sales")&&state.role!=="own")s="start";
   if(s==="hisab"&&state.role!=="buy"&&state.role!=="own")s="start";
   screen=s;
   SCREENS.forEach(id=>$(id).hidden=id!==s);
   $("bar").hidden=!(s==="cats"||s==="items");$("hBar").hidden=true;
   window.scrollTo(0,0);
-  ({hisab:()=>loadH(),start:renderStart,cats:renderCats,items:renderItems,review:renderReview,combined:()=>loadC(),report:()=>{if(!rFrom)setPeriod("week");loadRep()}}[s]||(()=>{}))();
+  ({sales:()=>loadSales(),hisab:()=>loadH(),start:renderStart,cats:renderCats,items:renderItems,review:renderReview,combined:()=>loadC(),report:()=>{if(!rFrom)setPeriod("week");loadRep()}}[s]||(()=>{}))();
   renderBar();
 }
 function goBack(){
@@ -753,6 +794,7 @@ function renderStart(){
   $("roleMenu").hidden=!isBO;$("roleRow").hidden=!!r;
   {const d=new Date();$("lDate").textContent=`${DAY[d.getDay()]}, ${d.getDate()} ${MON[d.getMonth()]}`}$("ownGrid").hidden=r!=="own";$("toHome").hidden=!r;$("adminBox").hidden=true;
   $("roleChip").hidden=!r;$("roleChip").textContent=ROLE_NAME[r]||"";
+  $("ownSnap").hidden=r!=="own";if(r==="own")ownSnap();
   if(r){$("roleH1").textContent=r==="own"?"मालिक":"खरीदार";$("roleP").textContent=r==="own"?"हिसाब, कुल लिस्ट और पूरा रिकॉर्ड":"बाज़ार से लाया सामान और उसका दाम लिखें"}
   $("hisabSub").textContent=r==="own"?"खरीदार ने क्या लिखा · देखें या बदलें":"लाया हुआ सामान और दाम लिखें";
   $("toSheet").hidden=!(state.sheet&&state.role==="own");if(state.sheet)$("toSheet").href=state.sheet;
@@ -946,7 +988,7 @@ function setPeriod(p){
 }
 async function loadRep(){
   const key=rFrom+"_"+rTo;rep={key,subs:null,loading:true,error:""};renderRep();
-  try{const j=await api(null,{action:"report",from:rFrom,to:rTo,code:state.codes.own||""});if(rep.key!==key)return;rep.subs=j.subs;rep.buys=(j.buys||[]).filter(x=>!x.na&&(+x.q>0)&&(+x.r>0));rep.cash=j.cash||[];rep.na=(j.buys||[]).filter(x=>x.na).length}
+  try{const j=await api(null,{action:"report",from:rFrom,to:rTo,code:state.codes.own||""});if(rep.key!==key)return;rep.subs=j.subs;rep.sales=j.sales||[];rep.buys=(j.buys||[]).filter(x=>!x.na&&(+x.q>0)&&(+x.r>0));rep.cash=j.cash||[];rep.na=(j.buys||[]).filter(x=>x.na).length}
   catch(e){if(rep.key!==key)return;rep.error=errText(e)}
   rep.loading=false;renderRep();
 }
@@ -973,7 +1015,7 @@ function renderRep(){
   if(rep.loading){o.innerHTML=`<p class="empty">लोड हो रहा है…</p>`;return}
   if(rep.error){o.innerHTML=`<p class="empty">⚠️ ${esc(rep.error)}</p><div class="sendbox"><button class="btn ghost wide" data-act="rrefresh">फिर से कोशिश करें ↻</button></div>`;return}
   const items=repItems();
-  if(!items.length){o.innerHTML=`<p class="empty">इन तारीखों में खरीदार का कोई हिसाब नहीं भरा गया।</p>`;return}
+  if(!items.length&&!(rep.sales||[]).length){o.innerHTML=`<p class="empty">इन तारीखों में खरीदार का कोई हिसाब नहीं भरा गया।</p>`;return}
   const all=items.reduce((a,e)=>a+e.t,0),bdays=new Set((rep.buys||[]).map(x=>x.d)).size;
   const byCat={};items.forEach(e=>byCat[e.c]=(byCat[e.c]||0)+e.t);
   const cats=Object.entries(byCat).sort((a,b)=>b[1]-a[1]),cmax=cats.length?cats[0][1]:1;
@@ -981,13 +1023,17 @@ function renderRep(){
   const rises=Object.entries(rr).filter(([k,c])=>c.n>1&&c.max>=c.min*1.15).sort((a,b)=>b[1].max/b[1].min-a[1].max/a[1].min).slice(0,6);
   const dd={};(rep.buys||[]).forEach(x=>dd[x.d]=(dd[x.d]||0)+amt(x.u,x.q,x.r));const ds=Object.keys(dd).sort(),dmx=ds.length?Math.max(...ds.map(k=>dd[k])):1;
   const cats2=[...new Set(items.map(e=>e.c))];
-  o.innerHTML=`<div class="sum"><div><b>${money(all)}</b><span>कुल खर्च</span></div><div><b>${items.filter(e=>!special(e.c)).length}</b><span>सामान · ${bdays} दिन की खरीद</span></div></div>
+  const sal=(rep.sales||[]).reduce((a,x)=>a+x.total,0),sd={};(rep.sales||[]).forEach(x=>sd[x.d]=x.total);
+  const fp=sal?all/sal:0,[ft,fc]=sal?fcTxt(fp):["",""];
+  o.innerHTML=`<div class="sum"><div><b>${money(all)}</b><span>सामान आया (खरीद)</span></div><div><b>${sal?money(sal):"—"}</b><span>बिक्री${sal?"":" (मालिक → आज की बिक्री में भरें)"}</span></div>
+  <div class="${fc}"><b>${sal?Math.round(fp*100)+"%":"—"}</b><span>Food cost ${ft}</span></div><div><b>${sal?money(sal-all):"—"}</b><span>बिक्री − सामान</span></div></div>
+  <p class="tip">${items.filter(e=>!special(e.c)).length} सामान · ${bdays} दिन की खरीद</p>
   <div class="sendbox top"><button class="btn xls wide" data-act="rxls">${XLSI} Excel में डाउनलोड करें</button>
     <a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(repMessage(items,all))}">WhatsApp पर भेजें</a><button class="btn ghost" data-act="rcopy">कॉपी करें</button></div>
   <h3 class="rh">सामान-वार हिसाब <small>कितना आया · कितने का · औसत दाम</small></h3>
   ${cats2.map(c=>{const its=items.filter(e=>e.c===c),ct=its.reduce((a,e)=>a+e.t,0);
     return `<div class="group" style="--c:${catColor(c)}"><h3><i></i>${esc(c)}<span class="gc">${money(ct)}</span></h3>${its.map(e=>`<div class="irow">${special(e.c)?"":thumbN(e.n,"th sm")}<span class="t">${esc(e.n)}<small>${esc(qtyTxt(e))}${avgTxt(e)?` · ${esc(avgTxt(e))}`:""}${special(e.c)?"":` · ${e.n2} बार`}</small></span><b class="rs">${money(e.t)}</b></div>`).join("")}</div>`}).join("")}
-  ${ds.length?`<div class="group"><h3>रोज़ का खर्च</h3>${ds.map(k=>`<div class="cbar"><span class="t">${esc(shortDate(k))}</span><span class="bw"><i style="width:${Math.max(3,dd[k]/dmx*100)}%;background:var(--brand)"></i></span><span class="rs">${money(dd[k])}</span></div>`).join("")}</div>`:""}
+  ${ds.length?`<div class="group"><h3>रोज़ का खर्च</h3>${ds.map(k=>`<div class="cbar"><span class="t">${esc(shortDate(k))}${sd[k]?`<small class="sl">बिक्री ${money(sd[k])}</small>`:""}</span><span class="bw"><i style="width:${Math.max(3,dd[k]/dmx*100)}%;background:var(--brand)"></i></span><span class="rs">${money(dd[k])}</span></div>`).join("")}</div>`:""}
   ${cats.length?`<div class="group"><h3>कैटेगरी-वार खर्च</h3>${cats.map(([c,v])=>`<div class="cbar"><span class="t">${esc(c)}</span><span class="bw"><i style="width:${Math.max(3,v/cmax*100)}%;background:${catColor(c)}"></i></span><span class="rs">${money(v)}</span></div>`).join("")}</div>`:""}
   ${rises.length?`<div class="group"><h3>⚠ दाम बढ़े (15% से ज़्यादा)</h3>${rises.map(([k,c])=>`<div class="trow"><span class="t">${esc(k)}</span><span class="rs up">₹${r2(c.min)} → ₹${r2(c.max)}${c.u==="ग्राम"?"/kg":""}</span></div>`).join("")}</div>`:""}
   ${rep.na?`<p class="tip">${rep.na} बार सामान बाज़ार में नहीं मिला</p>`:""}`;
@@ -1120,7 +1166,7 @@ $("hSave").addEventListener("click",async e=>{const b=e.currentTarget;
 const QKEY="so-queue-v1";
 let QUEUE=(()=>{try{return JSON.parse(localStorage.getItem(QKEY)||"[]")||[]}catch(e){return []}})();
 const qSave=()=>{try{localStorage.setItem(QKEY,JSON.stringify(QUEUE))}catch(e){}renderQ()};
-const qKey=b=>b.action==="buy"?"buy|"+b.date:b.action+"|"+b.date+"|"+(b.dev||"")+"|"+(b.who||"");
+const qKey=b=>b.action==="buy"||b.action==="sale"?b.action+"|"+b.date:b.action+"|"+b.date+"|"+(b.dev||"")+"|"+(b.who||"");
 async function send(body){
   try{return await api(null,body)}
   catch(e){if(e.message!=="net")throw e;
@@ -1177,6 +1223,54 @@ async function loadCatalog(){
     if(screen==="cats")renderCats();if(screen==="items")renderItems();
   }catch(e){}
 }
+
+/* ---------- बिक्री और मुनाफ़े का हाल (मालिक) ---------- */
+const fcTxt=p=>p<0.2?["कम — सारी खरीद भरी है?","warn"]:p<=0.32?["✅ ठीक है","ok"]:p<=0.35?["⚠ ध्यान दें","warn"]:["❌ बहुत ज़्यादा","bad"];
+const monthStart=()=>ymd(new Date(now.getFullYear(),now.getMonth(),1));
+let SALE={date:TODAY,vals:{},month:null,loading:false};
+async function monthData(){const j=await api(null,{action:"report",from:monthStart(),to:TODAY,code:state.codes.own||""});
+  const buys=(j.buys||[]).filter(x=>!x.na&&+x.q>0&&+x.r>0),sales=j.sales||[];
+  const bd={},sd={};buys.forEach(x=>bd[x.d]=(bd[x.d]||0)+amt(x.u,x.q,x.r));sales.forEach(x=>sd[x.d]=x);
+  const pur=Object.values(bd).reduce((a,v)=>a+v,0),sal=sales.reduce((a,x)=>a+x.total,0);
+  return {bd,sd,pur,sal}}
+let snapAt=0;
+async function ownSnap(){const el=$("ownSnap");if(Date.now()-snapAt<60000&&el.innerHTML)return;snapAt=Date.now();
+  try{const m=await monthData();const p=m.sal?m.pur/m.sal:0,[t,c]=m.sal?fcTxt(p):["",""];
+    el.innerHTML=`<div class="sn"><small>${MON[now.getMonth()]} में बिक्री</small><b>${money(m.sal)}</b></div><div class="sn"><small>सामान आया</small><b>${money(m.pur)}</b></div><div class="sn ${c}"><small>Food cost</small><b>${m.sal?Math.round(p*100)+"%":"—"}</b><em>${m.sal?t:"बिक्री भरें"}</em></div>`;
+    $("salesSub").textContent=m.sd[TODAY]?`आज: ${money(m.sd[TODAY].total)} भरी है`:"आज की बिक्री अभी नहीं भरी";
+  }catch(e){snapAt=0;el.innerHTML=""}}
+async function loadSales(){
+  const opts=[[ymd(addDays(now,-1)),"बीता कल"],[TODAY,"आज"]];
+  $("sdchips").innerHTML=opts.map(([v,l])=>`<button type="button" data-d="${v}" aria-pressed="${v===SALE.date}"><b>${parse(v).getDate()}</b><span>${l} · ${DAY[parse(v).getDay()]}</span></button>`).join("");
+  $("sdchips").style.gridTemplateColumns="1fr 1fr";
+  $("sdate").value=SALE.date;$("sdate").max=TODAY;
+  $("sOut").innerHTML=`<p class="empty">लोड हो रहा है…</p>`;
+  try{const m=await monthData();SALE.month=m;const v=m.sd[SALE.date]||{};
+    const q=QUEUE.find(x=>x.body.action==="sale"&&x.body.date===SALE.date);const src=q?q.body:v;
+    [["sCash","cash"],["sUpi","upi"],["sZom","zomato"],["sSwi","swiggy"]].forEach(([id,k])=>$(id).value=src[k]?src[k]:"");
+    if(SALE.date<monthStart()){const j=await api(null,{action:"report",from:SALE.date,to:SALE.date,code:state.codes.own||""});const x=(j.sales||[])[0]||{};
+      [["sCash","cash"],["sUpi","upi"],["sZom","zomato"],["sSwi","swiggy"]].forEach(([id,k])=>$(id).value=x[k]?x[k]:"");SALE.extraBuy=(j.buys||[]).filter(b=>!b.na).reduce((a,b)=>a+amt(b.u,b.q,b.r),0)}else SALE.extraBuy=null;
+    updSale();renderMonth()}
+  catch(e){$("sOut").innerHTML=`<p class="empty">⚠️ ${esc(errText(e))}</p>`}
+}
+function updSale(){const t=["sCash","sUpi","sZom","sSwi"].reduce((a,id)=>a+(parseFloat($(id).value)||0),0);$("sTotal").textContent=money(t);
+  const m=SALE.month,b=SALE.extraBuy!=null?SALE.extraBuy:(m&&m.bd[SALE.date])||0;
+  $("sDayFc").textContent=t?`उस दिन सामान आया ${money(b)}${b?` · ${Math.round(b/t*100)}%`:""}`:""}
+function renderMonth(){const m=SALE.month;if(!m)return;const p=m.sal?m.pur/m.sal:0,[t,c]=m.sal?fcTxt(p):["",""];
+  const days=[];for(let i=0;i<7;i++){const d=ymd(addDays(now,-i));days.push(d)}
+  $("sOut").innerHTML=`<h3 class="rh">${MON[now.getMonth()]} का हाल <small>1 तारीख से आज तक</small></h3>
+  <div class="sum"><div><b>${money(m.sal)}</b><span>कुल बिक्री</span></div><div><b>${money(m.pur)}</b><span>सामान आया</span></div>
+  <div class="${c}"><b>${m.sal?Math.round(p*100)+"%":"—"}</b><span>Food cost ${t}</span></div><div><b>${m.sal?money(m.sal-m.pur):"—"}</b><span>बिक्री − सामान</span></div></div>
+  <p class="tip">अच्छा Food cost 28–32% है। 35% से ऊपर का मतलब है कि सामान पर ज़्यादा खर्च हो रहा है या दाम कम रखे हैं।</p>
+  <div class="group"><h3>पिछले 7 दिन</h3>${days.map(d=>{const s=(m.sd[d]||{}).total||0,b=m.bd[d]||0;return `<div class="drow"><span class="t">${esc(shortDate(d))}<small>${DAY[parse(d).getDay()]}</small></span><span class="v"><small>बिक्री</small>${s?money(s):"—"}</span><span class="v"><small>सामान</small>${b?money(b):"—"}</span></div>`}).join("")}</div>`}
+$("toSales").addEventListener("click",()=>{SALE.date=TODAY;show("sales")});
+$("sdchips").addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b){SALE.date=b.dataset.d;loadSales()}});
+$("sdate").addEventListener("change",e=>{if(e.target.value){SALE.date=e.target.value;loadSales()}});
+document.querySelector(".salebox").addEventListener("input",e=>{if(e.target.dataset.sf){const v=e.target.value.replace(/[^0-9.]/g,"");if(v!==e.target.value)e.target.value=v;updSale()}});
+$("sSave").addEventListener("click",async e=>{const b=e.currentTarget;const g=id=>+($(id).value)||0;b.disabled=true;b.textContent="सेव हो रहा है…";
+  try{const r=await send({action:"sale",date:SALE.date,who:state.who,code:state.codes.own||"",cash:g("sCash"),upi:g("sUpi"),zomato:g("sZom"),swiggy:g("sSwi")});
+    toast(r.queued?"इंटरनेट नहीं — बिक्री फ़ोन में रुकी है, इंटरनेट आते ही Sheet में जाएगी":"बिक्री Sheet में सेव ✓");snapAt=0;if(!r.queued)loadSales()}
+  catch(err){toast("सेव नहीं हुई — "+errText(err))}finally{b.disabled=false;b.textContent="बिक्री सेव करें"}});
 
 /* ---------- shared bits ---------- */
 function toast(t){const el=$("toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}

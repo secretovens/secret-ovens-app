@@ -26,6 +26,8 @@ const CODE_SHEET = "Codes";
 const ITEM_SHEET = "Items";
 const ITEM_HEADERS = ["कैटेगरी", "सामान", "इकाई", "दुकान", "चालू (हाँ/नहीं)", "स्टेप (+ दबाने पर कितना बढ़े)", "फ़ोटो (ऐप से लगती है)"];
 const SET_SHEET = "Settings";
+const SALES_SHEET = "Sales";
+const SALES_HEADERS = ["तारीख", "काउंटर (नकद) ₹", "UPI / कार्ड ₹", "Zomato ₹", "Swiggy ₹", "कुल बिक्री ₹", "किसने भरा", "कब सेव किया"];
 const BILL_FOLDER = "Secret Ovens – बिल की फ़ोटो";
 const ITEM_PHOTO_FOLDER = "Secret Ovens – सामान की फ़ोटो";
 
@@ -173,6 +175,12 @@ function readSettings_() {
   return out;
 }
 
+function readSales_(keep) {
+  return rows_(sheet_(SALES_SHEET, SALES_HEADERS), 8)
+    .filter(function (r) { return keep(dateStr_(r[0])); })
+    .map(function (r) { return { d: dateStr_(r[0]), cash: Number(r[1]) || 0, upi: Number(r[2]) || 0, zomato: Number(r[3]) || 0, swiggy: Number(r[4]) || 0, total: Number(r[5]) || 0 }; });
+}
+
 // ---------------- GET (बिना कोड – सिर्फ़ लिस्ट, दाम नहीं) ----------------
 function doGet(e) {
   const p = (e && e.parameter) || {};
@@ -218,7 +226,7 @@ function doPost(e) {
     if (b.action === "report") {
       if (!can_("own", b.code)) return json_({ ok: false, error: "code" });
       const keep = function (d) { return d >= b.from && d <= b.to; };
-      return json_({ ok: true, subs: readSubs_(keep), buys: readBuys_(keep), cash: readCash_(keep) });
+      return json_({ ok: true, subs: readSubs_(keep), buys: readBuys_(keep), cash: readCash_(keep), sales: readSales_(keep) });
     }
   } catch (err) {
     return json_({ ok: false, error: String(err) });
@@ -246,6 +254,18 @@ function doPost(e) {
         sh.getRange(sh.getLastRow() + 1, 1, data.length, 8).setValues(data);
       }
       return json_({ ok: true });
+    }
+
+    // रोज़ की बिक्री (सिर्फ़ मालिक): उस तारीख की पुरानी हटाकर नई
+    if (b.action === "sale") {
+      if (!okDate_(b.date)) return json_({ ok: false, error: "date" });
+      if (!can_("own", b.code)) return json_({ ok: false, error: "code" });
+      const sh = sheet_(SALES_SHEET, SALES_HEADERS);
+      deleteDateRows_(sh, b.date);
+      const v = [Number(b.cash) || 0, Number(b.upi) || 0, Number(b.zomato) || 0, Number(b.swiggy) || 0];
+      const tot = v[0] + v[1] + v[2] + v[3];
+      if (tot > 0) sh.appendRow(["'" + b.date].concat(v).concat([tot, String(b.who || ""), new Date()]));
+      return json_({ ok: true, total: tot });
     }
 
     // खरीदार का हिसाब: उस तारीख का पुराना हटाकर नया लिखो
@@ -389,6 +409,8 @@ function exportXls_(from, to) {
   const total = cur.reduce(function (s, x) { return s + amt(x); }, 0);
   const pTotal = prev.reduce(function (s, x) { return s + amt(x); }, 0);
   const buyDays = {}; cur.forEach(function (x) { buyDays[x.d] = (buyDays[x.d] || 0) + amt(x); });
+  const saleDays = {}; let saleTotal = 0;
+  readSales_(function (d) { return d >= from && d <= to; }).forEach(function (x) { saleDays[x.d] = x.total; saleTotal += x.total; });
 
   const xs = SpreadsheetApp.create("Secret Ovens हिसाब " + from + " से " + to);
   const G = "#1f4d3a", Y = "#fff2cc";
@@ -404,7 +426,7 @@ function exportXls_(from, to) {
     ["पिछली अवधि की खरीद (₹)", r2(pTotal)],
     ["पिछली अवधि से बदलाव", pTotal ? "=(B4-B6)/B6" : "—"],
     ["", ""],
-    ["इस अवधि की कुल बिक्री (₹)  ← यहाँ भरें", ""],
+    ["इस अवधि की कुल बिक्री (₹)", saleTotal ? "='रोज़ का खर्च'!D" + (nDays + 2) : ""],
     ["Food cost % (खरीद ÷ बिक्री)", "=IF(B9>0,B4/B9,\"बिक्री भरें\")"],
     ["हाल", "=IF(B9>0,IF(B10<=0.32,\"✅ ठीक है (28–32%)\",IF(B10<=0.35,\"⚠ ध्यान दें (32–35%)\",\"❌ बहुत ज़्यादा – मुनाफ़ा घट रहा है\")),\"\")"],
     ["सामान के बाद बचा (₹) = बिक्री − खरीद", "=IF(B9>0,B9-B4,\"\")"],
@@ -415,7 +437,7 @@ function exportXls_(from, to) {
   s1.getRange("A4:A14").setFontWeight("bold");
   s1.getRange("B4:B6").setNumberFormat("₹#,##0"); s1.getRange("B12").setNumberFormat("₹#,##0"); s1.getRange("B14").setNumberFormat("₹#,##0");
   s1.getRange("B7").setNumberFormat("+0%;-0%;0%"); s1.getRange("B10").setNumberFormat("0.0%");
-  s1.getRange("B9").setBackground(Y).setNumberFormat("₹#,##0").setNote("इस अवधि की कुल बिक्री (काउंटर + Zomato + Swiggy) यहाँ लिखें। Food cost % अपने-आप निकलेगा।");
+  s1.getRange("B9").setBackground(Y).setNumberFormat("₹#,##0").setNote("ऐप में भरी रोज़ की बिक्री का जोड़ ('रोज़ का खर्च' शीट से)। खाली हो तो यहाँ खुद भी लिख सकते हैं।");
   s1.getRange("A16").setValue("भारत के रेस्टोरेंट के लिए Food cost आम तौर पर 28–35% अच्छा माना जाता है (स्रोत: Petpooja / NRAI)।").setFontColor("#666666");
   head(s1, 18, ["सबसे ज़्यादा खर्च वाले 10 सामान", "कुल ₹", "हिस्सा %"]);
   const top = items.slice(0, 10).map(function (e) { return [e.n, r2(e.t), total ? e.t / total : 0]; });
@@ -465,18 +487,18 @@ function exportXls_(from, to) {
 
   // ---------- 4. रोज़ का खर्च (बिक्री भरें तो रोज़ का Food cost %) ----------
   const s4 = xs.insertSheet("रोज़ का खर्च");
-  head(s4, 1, ["तारीख", "दिन", "खरीद ₹", "बिक्री ₹ (भरें)", "Food cost %"]);
+  head(s4, 1, ["तारीख", "दिन", "खरीद ₹", "बिक्री ₹", "Food cost %"]);
   const WD = ["रविवार", "सोमवार", "मंगलवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार"];
   const dr = [];
   for (let i = 0; i < nDays; i++) {
     const d = new Date(D(from).getTime() + i * 864e5), k = S(d), r = i + 2;
-    dr.push(["'" + k, WD[d.getDay()], r2(buyDays[k] || 0), "", "=IF(D" + r + ">0,C" + r + "/D" + r + ",\"\")"]);
+    dr.push(["'" + k, WD[d.getDay()], r2(buyDays[k] || 0), saleDays[k] ? r2(saleDays[k]) : "", "=IF(D" + r + ">0,C" + r + "/D" + r + ",\"\")"]);
   }
   if (dr.length) { s4.getRange(2, 1, dr.length, 5).setValues(dr); s4.getRange(2, 4, dr.length, 1).setBackground(Y); s4.getRange(2, 3, dr.length, 2).setNumberFormat("₹#,##0"); s4.getRange(2, 5, dr.length, 1).setNumberFormat("0.0%"); }
   const t4 = dr.length + 2;
   s4.getRange(t4, 1, 1, 5).setValues([["कुल", "", "=SUM(C2:C" + (t4 - 1) + ")", "=SUM(D2:D" + (t4 - 1) + ")", "=IF(D" + t4 + ">0,C" + t4 + "/D" + t4 + ",\"\")"]]).setFontWeight("bold");
   s4.getRange(t4, 3, 1, 2).setNumberFormat("₹#,##0"); s4.getRange(t4, 5).setNumberFormat("0.0%");
-  s4.getRange(t4 + 2, 1).setValue("पीले खाने में रोज़ की बिक्री भरें – हर दिन का Food cost % अपने-आप निकलेगा। जिस दिन खरीद 0 है, उस दिन बाज़ार नहीं गए।").setFontColor("#666666");
+  s4.getRange(t4 + 2, 1).setValue("बिक्री ऐप से अपने-आप आती है; जो दिन छूटा हो, पीले खाने में खुद भर सकते हैं। ध्यान दें: एक दिन की खरीद अगले कई दिन काम आती है, इसलिए रोज़ का % ऊपर-नीचे होगा – हफ़्ते/महीने का कुल % ही असली तस्वीर है।").setFontColor("#666666");
   s4.setFrozenRows(1);
 
   // ---------- 5. कैटेगरी और दुकान ----------
