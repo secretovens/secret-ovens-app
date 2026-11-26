@@ -306,6 +306,13 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
 .group h3+.phrow{border-top:0}
 .phrow .t{flex:1;min-width:0;font-weight:700;font-size:17px;line-height:1.2}.phrow .t small{display:block;font-size:12px;color:var(--muted);font-weight:500}
 .phbtn{padding:8px 12px;font-size:14px;gap:6px;flex:none;background:var(--surface)}
+.minis{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 18px}
+.btn.xls{background:#1d6f42;color:#fff;grid-column:1/-1;padding:16px;font-size:18px}
+.rh{margin:22px 2px 0;font-size:19px;font-weight:800}.rh small{display:block;font-size:13px;font-weight:500;color:var(--muted)}
+.irow{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line)}
+.group h3+.irow{border-top:0}
+.irow .t{flex:1;min-width:0;font-weight:700;font-size:16px;line-height:1.25}.irow .t small{display:block;font-size:13px;font-weight:500;color:var(--muted);margin-top:2px}
+.irow .rs{font-family:var(--f-head);font-size:17px;white-space:nowrap}
 /* ----- landing ----- */
 .landing{display:flex;flex-direction:column;gap:12px}
 .lhead{margin-bottom:4px}
@@ -429,12 +436,10 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
     <div class="menu" id="roleMenu" hidden>
       <button class="mcard" id="toHisab"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span><span class="mt"><b><span id="hisabT">बाज़ार का हिसाब</span></b><small><span id="hisabSub">लाया हुआ सामान और दाम लिखें</span></small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
       <div class="menu" id="ownGrid">
-        <button class="mcard" id="toPhotos"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span><span class="mt"><b>सामान की फ़ोटो</b><small>हर सामान की असली फ़ोटो लगाएँ</small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
         <button class="mcard" id="toCombined"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/></svg></span><span class="mt"><b>सबकी कुल लिस्ट</b><small>सबकी लिस्ट मिलाकर · WhatsApp पर भेजें</small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
         <button class="mcard" id="toReport"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><rect x="6" y="11" width="3" height="7"/><rect x="11" y="7" width="3" height="11"/><rect x="16" y="13" width="3" height="5"/></svg></span><span class="mt"><b>हफ़्ते / महीने का हिसाब</b><small>कितना सामान आया, कितने का</small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></button>
-        <a class="mcard" id="toSheet" target="_blank" rel="noopener" href="#"><span class="mi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M4 15h16M10 4v16"/></svg></span><span class="mt"><b>Google Sheet</b><small>पूरा रिकॉर्ड देखें और डाउनलोड करें</small></span><span class="mc"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span></a>
       </div>
-      <button type="button" class="linkbtn" id="adminLink">इस फ़ोन से लॉग-आउट करें</button>
+      <div class="minis"><a class="linkbtn" id="toSheet" target="_blank" rel="noopener" href="#">Google Sheet खोलें ↗</a><button type="button" class="linkbtn" id="adminLink">इस फ़ोन से लॉग-आउट करें</button></div>
     </div>
     <div class="landing" id="roleRow">
       <div class="lhead"><span class="ldate" id="lDate"></span><h1>आज क्या करना है?</h1><p>अपना काम चुनें</p></div>
@@ -522,17 +527,7 @@ details.dt small.by{display:block;padding:2px 14px 10px;font-size:14px;line-heig
   </div>
 </section>
 
-<section id="photos" class="screen" hidden>
-  <header class="appbar"><div class="wrap">
-    <button class="back" data-back aria-label="पीछे">‹</button>
-    <h2><small>शेफ़/हेल्पर को पहचानने में आसानी</small>सामान की फ़ोटो</h2>
-    <button class="home" data-home aria-label="होम"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5M5.5 9.5V20h5v-6h3v6h5V9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-  </div></header>
-  <div class="wrap">
-    <p class="ro">रसोई में रखे असली पैकेट या सामान की फ़ोटो खींचें। ये शेफ़/हेल्पर की लिस्ट में उस सामान के आगे दिखेगी। जिसकी फ़ोटो नहीं है, उस पर चिह्न दिखता है।</p>
-    <div id="phOut"></div>
-  </div>
-</section>
+
 
 <section id="report" class="screen" hidden>
   <header class="appbar"><div class="wrap">
@@ -595,6 +590,7 @@ const API=String(window.SO_API||"").trim();
 const SHOPIC=`<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9l1.5-5h13L20 9M4 9h16v11H4zM9 20v-6h6v6"/></svg>`;
 const CHEVJS=`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>`;
 const CAMI=`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>`;
+const XLSI=`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8l4 5m0-5l-4 5M14 9h3M14 13h3M8 17h9"/></svg>`;
 const CAM=`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>`;
 const ROLE_NAME={chef:"शेफ़ / हेल्पर",buy:"खरीदार",own:"मालिक"};
 const UNITS=["kg","पैकेट","पीस","लीटर","गड्डी","बोतल","दर्जन"];
@@ -721,7 +717,7 @@ function aggregate(subs){
 const qText=e=>e.hasQ?`${e.q} ${e.u}`:"—";
 
 /* ---------- navigation ---------- */
-const SCREENS=["login","start","cats","items","review","done","combined","report","hisab","photos"];
+const SCREENS=["login","start","cats","items","review","done","combined","report","hisab"];
 function show(s){
   if((s==="combined"||s==="report"||s==="photos")&&state.role!=="own")s="start";
   if(s==="hisab"&&state.role!=="buy"&&state.role!=="own")s="start";
@@ -729,7 +725,7 @@ function show(s){
   SCREENS.forEach(id=>$(id).hidden=id!==s);
   $("bar").hidden=!(s==="cats"||s==="items");$("hBar").hidden=true;
   window.scrollTo(0,0);
-  ({photos:()=>renderPhotos(),hisab:()=>loadH(),start:renderStart,cats:renderCats,items:renderItems,review:renderReview,combined:()=>loadC(),report:()=>{if(!rFrom)setPeriod("week");loadRep()}}[s]||(()=>{}))();
+  ({hisab:()=>loadH(),start:renderStart,cats:renderCats,items:renderItems,review:renderReview,combined:()=>loadC(),report:()=>{if(!rFrom)setPeriod("week");loadRep()}}[s]||(()=>{}))();
   renderBar();
 }
 function goBack(){
@@ -750,7 +746,7 @@ function renderStart(){
   $("helloName").textContent=state.who;
   state.admin=state.role==="own";
   $("roleRow").hidden=!!state.role;$("roleMenu").hidden=!state.role;$("adminBox").hidden=true;$("ownGrid").hidden=state.role!=="own";
-  $("toSheet").hidden=!state.sheet;if(state.sheet)$("toSheet").href=state.sheet;
+  $("toSheet").hidden=!(state.sheet&&state.role==="own");if(state.sheet)$("toSheet").href=state.sheet;
   const r=state.role;
   const isBO=r==="buy"||r==="own";
   $("listHero").hidden=$("dateBox").hidden=$("go").hidden=r!=="chef";$("roleHero").hidden=!isBO;
@@ -759,7 +755,7 @@ function renderStart(){
   $("roleChip").hidden=!r;$("roleChip").textContent=ROLE_NAME[r]||"";
   if(r){$("roleH1").textContent=r==="own"?"मालिक":"खरीदार";$("roleP").textContent=r==="own"?"हिसाब, कुल लिस्ट और पूरा रिकॉर्ड":"बाज़ार से लाया सामान और उसका दाम लिखें"}
   $("hisabSub").textContent=r==="own"?"खरीदार ने क्या लिखा · देखें या बदलें":"लाया हुआ सामान और दाम लिखें";
-  $("toSheet").hidden=!state.sheet;if(state.sheet)$("toSheet").href=state.sheet;
+  $("toSheet").hidden=!(state.sheet&&state.role==="own");if(state.sheet)$("toSheet").href=state.sheet;
   if(!r)landStatus();
   $("bBuy").textContent=state.codes.buy?"खुला":"🔒 कोड";$("bOwn").textContent=state.codes.own?"खुला":"🔒 कोड";
   $("bBuy").classList.toggle("free",!!state.codes.buy);$("bOwn").classList.toggle("free",!!state.codes.own);
@@ -950,13 +946,23 @@ function setPeriod(p){
 }
 async function loadRep(){
   const key=rFrom+"_"+rTo;rep={key,subs:null,loading:true,error:""};renderRep();
-  try{const j=await api(null,{action:"report",from:rFrom,to:rTo,code:state.codes.own||""});if(rep.key!==key)return;rep.subs=j.subs;rep.buys=(j.buys||[]).filter(x=>!x.na);rep.cash=j.cash||[];rep.na=(j.buys||[]).filter(x=>x.na).length}
+  try{const j=await api(null,{action:"report",from:rFrom,to:rTo,code:state.codes.own||""});if(rep.key!==key)return;rep.subs=j.subs;rep.buys=(j.buys||[]).filter(x=>!x.na&&(+x.q>0)&&(+x.r>0));rep.cash=j.cash||[];rep.na=(j.buys||[]).filter(x=>x.na).length}
   catch(e){if(rep.key!==key)return;rep.error=errText(e)}
   rep.loading=false;renderRep();
 }
-function repMessage(rows,days){
-  let m=`*Secret Ovens – सामान का हिसाब*\n📅 ${shortDate(rFrom)} से ${shortDate(rTo)} ${parse(rTo).getFullYear()}\n🧾 ${days} दिन की लिस्टें\n`;let cur="";
-  rows.forEach(e=>{if(e.c!==cur){cur=e.c;m+=`\n*${cur}*\n`}m+=`• ${e.n} – ${e.cost?e.cost.q+" "+e.cost.u+" · "+money(e.cost.t):(e.hasQ?e.q+" "+e.u:"मात्रा नहीं")} (${e.days.size} दिन)\n`});
+/* सामान-वार: कितना आया, कितने का, औसत दाम */
+function repItems(){
+  const map={};(rep.buys||[]).forEach(x=>{const k=x.n+"|"+x.u;const e=map[k]||(map[k]={n:x.n,c:x.c,u:x.u,q:0,t:0,n2:0,days:new Set()});
+    e.q=Math.round((e.q+(+x.q||0))*1000)/1000;e.t+=amt(x.u,x.q,x.r);e.n2++;e.days.add(x.d)});
+  return Object.values(map).map(e=>({...e,avg:e.q>0?(e.u==="ग्राम"?e.t*1000/e.q:e.t/e.q):0}))
+    .sort((a,b)=>catIdx(a.c)-catIdx(b.c)||itemIdx(a.n)-itemIdx(b.n)||a.n.localeCompare(b.n));
+}
+const special=c=>c==="एकमुश्त"||c==="अन्य खर्च";
+const qtyTxt=e=>special(e.c)?`${e.n2} बार`:`${fmt(e.q)} ${e.u} आया`;
+const avgTxt=e=>special(e.c)||!e.avg?"":`औसत ${rateUnit(e.u)} = ₹${r2(e.avg)}`;
+function repMessage(items,all){
+  let m=`*${brandName()} – सामान का हिसाब*\n📅 ${shortDate(rFrom)} से ${shortDate(rTo)} ${parse(rTo).getFullYear()}\n💰 कुल खर्च: ${money(all)}\n`;let cur="";
+  items.forEach(e=>{if(e.c!==cur){cur=e.c;m+=`\n*${cur}*\n`}m+=`• ${e.n} – ${qtyTxt(e)} – ${money(e.t)}${avgTxt(e)?` (${avgTxt(e)})`:""}\n`});
   return m;
 }
 function renderRep(){
@@ -966,30 +972,36 @@ function renderRep(){
   const o=$("repOut");
   if(rep.loading){o.innerHTML=`<p class="empty">लोड हो रहा है…</p>`;return}
   if(rep.error){o.innerHTML=`<p class="empty">⚠️ ${esc(rep.error)}</p><div class="sendbox"><button class="btn ghost wide" data-act="rrefresh">फिर से कोशिश करें ↻</button></div>`;return}
-  const subs=rep.subs||[];
-  if(!subs.length&&!(rep.buys||[]).length){o.innerHTML=`<p class="empty">इन तारीखों में कोई लिस्ट नहीं आई।</p>`;return}
-  const rows=aggregate(subs),days=new Set(subs.map(s=>s.d)).size;
-  const cost={};let all=0;(rep.buys||[]).forEach(x=>{const k=x.n;const c=cost[k]||(cost[k]={t:0,q:0,u:x.u,min:1e9,max:0,n:0});c.t+=amt(x.u,x.q,x.r);c.q+=x.q;c.n++;c.min=Math.min(c.min,x.r);c.max=Math.max(c.max,x.r);all+=amt(x.u,x.q,x.r)});
-  rows.forEach(e=>e.cost=cost[e.n]);
-  (rep.buys||[]).forEach(x=>{if(!rows.find(r=>r.n===x.n)){const c=cost[x.n];rows.push({n:x.n,c:x.c,u:x.u,q:0,hasQ:false,days:new Set([x.d]),cost:c})}});
-  const byCat={};(rep.buys||[]).forEach(x=>byCat[x.c]=(byCat[x.c]||0)+amt(x.u,x.q,x.r));
+  const items=repItems();
+  if(!items.length){o.innerHTML=`<p class="empty">इन तारीखों में खरीदार का कोई हिसाब नहीं भरा गया।</p>`;return}
+  const all=items.reduce((a,e)=>a+e.t,0),bdays=new Set((rep.buys||[]).map(x=>x.d)).size;
+  const byCat={};items.forEach(e=>byCat[e.c]=(byCat[e.c]||0)+e.t);
   const cats=Object.entries(byCat).sort((a,b)=>b[1]-a[1]),cmax=cats.length?cats[0][1]:1;
-  const rises=Object.entries(cost).filter(([k,c])=>c.n>1&&c.max>=c.min*1.15).sort((a,b)=>b[1].max/b[1].min-a[1].max/a[1].min).slice(0,6);
-  o.innerHTML=`<div class="sum"><div><b>${money(all)}</b><span>कुल खर्च (खरीदार के बिल से)</span></div><div><b>${days}</b><span>दिन की लिस्टें · ${rows.length} सामान</span></div>
-</div>
-  ${(()=>{const dd={};(rep.buys||[]).forEach(x=>dd[x.d]=(dd[x.d]||0)+amt(x.u,x.q,x.r));const ds=Object.keys(dd).sort();if(!ds.length)return"";const mx=Math.max(...ds.map(k=>dd[k]));
-    return `<div class="group"><h3>रोज़ का खर्च</h3>${ds.map(k=>`<div class="cbar"><span class="t">${esc(shortDate(k))}</span><span class="bw"><i style="width:${Math.max(3,dd[k]/mx*100)}%;background:var(--brand)"></i></span><span class="rs">${money(dd[k])}</span></div>`).join("")}</div>`})()}
+  const rr={};(rep.buys||[]).forEach(x=>{if(special(x.c))return;const k=x.n;const c=rr[k]||(rr[k]={min:1e9,max:0,n:0,u:x.u});c.n++;c.min=Math.min(c.min,x.r);c.max=Math.max(c.max,x.r)});
+  const rises=Object.entries(rr).filter(([k,c])=>c.n>1&&c.max>=c.min*1.15).sort((a,b)=>b[1].max/b[1].min-a[1].max/a[1].min).slice(0,6);
+  const dd={};(rep.buys||[]).forEach(x=>dd[x.d]=(dd[x.d]||0)+amt(x.u,x.q,x.r));const ds=Object.keys(dd).sort(),dmx=ds.length?Math.max(...ds.map(k=>dd[k])):1;
+  const cats2=[...new Set(items.map(e=>e.c))];
+  o.innerHTML=`<div class="sum"><div><b>${money(all)}</b><span>कुल खर्च</span></div><div><b>${items.filter(e=>!special(e.c)).length}</b><span>सामान · ${bdays} दिन की खरीद</span></div></div>
+  <div class="sendbox top"><button class="btn xls wide" data-act="rxls">${XLSI} Excel में डाउनलोड करें</button>
+    <a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(repMessage(items,all))}">WhatsApp पर भेजें</a><button class="btn ghost" data-act="rcopy">कॉपी करें</button></div>
+  <h3 class="rh">सामान-वार हिसाब <small>कितना आया · कितने का · औसत दाम</small></h3>
+  ${cats2.map(c=>{const its=items.filter(e=>e.c===c),ct=its.reduce((a,e)=>a+e.t,0);
+    return `<div class="group" style="--c:${catColor(c)}"><h3><i></i>${esc(c)}<span class="gc">${money(ct)}</span></h3>${its.map(e=>`<div class="irow">${special(e.c)?"":thumbN(e.n,"th sm")}<span class="t">${esc(e.n)}<small>${esc(qtyTxt(e))}${avgTxt(e)?` · ${esc(avgTxt(e))}`:""}${special(e.c)?"":` · ${e.n2} बार`}</small></span><b class="rs">${money(e.t)}</b></div>`).join("")}</div>`}).join("")}
+  ${ds.length?`<div class="group"><h3>रोज़ का खर्च</h3>${ds.map(k=>`<div class="cbar"><span class="t">${esc(shortDate(k))}</span><span class="bw"><i style="width:${Math.max(3,dd[k]/dmx*100)}%;background:var(--brand)"></i></span><span class="rs">${money(dd[k])}</span></div>`).join("")}</div>`:""}
   ${cats.length?`<div class="group"><h3>कैटेगरी-वार खर्च</h3>${cats.map(([c,v])=>`<div class="cbar"><span class="t">${esc(c)}</span><span class="bw"><i style="width:${Math.max(3,v/cmax*100)}%;background:${catColor(c)}"></i></span><span class="rs">${money(v)}</span></div>`).join("")}</div>`:""}
-  ${rises.length?`<div class="group"><h3>⚠ दाम बढ़े (15% से ज़्यादा)</h3>${rises.map(([k,c])=>`<div class="trow"><span class="t">${esc(k)}</span><span class="rs up">₹${c.min} → ₹${c.max}</span></div>`).join("")}</div>`:""}
-  ${rep.na?`<p class="tip">${rep.na} बार सामान बाज़ार में नहीं मिला</p>`:""}
-  <div class="sendbox top"><a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(repMessage(rows,days))}">हिसाब WhatsApp पर भेजें</a><button class="btn ghost wide" data-act="rcopy">कॉपी करें</button></div>`+
-  groupsHTML(rows,e=>`<div class="trow"><span class="t">${esc(e.n)}${e.cost?`<small class="by">${e.cost.n} बार खरीदा · ${e.cost.q} ${esc(e.cost.u)} · रेट ₹${e.cost.min}${e.cost.max!==e.cost.min?"–"+e.cost.max:""}</small>`:""}</span><span class="d">${e.days.size} दिन</span><span class="rs">${e.cost?money(e.cost.t):"—"}</span></div>`);
-  o.dataset.msg=repMessage(rows,days);
+  ${rises.length?`<div class="group"><h3>⚠ दाम बढ़े (15% से ज़्यादा)</h3>${rises.map(([k,c])=>`<div class="trow"><span class="t">${esc(k)}</span><span class="rs up">₹${r2(c.min)} → ₹${r2(c.max)}${c.u==="ग्राम"?"/kg":""}</span></div>`).join("")}</div>`:""}
+  ${rep.na?`<p class="tip">${rep.na} बार सामान बाज़ार में नहीं मिला</p>`:""}`;
+  o.dataset.msg=repMessage(items,all);
 }
 $("pchips").addEventListener("click",e=>{const b=e.target.closest("[data-p]");if(b){setPeriod(b.dataset.p);loadRep()}});
 $("rfrom").addEventListener("change",e=>{if(e.target.value){rFrom=e.target.value;period="";loadRep()}});
 $("rto").addEventListener("change",e=>{if(e.target.value){rTo=e.target.value;period="";loadRep()}});
-$("repOut").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if(b.dataset.act==="rrefresh")loadRep();if(b.dataset.act==="rcopy")copy($("repOut").dataset.msg||"")});
+$("repOut").addEventListener("click",async e=>{const b=e.target.closest("button");if(!b)return;if(b.dataset.act==="rrefresh")loadRep();if(b.dataset.act==="rcopy")copy($("repOut").dataset.msg||"");
+  if(b.dataset.act==="rxls"){const t=b.innerHTML;b.disabled=true;b.textContent="Excel बन रही है…";
+    try{const j=await api(null,{action:"export",from:rFrom,to:rTo,code:state.codes.own||""});
+      const a=document.createElement("a");a.href=j.url;a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
+      toast("Excel डाउनलोड हो रही है ✓ (Google Drive में भी सेव है)")}
+    catch(err){toast("Excel नहीं बनी — "+errText(err))}finally{b.disabled=false;b.innerHTML=t}}});
 
 /* ---------- बाज़ार हिसाब (खरीदार लिखे, मालिक देखे) ---------- */
 let hDate=TODAY,H={date:"",rows:null,loading:false,error:""};
@@ -1165,21 +1177,6 @@ async function loadCatalog(){
     if(screen==="cats")renderCats();if(screen==="items")renderItems();
   }catch(e){}
 }
-
-/* ---------- सामान की फ़ोटो (मालिक) ---------- */
-function renderPhotos(){
-  const have=ITEMS.filter(it=>IMG[it.name]).length;
-  $("phOut").innerHTML=`<p class="tip">${have} / ${ITEMS.length} सामान की फ़ोटो लगी है</p>`+CATS.map(([cat,c],ci)=>{const its=ITEMS.filter(it=>it.ci===ci);if(!its.length)return"";
-    return `<div class="group" style="--c:${c}"><h3><i></i>${esc(cat)}<span class="gc">${its.filter(it=>IMG[it.name]).length}/${its.length}</span></h3>${its.map(it=>`<div class="phrow" id="ph${it.id}">${thumb(it.name,it.ci)}<span class="t">${esc(it.name)}<small>${esc(it.u)}</small></span>
-      <label class="btn ghost phbtn">${CAMI}<span>${IMG[it.name]?"बदलें":"फ़ोटो"}</span><input type="file" accept="image/*" capture="environment" data-ph="${it.id}" hidden></label></div>`).join("")}</div>`}).join("");
-}
-$("toPhotos").addEventListener("click",()=>show("photos"));
-$("phOut").addEventListener("change",async e=>{const inp=e.target;if(!inp.dataset.ph||!inp.files[0])return;const it=byId(inp.dataset.ph),row=$("ph"+it.id);
-  const lab=row.querySelector(".phbtn span");lab.textContent="भेज रहे…";
-  try{const data=await shrink(inp.files[0],600);const j=await api(null,{action:"itemPhoto",code:state.codes.own||"",name:it.name,data});
-    IMG[it.name]=j.img;try{const c=JSON.parse(localStorage.getItem(IKEY)||"null");if(c){c.items.forEach(x=>{if(x.n===it.name)x.img=j.img});localStorage.setItem(IKEY,JSON.stringify(c))}}catch(_){}
-    toast(it.name+" की फ़ोटो लग गई ✓");renderPhotos()}
-  catch(err){lab.textContent="फ़ोटो";toast("फ़ोटो नहीं गई — "+errText(err))}});
 
 /* ---------- shared bits ---------- */
 function toast(t){const el=$("toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}

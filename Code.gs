@@ -209,6 +209,52 @@ function doPost(e) {
       const cash = readCash_(keep);
       return json_({ ok: true, subs: readSubs_(keep), buys: readBuys_(keep), cash: cash[0] || null, last: lastRates_(b.date) });
     }
+    // हफ़्ते/महीने का हिसाब Excel में (सिर्फ़ मालिक): Drive में Google Sheet बनाकर उसका Excel लिंक
+    if (b.action === "export") {
+      if (!can_("own", b.code)) return json_({ ok: false, error: "code" });
+      if (!okDate_(b.from) || !okDate_(b.to)) return json_({ ok: false, error: "date" });
+      const keep = function (d) { return d >= b.from && d <= b.to; };
+      const buys = readBuys_(keep).filter(function (x) { return !x.na && x.q > 0 && x.r > 0; });
+      const amt = function (x) { return String(x.u) === "ग्राम" ? x.q * x.r / 1000 : x.q * x.r; };
+      const map = {}, order = [], days = {};
+      buys.forEach(function (x) {
+        const k = x.n + "|" + x.u;
+        if (!map[k]) { map[k] = { c: x.c, n: x.n, u: x.u, q: 0, t: 0, times: 0, min: 1e12, max: 0 }; order.push(k); }
+        const e = map[k]; e.q += x.q; e.t += amt(x); e.times++; e.min = Math.min(e.min, x.r); e.max = Math.max(e.max, x.r);
+        days[x.d] = (days[x.d] || 0) + amt(x);
+      });
+      const special = function (c) { return c === "एकमुश्त" || c === "अन्य खर्च"; };
+      const name = "Secret Ovens हिसाब " + b.from + " से " + b.to;
+      const xs = SpreadsheetApp.create(name);
+      const s1 = xs.getSheets()[0]; s1.setName("सामान-वार");
+      const h1 = ["कैटेगरी", "सामान", "कितना आया", "इकाई", "कुल ₹", "औसत दाम ₹", "दाम किसका", "कितनी बार", "सबसे कम दाम ₹", "सबसे ज़्यादा दाम ₹"];
+      const rows1 = order.map(function (k) { const e = map[k]; const sp = special(e.c);
+        const avg = sp || !e.q ? "" : Math.round((e.u === "ग्राम" ? e.t * 1000 / e.q : e.t / e.q) * 100) / 100;
+        return [e.c, e.n, sp ? "" : Math.round(e.q * 1000) / 1000, sp ? "" : e.u, Math.round(e.t * 100) / 100, avg, sp ? "" : (e.u === "ग्राम" ? "1 kg" : "1 " + e.u), e.times, sp ? "" : e.min, sp ? "" : e.max]; });
+      rows1.sort(function (a, b) { return String(a[0]).localeCompare(String(b[0])) || String(a[1]).localeCompare(String(b[1])); });
+      s1.getRange(1, 1, 1, h1.length).setValues([h1]).setFontWeight("bold").setBackground("#1f4d3a").setFontColor("#ffffff");
+      if (rows1.length) s1.getRange(2, 1, rows1.length, h1.length).setValues(rows1);
+      const tr = rows1.length + 2;
+      s1.getRange(tr, 1, 1, 5).setValues([["कुल", "", "", "", rows1.length ? "=SUM(E2:E" + (tr - 1) + ")" : 0]]).setFontWeight("bold");
+      s1.setFrozenRows(1); s1.autoResizeColumns(1, h1.length);
+      const s2 = xs.insertSheet("रोज़ का खर्च");
+      const dk = Object.keys(days).sort();
+      s2.getRange(1, 1, 1, 2).setValues([["तारीख", "कुल खर्च ₹"]]).setFontWeight("bold").setBackground("#1f4d3a").setFontColor("#ffffff");
+      if (dk.length) s2.getRange(2, 1, dk.length, 2).setValues(dk.map(function (d) { return ["'" + d, Math.round(days[d] * 100) / 100]; }));
+      s2.getRange(dk.length + 2, 1, 1, 2).setValues([["कुल", dk.length ? "=SUM(B2:B" + (dk.length + 1) + ")" : 0]]).setFontWeight("bold");
+      s2.setFrozenRows(1); s2.autoResizeColumns(1, 2);
+      const s3 = xs.insertSheet("पूरी एंट्री");
+      const h3 = ["तारीख", "किसने भरा", "कैटेगरी", "सामान", "लाया मात्रा", "इकाई", "दाम ₹ (1 इकाई / 1 kg)", "कुल ₹"];
+      s3.getRange(1, 1, 1, h3.length).setValues([h3]).setFontWeight("bold").setBackground("#1f4d3a").setFontColor("#ffffff");
+      if (buys.length) s3.getRange(2, 1, buys.length, h3.length).setValues(buys.map(function (x) { return ["'" + x.d, x.who, x.c, x.n, x.q, x.u, x.r, Math.round(amt(x) * 100) / 100]; }));
+      s3.setFrozenRows(1); s3.autoResizeColumns(1, h3.length);
+      SpreadsheetApp.flush();
+      const file = DriveApp.getFileById(xs.getId());
+      const it = DriveApp.getFoldersByName("Secret Ovens – हिसाब (Excel)");
+      const folder = it.hasNext() ? it.next() : DriveApp.createFolder("Secret Ovens – हिसाब (Excel)");
+      file.moveTo(folder);
+      return json_({ ok: true, url: "https://docs.google.com/spreadsheets/d/" + xs.getId() + "/export?format=xlsx", sheet: xs.getUrl() });
+    }
     if (b.action === "report") {
       if (!can_("own", b.code)) return json_({ ok: false, error: "code" });
       const keep = function (d) { return d >= b.from && d <= b.to; };
