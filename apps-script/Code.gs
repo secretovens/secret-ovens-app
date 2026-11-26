@@ -24,9 +24,10 @@ const CASH_SHEET = "Cash";
 const CASH_HEADERS = ["तारीख", "खरीदार", "दिए पैसे ₹", "कुल खर्च ₹", "बचे पैसे ₹", "कब सेव किया", "बिल की फ़ोटो"];
 const CODE_SHEET = "Codes";
 const ITEM_SHEET = "Items";
-const ITEM_HEADERS = ["कैटेगरी", "सामान", "इकाई", "दुकान", "चालू (हाँ/नहीं)", "स्टेप (+ दबाने पर कितना बढ़े)"];
+const ITEM_HEADERS = ["कैटेगरी", "सामान", "इकाई", "दुकान", "चालू (हाँ/नहीं)", "स्टेप (+ दबाने पर कितना बढ़े)", "फ़ोटो (ऐप से लगती है)"];
 const SET_SHEET = "Settings";
 const BILL_FOLDER = "Secret Ovens – बिल की फ़ोटो";
+const ITEM_PHOTO_FOLDER = "Secret Ovens – सामान की फ़ोटो";
 
 // ---------------- छोटे काम ----------------
 function ss_() { return SpreadsheetApp.getActiveSpreadsheet(); }
@@ -150,9 +151,9 @@ function lastRates_(before) {
 
 function readItems_() {
   const sh = sheet_(ITEM_SHEET, ITEM_HEADERS);
-  return rows_(sh, 6)
+  return rows_(sh, 7)
     .filter(function (r) { return String(r[1]).trim() && String(r[4]).trim() !== "नहीं"; })
-    .map(function (r) { return { c: String(r[0]).trim(), n: String(r[1]).trim(), u: String(r[2]).trim(), shop: String(r[3]).trim(), step: Number(r[5]) || "" }; });
+    .map(function (r) { return { c: String(r[0]).trim(), n: String(r[1]).trim(), u: String(r[2]).trim(), shop: String(r[3]).trim(), step: Number(r[5]) || "", img: String(r[6] || "").trim() }; });
 }
 function readSettings_() {
   let sh = ss_().getSheetByName(SET_SHEET);
@@ -292,6 +293,29 @@ function doPost(e) {
       return json_({ ok: true, url: url });
     }
 
+    // सामान की फ़ोटो (सिर्फ़ मालिक): Drive में रखकर Items टैब में उसका id
+    if (b.action === "itemPhoto") {
+      if (!can_("own", b.code)) return json_({ ok: false, error: "code" });
+      const m = String(b.data || "").match(/^data:image\/(jpeg|png);base64,(.+)$/);
+      if (!m) return json_({ ok: false, error: "photo" });
+      const bytes = Utilities.base64Decode(m[2]);
+      if (bytes.length > 1024 * 1024) return json_({ ok: false, error: "photo" });
+      const sh = sheet_(ITEM_SHEET, ITEM_HEADERS);
+      const rows = rows_(sh, 7);
+      let row = -1;
+      rows.forEach(function (r, i) { if (String(r[1]).trim() === String(b.name).trim()) row = i + 2; });
+      if (row < 0) return json_({ ok: false, error: "item" });
+      const it = DriveApp.getFoldersByName(ITEM_PHOTO_FOLDER);
+      const folder = it.hasNext() ? it.next() : DriveApp.createFolder(ITEM_PHOTO_FOLDER);
+      const file = folder.createFile(Utilities.newBlob(bytes, "image/" + m[1], String(b.name) + ".jpg"));
+      // स्टाफ़ के फ़ोन पर दिखे इसलिए "लिंक वाला कोई भी देख सके" (सिर्फ़ ये सामान वाली फ़ोटो)
+      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+      const prev = String(rows[row - 2][6] || "");
+      if (prev) { try { DriveApp.getFileById(prev).setTrashed(true); } catch (e) {} }
+      sh.getRange(row, 7).setValue(file.getId());
+      return json_({ ok: true, img: file.getId() });
+    }
+
     // Items टैब भरना: खाली हो, या ऐप में नई लिस्ट (ऊँचा वर्ज़न) हो। दुकान और चालू/बंद पहले जैसे रहते हैं।
     if (b.action === "seedItems") {
       if (!can_("own", b.code)) return json_({ ok: false, error: "code" });
@@ -299,13 +323,13 @@ function doPost(e) {
       const ver = Number(b.version) || 0, cur = readSettings_().listVersion || 0;
       if (sh.getLastRow() >= 2 && ver <= cur) return json_({ ok: true, skipped: true });
       const old = {};
-      rows_(sh, 6).forEach(function (r) { old[String(r[1]).trim()] = { shop: r[3], on: r[4] }; });
-      if (sh.getLastRow() >= 2) sh.getRange(2, 1, sh.getLastRow() - 1, 6).clearContent();
+      rows_(sh, 7).forEach(function (r) { old[String(r[1]).trim()] = { shop: r[3], on: r[4], img: r[6] }; });
+      if (sh.getLastRow() >= 2) sh.getRange(2, 1, sh.getLastRow() - 1, 7).clearContent();
       const data = (b.items || []).slice(0, 2000).map(function (x) {
         const o = old[String(x.n).trim()] || {};
-        return [String(x.c), String(x.n), String(x.u), String(o.shop || x.shop || ""), String(o.on || "हाँ"), x.step ? Number(x.step) : ""];
+        return [String(x.c), String(x.n), String(x.u), String(o.shop || x.shop || ""), String(o.on || "हाँ"), x.step ? Number(x.step) : "", String(o.img || "")];
       });
-      if (data.length) sh.getRange(2, 1, data.length, 6).setValues(data);
+      if (data.length) sh.getRange(2, 1, data.length, 7).setValues(data);
       if (ver) {
         const st = ss_().getSheetByName(SET_SHEET);
         const rr = rows_(st, 2);
