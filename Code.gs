@@ -209,51 +209,11 @@ function doPost(e) {
       const cash = readCash_(keep);
       return json_({ ok: true, subs: readSubs_(keep), buys: readBuys_(keep), cash: cash[0] || null, last: lastRates_(b.date) });
     }
-    // हफ़्ते/महीने का हिसाब Excel में (सिर्फ़ मालिक): Drive में Google Sheet बनाकर उसका Excel लिंक
+    // हफ़्ते/महीने का हिसाब Excel में (सिर्फ़ मालिक) – मालिक के काम की 5 शीट
     if (b.action === "export") {
       if (!can_("own", b.code)) return json_({ ok: false, error: "code" });
       if (!okDate_(b.from) || !okDate_(b.to)) return json_({ ok: false, error: "date" });
-      const keep = function (d) { return d >= b.from && d <= b.to; };
-      const buys = readBuys_(keep).filter(function (x) { return !x.na && x.q > 0 && x.r > 0; });
-      const amt = function (x) { return String(x.u) === "ग्राम" ? x.q * x.r / 1000 : x.q * x.r; };
-      const map = {}, order = [], days = {};
-      buys.forEach(function (x) {
-        const k = x.n + "|" + x.u;
-        if (!map[k]) { map[k] = { c: x.c, n: x.n, u: x.u, q: 0, t: 0, times: 0, min: 1e12, max: 0 }; order.push(k); }
-        const e = map[k]; e.q += x.q; e.t += amt(x); e.times++; e.min = Math.min(e.min, x.r); e.max = Math.max(e.max, x.r);
-        days[x.d] = (days[x.d] || 0) + amt(x);
-      });
-      const special = function (c) { return c === "एकमुश्त" || c === "अन्य खर्च"; };
-      const name = "Secret Ovens हिसाब " + b.from + " से " + b.to;
-      const xs = SpreadsheetApp.create(name);
-      const s1 = xs.getSheets()[0]; s1.setName("सामान-वार");
-      const h1 = ["कैटेगरी", "सामान", "कितना आया", "इकाई", "कुल ₹", "औसत दाम ₹", "दाम किसका", "कितनी बार", "सबसे कम दाम ₹", "सबसे ज़्यादा दाम ₹"];
-      const rows1 = order.map(function (k) { const e = map[k]; const sp = special(e.c);
-        const avg = sp || !e.q ? "" : Math.round((e.u === "ग्राम" ? e.t * 1000 / e.q : e.t / e.q) * 100) / 100;
-        return [e.c, e.n, sp ? "" : Math.round(e.q * 1000) / 1000, sp ? "" : e.u, Math.round(e.t * 100) / 100, avg, sp ? "" : (e.u === "ग्राम" ? "1 kg" : "1 " + e.u), e.times, sp ? "" : e.min, sp ? "" : e.max]; });
-      rows1.sort(function (a, b) { return String(a[0]).localeCompare(String(b[0])) || String(a[1]).localeCompare(String(b[1])); });
-      s1.getRange(1, 1, 1, h1.length).setValues([h1]).setFontWeight("bold").setBackground("#1f4d3a").setFontColor("#ffffff");
-      if (rows1.length) s1.getRange(2, 1, rows1.length, h1.length).setValues(rows1);
-      const tr = rows1.length + 2;
-      s1.getRange(tr, 1, 1, 5).setValues([["कुल", "", "", "", rows1.length ? "=SUM(E2:E" + (tr - 1) + ")" : 0]]).setFontWeight("bold");
-      s1.setFrozenRows(1); s1.autoResizeColumns(1, h1.length);
-      const s2 = xs.insertSheet("रोज़ का खर्च");
-      const dk = Object.keys(days).sort();
-      s2.getRange(1, 1, 1, 2).setValues([["तारीख", "कुल खर्च ₹"]]).setFontWeight("bold").setBackground("#1f4d3a").setFontColor("#ffffff");
-      if (dk.length) s2.getRange(2, 1, dk.length, 2).setValues(dk.map(function (d) { return ["'" + d, Math.round(days[d] * 100) / 100]; }));
-      s2.getRange(dk.length + 2, 1, 1, 2).setValues([["कुल", dk.length ? "=SUM(B2:B" + (dk.length + 1) + ")" : 0]]).setFontWeight("bold");
-      s2.setFrozenRows(1); s2.autoResizeColumns(1, 2);
-      const s3 = xs.insertSheet("पूरी एंट्री");
-      const h3 = ["तारीख", "किसने भरा", "कैटेगरी", "सामान", "लाया मात्रा", "इकाई", "दाम ₹ (1 इकाई / 1 kg)", "कुल ₹"];
-      s3.getRange(1, 1, 1, h3.length).setValues([h3]).setFontWeight("bold").setBackground("#1f4d3a").setFontColor("#ffffff");
-      if (buys.length) s3.getRange(2, 1, buys.length, h3.length).setValues(buys.map(function (x) { return ["'" + x.d, x.who, x.c, x.n, x.q, x.u, x.r, Math.round(amt(x) * 100) / 100]; }));
-      s3.setFrozenRows(1); s3.autoResizeColumns(1, h3.length);
-      SpreadsheetApp.flush();
-      const file = DriveApp.getFileById(xs.getId());
-      const it = DriveApp.getFoldersByName("Secret Ovens – हिसाब (Excel)");
-      const folder = it.hasNext() ? it.next() : DriveApp.createFolder("Secret Ovens – हिसाब (Excel)");
-      file.moveTo(folder);
-      return json_({ ok: true, url: "https://docs.google.com/spreadsheets/d/" + xs.getId() + "/export?format=xlsx", sheet: xs.getUrl() });
+      return json_(exportXls_(b.from, b.to));
     }
     if (b.action === "report") {
       if (!can_("own", b.code)) return json_({ ok: false, error: "code" });
@@ -392,4 +352,152 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+}
+
+// ======================= Excel रिपोर्ट =======================
+function exportXls_(from, to) {
+  const tz = Session.getScriptTimeZone();
+  const D = function (s) { const p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); };
+  const S = function (d) { return Utilities.formatDate(d, tz, "yyyy-MM-dd"); };
+  const nDays = Math.round((D(to) - D(from)) / 864e5) + 1;
+  const pTo = S(new Date(D(from).getTime() - 864e5)), pFrom = S(new Date(D(from).getTime() - nDays * 864e5));
+  const amt = function (x) { return String(x.u) === "ग्राम" ? x.q * x.r / 1000 : x.q * x.r; };
+  const ok = function (x) { return !x.na && x.q > 0 && x.r > 0; };
+  const special = function (c) { return c === "एकमुश्त" || c === "अन्य खर्च"; };
+  const cur = readBuys_(function (d) { return d >= from && d <= to; }).filter(ok);
+  const prev = readBuys_(function (d) { return d >= pFrom && d <= pTo; }).filter(ok);
+  const shopOf = {}; readItems_().forEach(function (i) { shopOf[i.n] = i.shop; });
+  const r2 = function (v) { return Math.round(v * 100) / 100; };
+  const unitRate = function (u) { return u === "ग्राम" ? "1 kg" : "1 " + u; };
+
+  // सामान-वार जोड़
+  const agg = function (list) {
+    const m = {};
+    list.forEach(function (x) {
+      const k = x.n + "|" + x.u;
+      const e = m[k] || (m[k] = { c: x.c, n: x.n, u: x.u, q: 0, t: 0, days: {}, min: 1e12, max: 0, minD: "" });
+      e.q += x.q; e.t += amt(x); e.days[x.d] = 1;
+      if (x.r < e.min) { e.min = x.r; e.minD = x.d; }
+      if (x.r > e.max) e.max = x.r;
+    });
+    Object.keys(m).forEach(function (k) { const e = m[k]; e.avg = e.q ? (e.u === "ग्राम" ? e.t * 1000 / e.q : e.t / e.q) : 0; });
+    return m;
+  };
+  const A = agg(cur), P = agg(prev);
+  const items = Object.keys(A).map(function (k) { return A[k]; }).filter(function (e) { return !special(e.c); }).sort(function (a, b) { return b.t - a.t; });
+  const specials = Object.keys(A).map(function (k) { return A[k]; }).filter(function (e) { return special(e.c); });
+  const total = cur.reduce(function (s, x) { return s + amt(x); }, 0);
+  const pTotal = prev.reduce(function (s, x) { return s + amt(x); }, 0);
+  const buyDays = {}; cur.forEach(function (x) { buyDays[x.d] = (buyDays[x.d] || 0) + amt(x); });
+
+  const xs = SpreadsheetApp.create("Secret Ovens हिसाब " + from + " से " + to);
+  const G = "#1f4d3a", Y = "#fff2cc";
+  const head = function (sh, r, vals) { sh.getRange(r, 1, 1, vals.length).setValues([vals]).setFontWeight("bold").setBackground(G).setFontColor("#ffffff").setWrap(true); };
+
+  // ---------- 1. सारांश ----------
+  const s1 = xs.getSheets()[0]; s1.setName("सारांश");
+  s1.getRange("A1").setValue("Secret Ovens – इन्वेंटरी का हिसाब").setFontSize(16).setFontWeight("bold").setFontColor(G);
+  s1.getRange("A2").setValue(from + " से " + to + " (" + nDays + " दिन)   ·   पिछली अवधि: " + pFrom + " से " + pTo).setFontColor("#666666");
+  const rows = [
+    ["कुल खरीद (₹)", r2(total)],
+    ["रोज़ की औसत खरीद (₹)", r2(total / nDays)],
+    ["पिछली अवधि की खरीद (₹)", r2(pTotal)],
+    ["पिछली अवधि से बदलाव", pTotal ? "=(B4-B6)/B6" : "—"],
+    ["", ""],
+    ["इस अवधि की कुल बिक्री (₹)  ← यहाँ भरें", ""],
+    ["Food cost % (खरीद ÷ बिक्री)", "=IF(B9>0,B4/B9,\"बिक्री भरें\")"],
+    ["हाल", "=IF(B9>0,IF(B10<=0.32,\"✅ ठीक है (28–32%)\",IF(B10<=0.35,\"⚠ ध्यान दें (32–35%)\",\"❌ बहुत ज़्यादा – मुनाफ़ा घट रहा है\")),\"\")"],
+    ["सामान के बाद बचा (₹) = बिक्री − खरीद", "=IF(B9>0,B9-B4,\"\")"],
+    ["", ""],
+    ["एकमुश्त / अन्य खर्च (₹)", r2(specials.reduce(function (s, e) { return s + e.t; }, 0))]
+  ];
+  s1.getRange(4, 1, rows.length, 2).setValues(rows);
+  s1.getRange("A4:A14").setFontWeight("bold");
+  s1.getRange("B4:B6").setNumberFormat("₹#,##0"); s1.getRange("B12").setNumberFormat("₹#,##0"); s1.getRange("B14").setNumberFormat("₹#,##0");
+  s1.getRange("B7").setNumberFormat("+0%;-0%;0%"); s1.getRange("B10").setNumberFormat("0.0%");
+  s1.getRange("B9").setBackground(Y).setNumberFormat("₹#,##0").setNote("इस अवधि की कुल बिक्री (काउंटर + Zomato + Swiggy) यहाँ लिखें। Food cost % अपने-आप निकलेगा।");
+  s1.getRange("A16").setValue("भारत के रेस्टोरेंट के लिए Food cost आम तौर पर 28–35% अच्छा माना जाता है (स्रोत: Petpooja / NRAI)।").setFontColor("#666666");
+  head(s1, 18, ["सबसे ज़्यादा खर्च वाले 10 सामान", "कुल ₹", "हिस्सा %"]);
+  const top = items.slice(0, 10).map(function (e) { return [e.n, r2(e.t), total ? e.t / total : 0]; });
+  if (top.length) { s1.getRange(19, 1, top.length, 3).setValues(top); s1.getRange(19, 2, top.length, 1).setNumberFormat("₹#,##0"); s1.getRange(19, 3, top.length, 1).setNumberFormat("0%"); }
+  s1.setColumnWidth(1, 330); s1.setColumnWidth(2, 140); s1.setColumnWidth(3, 90);
+
+  // ---------- 2. सामान-वार (ABC + कितना लाना है) ----------
+  const s2 = xs.insertSheet("सामान-वार (ABC)");
+  head(s2, 1, ["सामान", "कैटेगरी", "दुकान", "कितना आया", "इकाई", "कुल ₹", "हिस्सा %", "जोड़ हिस्सा %", "ABC", "कितने दिन खरीदा", "रोज़ की औसत खपत", "हफ़्ते की ज़रूरत (अंदाज़ा)", "औसत दाम ₹", "दाम किसका", "पिछली अवधि औसत ₹", "दाम में बदलाव"]);
+  const tCell = "$F$" + (items.length + 2);
+  const r2rows = items.map(function (e, i) {
+    const r = i + 2, pe = P[e.n + "|" + e.u];
+    return [e.n, e.c, shopOf[e.n] || "", r2(e.q), e.u, r2(e.t), "=F" + r + "/" + tCell, "=SUM($G$2:G" + r + ")",
+      "=IF(H" + r + "<=0.7,\"A\",IF(H" + r + "<=0.9,\"B\",\"C\"))", Object.keys(e.days).length, "=D" + r + "/" + nDays, "=K" + r + "*7",
+      r2(e.avg), unitRate(e.u), pe ? r2(pe.avg) : "", pe ? "=IF(O" + r + ">0,M" + r + "/O" + r + "-1,\"\")" : ""];
+  });
+  if (r2rows.length) {
+    s2.getRange(2, 1, r2rows.length, 16).setValues(r2rows);
+    s2.getRange(2, 6, r2rows.length, 1).setNumberFormat("₹#,##0");
+    s2.getRange(2, 7, r2rows.length, 2).setNumberFormat("0%");
+    s2.getRange(2, 11, r2rows.length, 2).setNumberFormat("0.0");
+    s2.getRange(2, 13, r2rows.length, 1).setNumberFormat("₹#,##0.0"); s2.getRange(2, 15, r2rows.length, 1).setNumberFormat("₹#,##0.0");
+    s2.getRange(2, 16, r2rows.length, 1).setNumberFormat("+0%;-0%;0%");
+  }
+  const tr = r2rows.length + 2;
+  s2.getRange(tr, 1, 1, 6).setValues([["कुल", "", "", "", "", r2rows.length ? "=SUM(F2:F" + (tr - 1) + ")" : 0]]).setFontWeight("bold");
+  s2.getRange(tr, 6).setNumberFormat("₹#,##0");
+  s2.getRange(tr + 2, 1).setValue("ABC: A = सबसे ज़्यादा पैसा (कुल का 70%) – इन्हीं पर दाम और मात्रा का ध्यान रखें · B = अगला 20% · C = बाकी छोटा सामान। 'हफ़्ते की ज़रूरत' = रोज़ की औसत खपत × 7, यानी अगले हफ़्ते के लिए लगभग कितना लाना है।").setFontColor("#666666");
+  if (r2rows.length) {
+    const rule = SpreadsheetApp.newConditionalFormatRule().whenTextEqualTo("A").setBackground("#f4cccc").setRanges([s2.getRange(2, 9, r2rows.length, 1)]).build();
+    const up = SpreadsheetApp.newConditionalFormatRule().whenNumberGreaterThanOrEqualTo(0.1).setFontColor("#cc0000").setRanges([s2.getRange(2, 16, r2rows.length, 1)]).build();
+    s2.setConditionalFormatRules([rule, up]);
+  }
+  s2.setFrozenRows(1); s2.setFrozenColumns(1); s2.setColumnWidth(1, 200);
+
+  // ---------- 3. दाम पर नज़र ----------
+  const s3 = xs.insertSheet("दाम पर नज़र");
+  head(s3, 1, ["सामान", "दाम किसका", "पिछली अवधि औसत ₹", "इस अवधि औसत ₹", "बदलाव", "सबसे कम ₹", "सबसे ज़्यादा ₹", "सबसे सस्ता कब मिला", "दुकान"]);
+  const watch = items.map(function (e) { const pe = P[e.n + "|" + e.u]; const ch = pe && pe.avg ? e.avg / pe.avg - 1 : null; return { e: e, pe: pe, ch: ch, spread: e.min > 0 ? e.max / e.min - 1 : 0 }; })
+    .filter(function (w) { return (w.ch !== null && Math.abs(w.ch) >= 0.1) || w.spread >= 0.15; })
+    .sort(function (a, b) { return Math.abs(b.ch || b.spread) - Math.abs(a.ch || a.spread); });
+  const wr = watch.map(function (w) { const e = w.e, u = e.u === "ग्राम" ? 1000 : 1; return [e.n, unitRate(e.u), w.pe ? r2(w.pe.avg) : "", r2(e.avg), w.ch === null ? "" : w.ch, r2(e.min), r2(e.max), e.minD, shopOf[e.n] || ""]; });
+  if (wr.length) { s3.getRange(2, 1, wr.length, 9).setValues(wr); s3.getRange(2, 5, wr.length, 1).setNumberFormat("+0%;-0%;0%"); s3.getRange(2, 3, wr.length, 4).setNumberFormat("₹#,##0.0"); s3.getRange(2, 5, wr.length, 1).setNumberFormat("+0%;-0%;0%"); }
+  else s3.getRange(2, 1).setValue("इस अवधि में किसी सामान का दाम ज़्यादा ऊपर-नीचे नहीं हुआ।");
+  s3.getRange(wr.length + 3, 1).setValue("यहाँ वो सामान हैं जिनका दाम पिछली अवधि से 10% से ज़्यादा बदला, या इसी अवधि में 15% से ज़्यादा ऊपर-नीचे हुआ। ग्राम वाले सामान का दाम 1 kg का है।").setFontColor("#666666");
+  s3.setFrozenRows(1); s3.setColumnWidth(1, 200);
+
+  // ---------- 4. रोज़ का खर्च (बिक्री भरें तो रोज़ का Food cost %) ----------
+  const s4 = xs.insertSheet("रोज़ का खर्च");
+  head(s4, 1, ["तारीख", "दिन", "खरीद ₹", "बिक्री ₹ (भरें)", "Food cost %"]);
+  const WD = ["रविवार", "सोमवार", "मंगलवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार"];
+  const dr = [];
+  for (let i = 0; i < nDays; i++) {
+    const d = new Date(D(from).getTime() + i * 864e5), k = S(d), r = i + 2;
+    dr.push(["'" + k, WD[d.getDay()], r2(buyDays[k] || 0), "", "=IF(D" + r + ">0,C" + r + "/D" + r + ",\"\")"]);
+  }
+  if (dr.length) { s4.getRange(2, 1, dr.length, 5).setValues(dr); s4.getRange(2, 4, dr.length, 1).setBackground(Y); s4.getRange(2, 3, dr.length, 2).setNumberFormat("₹#,##0"); s4.getRange(2, 5, dr.length, 1).setNumberFormat("0.0%"); }
+  const t4 = dr.length + 2;
+  s4.getRange(t4, 1, 1, 5).setValues([["कुल", "", "=SUM(C2:C" + (t4 - 1) + ")", "=SUM(D2:D" + (t4 - 1) + ")", "=IF(D" + t4 + ">0,C" + t4 + "/D" + t4 + ",\"\")"]]).setFontWeight("bold");
+  s4.getRange(t4, 3, 1, 2).setNumberFormat("₹#,##0"); s4.getRange(t4, 5).setNumberFormat("0.0%");
+  s4.getRange(t4 + 2, 1).setValue("पीले खाने में रोज़ की बिक्री भरें – हर दिन का Food cost % अपने-आप निकलेगा। जिस दिन खरीद 0 है, उस दिन बाज़ार नहीं गए।").setFontColor("#666666");
+  s4.setFrozenRows(1);
+
+  // ---------- 5. कैटेगरी और दुकान ----------
+  const s5 = xs.insertSheet("कैटेगरी और दुकान");
+  head(s5, 1, ["कैटेगरी", "कुल ₹", "हिस्सा %", "पिछली अवधि ₹", "बदलाव"]);
+  const cat = {}, pcat = {};
+  cur.forEach(function (x) { cat[x.c] = (cat[x.c] || 0) + amt(x); }); prev.forEach(function (x) { pcat[x.c] = (pcat[x.c] || 0) + amt(x); });
+  const cr = Object.keys(cat).sort(function (a, b) { return cat[b] - cat[a]; }).map(function (c, i) { const r = i + 2; return [c, r2(cat[c]), total ? cat[c] / total : 0, r2(pcat[c] || 0), pcat[c] ? "=B" + r + "/D" + r + "-1" : ""]; });
+  if (cr.length) { s5.getRange(2, 1, cr.length, 5).setValues(cr); s5.getRange(2, 2, cr.length, 1).setNumberFormat("₹#,##0"); s5.getRange(2, 3, cr.length, 1).setNumberFormat("0%"); s5.getRange(2, 4, cr.length, 1).setNumberFormat("₹#,##0"); s5.getRange(2, 5, cr.length, 1).setNumberFormat("+0%;-0%;0%"); }
+  const sh0 = cr.length + 3, shop = {};
+  cur.forEach(function (x) { const k = shopOf[x.n] || (special(x.c) ? x.c : "दुकान नहीं लिखी"); shop[k] = (shop[k] || 0) + amt(x); });
+  head(s5, sh0, ["दुकान", "कुल ₹", "हिस्सा %"]);
+  const srows = Object.keys(shop).sort(function (a, b) { return shop[b] - shop[a]; }).map(function (k) { return [k, r2(shop[k]), total ? shop[k] / total : 0]; });
+  if (srows.length) { s5.getRange(sh0 + 1, 1, srows.length, 3).setValues(srows); s5.getRange(sh0 + 1, 2, srows.length, 1).setNumberFormat("₹#,##0"); s5.getRange(sh0 + 1, 3, srows.length, 1).setNumberFormat("0%"); }
+  s5.getRange(sh0 + srows.length + 2, 1).setValue("दुकान के हिसाब से खर्च देखने के लिए Google Sheet के Items टैब में हर सामान की 'दुकान' भरें।").setFontColor("#666666");
+  s5.setColumnWidth(1, 200);
+
+  SpreadsheetApp.flush();
+  const file = DriveApp.getFileById(xs.getId());
+  const it = DriveApp.getFoldersByName("Secret Ovens – हिसाब (Excel)");
+  const folder = it.hasNext() ? it.next() : DriveApp.createFolder("Secret Ovens – हिसाब (Excel)");
+  file.moveTo(folder);
+  return { ok: true, url: "https://docs.google.com/spreadsheets/d/" + xs.getId() + "/export?format=xlsx", sheet: xs.getUrl() };
 }

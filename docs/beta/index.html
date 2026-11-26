@@ -1048,7 +1048,7 @@ function renderH(){
     <small>उस दिन जितने का भी सामान आया, उसकी कुल रकम। ये दिन के खर्च और रिपोर्ट में जुड़ेगी।</small></div></details>
   ${own&&H.photos.length?`<div class="plinks">${H.photos.map((u,i)=>`<a href="${esc(u)}" target="_blank" rel="noopener">बिल ${i+1} देखें ↗</a>`).join("")}</div>`:""}
   ${H.rows.length?"":`<p class="empty sm">${esc(hiDate(hDate))} की लिस्ट नहीं आई — ऊपर पूरे दिन की रकम लिख सकते हैं।</p>`}
-  ${H.rows.length?"":"<!--"}<ol class="howto"><li><span><b>+ / −</b> से बताएँ कितना लाए</span></li><li><span>कुल <b>कितने का आया</b>, वो रकम लिखें</span></li><li><span>नहीं मिला तो <b>नहीं मिला</b> दबाएँ</span></li><li><span>नीचे <b>सेव करें</b> दबाएँ</span></li></ol>${H.rows.length?"":"-->"}`;
+  `;
   h+=hGroups(H.rows,e=>{const x=H.rows.indexOf(e),l=H.last[e.n];return `<div class="brow" id="hr${x}">
    <div class="bh"><span class="bnw">${thumbN(e.n,"th sm")}<span class="bn">${esc(e.n)}</span></span>${e.cq===null?'<span class="bmiss">शेफ़ ने मात्रा नहीं लिखी</span>':`<span class="bask">लिस्ट में: ${e.cq} ${esc(e.u)}</span>`}</div>
    <div class="bg">
