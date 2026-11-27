@@ -27,6 +27,8 @@ const ITEM_SHEET = "Items";
 const ITEM_HEADERS = ["कैटेगरी", "सामान", "इकाई", "दुकान", "चालू (हाँ/नहीं)", "स्टेप (+ दबाने पर कितना बढ़े)", "फ़ोटो (ऐप से लगती है)"];
 const SET_SHEET = "Settings";
 const SALES_SHEET = "Sales";
+const COSTS_SHEET = "Costs";
+const COSTS_HEADERS = ["महीना (YYYY-MM)","तनख़्वाह ₹","किराया ₹","बिजली ₹","अन्य खर्च ₹","Zomato/Swiggy कटौती %","कब बदला","किसने"];
 const SALES_HEADERS = ["तारीख", "काउंटर (नकद) ₹", "UPI / कार्ड ₹", "Zomato ₹", "Swiggy ₹", "कुल बिक्री ₹", "किसने भरा", "कब सेव किया"];
 const BILL_FOLDER = "Secret Ovens – बिल की फ़ोटो";
 const ITEM_PHOTO_FOLDER = "Secret Ovens – सामान की फ़ोटो";
@@ -175,6 +177,25 @@ function readSettings_() {
   return out;
 }
 
+// हर महीने के तय खर्च. पहली बार खाली हो तो मालिक के बताए खर्च (नवंबर 2026) से शुरू
+function readCosts_() {
+  const sh = sheet_(COSTS_SHEET, COSTS_HEADERS);
+  let rows = rows_(sh, 8).filter(function (r) { return /^\d{4}-\d{2}$/.test(String(r[0]).replace(/^'/, "")); });
+  if (!rows.length) {
+    const seed = ["'2026-11", 179000, 26500, 12000, 8000, 25, new Date(), "शुरुआती (मालिक ने बताया)"];
+    sh.appendRow(seed); rows = [seed];
+  }
+  return rows.map(function (r) {
+    return { m: String(r[0]).replace(/^'/, ""), sal: Number(r[1]) || 0, rent: Number(r[2]) || 0, elec: Number(r[3]) || 0, other: Number(r[4]) || 0, comm: Number(r[5]) || 0 };
+  }).sort(function (a, b) { return a.m < b.m ? -1 : 1; });
+}
+// किसी दिन पर कौन-से तय खर्च लागू: उस महीने या उससे पहले का सबसे नया
+function costFor_(costs, d) {
+  const m = d.slice(0, 7); let c = costs[0];
+  costs.forEach(function (x) { if (x.m <= m) c = x; });
+  return c || { sal: 0, rent: 0, elec: 0, other: 0, comm: 0 };
+}
+
 function readSales_(keep) {
   return rows_(sheet_(SALES_SHEET, SALES_HEADERS), 8)
     .filter(function (r) { return keep(dateStr_(r[0])); })
@@ -226,7 +247,7 @@ function doPost(e) {
     if (b.action === "report") {
       if (!can_("own", b.code)) return json_({ ok: false, error: "code" });
       const keep = function (d) { return d >= b.from && d <= b.to; };
-      return json_({ ok: true, subs: readSubs_(keep), buys: readBuys_(keep), cash: readCash_(keep), sales: readSales_(keep) });
+      return json_({ ok: true, subs: readSubs_(keep), buys: readBuys_(keep), cash: readCash_(keep), sales: readSales_(keep), costs: readCosts_() });
     }
   } catch (err) {
     return json_({ ok: false, error: String(err) });
@@ -257,6 +278,20 @@ function doPost(e) {
     }
 
     // रोज़ की बिक्री (सिर्फ़ मालिक): उस तारीख की पुरानी हटाकर नई
+    // महीने के तय खर्च (सिर्फ़ मालिक): उस महीने की पुरानी लाइन हटाकर नई
+    if (b.action === "costs") {
+      if (!can_("own", b.code)) return json_({ ok: false, error: "code" });
+      const m = String(b.month || "");
+      if (!/^\d{4}-\d{2}$/.test(m)) return json_({ ok: false, error: "date" });
+      const sh = sheet_(COSTS_SHEET, COSTS_HEADERS);
+      const rows = rows_(sh, 8), del = [];
+      rows.forEach(function (r, i) { if (String(r[0]).replace(/^'/, "") === m) del.push(i + 2); });
+      for (let i = del.length - 1; i >= 0; i--) sh.deleteRow(del[i]);
+      const n = function (v) { return Math.max(0, Number(v) || 0); };
+      sh.appendRow(["'" + m, n(b.sal), n(b.rent), n(b.elec), n(b.other), Math.min(60, n(b.comm)), new Date(), String(b.who || "")]);
+      return json_({ ok: true, costs: readCosts_() });
+    }
+
     if (b.action === "sale") {
       if (!okDate_(b.date)) return json_({ ok: false, error: "date" });
       if (!can_("own", b.code)) return json_({ ok: false, error: "code" });
@@ -409,8 +444,14 @@ function exportXls_(from, to) {
   const total = cur.reduce(function (s, x) { return s + amt(x); }, 0);
   const pTotal = prev.reduce(function (s, x) { return s + amt(x); }, 0);
   const buyDays = {}; cur.forEach(function (x) { buyDays[x.d] = (buyDays[x.d] || 0) + amt(x); });
-  const saleDays = {}; let saleTotal = 0;
-  readSales_(function (d) { return d >= from && d <= to; }).forEach(function (x) { saleDays[x.d] = x.total; saleTotal += x.total; });
+  const saleDays = {}; let saleTotal = 0, onlineCut = 0;
+  const costs = readCosts_(), fixed = { sal: 0, rent: 0, elec: 0, other: 0 };
+  readSales_(function (d) { return d >= from && d <= to; }).forEach(function (x) { saleDays[x.d] = x.total; saleTotal += x.total; onlineCut += (x.zomato + x.swiggy) * costFor_(costs, x.d).comm / 100; });
+  // तय खर्च: अवधि के हर दिन (आज तक) का हिस्सा
+  for (let t = D(from).getTime(), last = Math.min(D(to).getTime(), D(S(new Date())).getTime()); t <= last; t += 864e5) {
+    const dd = new Date(t), c = costFor_(costs, S(dd)), dim = new Date(dd.getFullYear(), dd.getMonth() + 1, 0).getDate();
+    fixed.sal += c.sal / dim; fixed.rent += c.rent / dim; fixed.elec += c.elec / dim; fixed.other += c.other / dim;
+  }
 
   const xs = SpreadsheetApp.create("Secret Ovens हिसाब " + from + " से " + to);
   const G = "#1f4d3a", Y = "#fff2cc";
@@ -443,6 +484,25 @@ function exportXls_(from, to) {
   const top = items.slice(0, 10).map(function (e) { return [e.n, r2(e.t), total ? e.t / total : 0]; });
   if (top.length) { s1.getRange(19, 1, top.length, 3).setValues(top); s1.getRange(19, 2, top.length, 1).setNumberFormat("₹#,##0"); s1.getRange(19, 3, top.length, 1).setNumberFormat("0%"); }
   s1.setColumnWidth(1, 330); s1.setColumnWidth(2, 140); s1.setColumnWidth(3, 90);
+  // ---------- मुनाफ़ा / घाटा (तय खर्च मिलाकर) ----------
+  s1.getRange("E3:G3").setValues([["मुनाफ़ा / घाटा (सब खर्च मिलाकर)", "₹", "बिक्री का %"]]).setFontWeight("bold").setBackground(G).setFontColor("#ffffff");
+  const pl = [
+    ["बिक्री", "=B9"],
+    ["− Zomato/Swiggy कटौती (अंदाज़ा)", -r2(onlineCut)],
+    ["− सामान / बाज़ार की खरीद", "=-B4"],
+    ["− तनख़्वाह (इन दिनों का हिस्सा)", -r2(fixed.sal)],
+    ["− किराया (इन दिनों का हिस्सा)", -r2(fixed.rent)],
+    ["− बिजली (इन दिनों का हिस्सा)", -r2(fixed.elec)],
+    ["− अन्य तय खर्च (इन दिनों का हिस्सा)", -r2(fixed.other)],
+    ["= मुनाफ़ा / घाटा", "=IF(N(F4)>0,SUM(F4:F10),\"बिक्री भरें\")"]
+  ];
+  s1.getRange(4, 5, pl.length, 2).setValues(pl);
+  for (let i = 0; i < pl.length; i++) s1.getRange(4 + i, 7).setFormula("=IF(AND(ISNUMBER(F" + (4 + i) + "),N($F$4)>0),F" + (4 + i) + "/$F$4,\"\")");
+  s1.getRange("F4:F11").setNumberFormat("₹#,##0;[Red]-₹#,##0"); s1.getRange("G4:G11").setNumberFormat("0.0%;[Red]-0.0%");
+  s1.getRange("E11:G11").setFontWeight("bold").setBackground("#fff2cc");
+  s1.getRange("E13").setValue("अच्छा मुनाफ़ा: बिक्री का 10–20%. सामान ≤35%, तनख़्वाह ≤30%, सामान+तनख़्वाह ≤65%, किराया ≤12% (स्रोत: Petpooja / Restaurant India).").setFontColor("#666666");
+  s1.getRange("E14").setValue("तय खर्च 'Costs' टैब से — बदलने हों तो ऐप में मालिक → मुनाफ़ा-घाटा → महीने के तय खर्च.").setFontColor("#666666");
+  s1.setColumnWidth(4, 30); s1.setColumnWidth(5, 300); s1.setColumnWidth(6, 120); s1.setColumnWidth(7, 100);
 
   // ---------- 2. सामान-वार (ABC + कितना लाना है) ----------
   const s2 = xs.insertSheet("सामान-वार (ABC)");
